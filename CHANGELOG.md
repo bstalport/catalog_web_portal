@@ -7,21 +7,78 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2025-XX-XX
+
+### Added
+
+- **Direct Odoo Sync (XML-RPC)**
+  - Remote connection setup to client's Odoo instance
+  - Automatic product synchronization via XML-RPC
+  - Connection testing and status tracking
+  - SSL verification support
+  - Sync history with success/partial/error status
+
+- **Field & Category Mapping**
+  - Map supplier fields to client Odoo fields
+  - Map supplier categories to client categories
+  - Auto-creation of missing categories in client Odoo
+  - Default mapping generation
+
+- **Attribute Mapping**
+  - Map product attributes between Odoo instances
+  - Map attribute values with auto-creation option
+  - Full product variant sync support
+
+- **Supplier Info Export**
+  - Create `product.supplierinfo` records in client Odoo
+  - Configurable price source (list price, cost, pricelist)
+  - Price coefficient support
+  - Supplier partner matching in client Odoo
+
+- **Reference Generation**
+  - Multiple modes: keep original, supplier reference, product ID, custom format
+  - Configurable prefix, suffix, and separator
+  - Custom format with placeholders (`{prefix}`, `{ref}`, `{id}`, `{suffix}`)
+
+- **Saved Selections**
+  - Save product selections with custom name
+  - Load and delete saved selections
+  - Product count tracking per selection
+
+- **Sync Preview**
+  - Dry-run preview before committing sync
+  - Field-by-field preview of changes
+  - Review mappings before import
+
+- **Product Variant Support**
+  - Variant-level selection in portal
+  - Variant-specific pricing
+  - Attribute/value mapping between instances
+  - Variant sync to client Odoo
+
+- **Image Sync Options**
+  - Include/exclude product images in sync
+  - Preserve client-side images option
+
+---
+
 ## [1.0.0] - 2024-XX-XX
 
-### 🎉 Initial Release
+### Initial Release
 
 #### Added
 - **Backend Features**
-  - Catalog configuration module with full settings
+  - Catalog configuration module with full settings (branding, limits, export fields)
   - Client management with three access modes (Full, Restricted, Custom)
-  - Product publishing controls (Published in Catalog, Featured)
-  - Access logging for analytics
-  - Security groups (Manager, User)
-  - API key generation for future extensions
+  - Product publishing controls (Published in Catalog, Featured, Public)
+  - Access logging for analytics (views, exports, IP tracking)
+  - Security groups (Manager, User, Portal)
+  - API key and secret generation per client
+  - Configurable export fields (13 pre-configured fields)
 
 - **Frontend Portal**
   - Modern, responsive catalog browser
+  - Portal dashboard with statistics and quick actions
   - Product search with live filtering
   - Category-based filtering
   - Multiple sort options (name, price, date, reference)
@@ -31,49 +88,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Export Functionality**
   - CSV export compatible with Odoo standard import
-  - Configurable export options (include images)
-  - Rate limiting to prevent abuse
-  - Product count limits
-  - Automatic filename generation
+  - Configurable export fields
+  - Configurable export options (include images, descriptions)
+  - Supplier info in export for invoice matching
+  - Rate limiting to prevent abuse (configurable per hour)
+  - Product count limits per export
+  - Automatic filename generation with client name and date
 
 - **Analytics**
-  - Comprehensive access logging
-  - Track catalog views
-  - Track product views
-  - Track exports
-  - Client-specific statistics
-  - Global statistics dashboard
+  - Comprehensive access logging (view_catalog, view_product, export_csv, export_excel, direct_import, api_request)
+  - User agent and HTTP referer tracking
+  - Success/error tracking with error messages
+  - Client-specific statistics (export count, last export, access count)
+  - Global statistics dashboard (total/active clients, exports today/month)
+  - Product-level analytics (export count, view count)
 
 - **Security**
-  - Portal authentication
-  - Access rules by client
-  - Data privacy (no sensitive info exposed)
+  - Three security groups: Manager (CRUD), User (read-only), Portal (own data)
+  - Record-level access rules per group
+  - Portal users restricted to published products and own client data
+  - Data privacy (no costs, supplier info, or internal notes exposed)
   - Rate limiting on exports
   - All actions logged with IP tracking
 
 - **UI/UX**
-  - Clean, modern interface
-  - Responsive design (mobile-friendly)
+  - Clean, modern interface with Bootstrap integration
+  - Responsive design (mobile, tablet, desktop breakpoints)
   - Toast notifications for user feedback
-  - Loading indicators
-  - Smooth animations
-  - Accessible breadcrumbs
+  - Loading indicators and animations
+  - Smooth transitions and hover effects
+  - Accessible breadcrumbs and navigation
+  - Branding customization (logo, primary color, welcome message)
 
 #### Technical
 - Compatible with Odoo 19.0
 - Python 3.10+ support
 - PostgreSQL 14+ support
 - Depends on: base, product, portal, website, mail
-- Full i18n support (translatable)
+- Full i18n support (English, French)
 - Follows Odoo coding guidelines
-- Comprehensive documentation
-
-#### Documentation
-- Complete README.md
-- Detailed INSTALL.md
-- In-app help pages
-- Marketing materials
-- Code comments
+- 6 test modules with 1,700+ lines of tests
 
 ---
 
@@ -83,32 +137,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### High Priority
 - Excel (.xlsx) export format
-- Direct Odoo import via XML-RPC
-- Product variants full support
 - Stock levels display (optional)
-- Public catalog mode (no authentication)
+- Public catalog mode (no authentication required)
 
 #### Medium Priority
-- Advanced analytics dashboard
+- Advanced analytics dashboard with charts
 - Email notifications on catalog updates
-- Webhooks for real-time sync
+- Webhooks for real-time sync notifications
 - PDF catalog generation
 - Product comparison feature
-- Favorites / Wishlist
 
 #### Low Priority
 - Mobile native apps (iOS/Android)
 - Multi-language product descriptions
-- Scheduled automatic exports
-- Integration with third-party systems
-- Advanced search (faceted filters)
+- Scheduled automatic exports and syncs
+- Advanced search with faceted filters
 - Product recommendations
 
 ### Known Issues
 - None reported yet
-
-### To Be Fixed
-- (Future bug fixes will be listed here)
 
 ---
 
