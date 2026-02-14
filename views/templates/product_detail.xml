@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Product Detail Template -->
+    <template id="portal_product_detail" name="Product Detail">
+        <t t-call="catalog_web_portal.portal_catalog_layout">
+            
+            <!-- Breadcrumb -->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/catalog/portal">Catalog</a></li>
+                <li class="breadcrumb-item active"><t t-out="product.name"/></li>
+            </ol>
+            
+            <!-- Product Detail -->
+            <div class="row">
+                <!-- Product Image -->
+                <div class="col-md-5">
+                    <div class="card">
+                        <t t-if="product.image_1920">
+                            <img t-att-src="'/web/image/product.template/%s/image_1920' % product.id" 
+                                 class="card-img-top p-4" 
+                                 t-att-alt="product.name"
+                                 style="max-height: 500px; object-fit: contain;"/>
+                        </t>
+                        <t t-else="">
+                            <div class="card-img-top d-flex align-items-center justify-content-center bg-light" 
+                                 style="height: 500px;">
+                                <i class="fa fa-image fa-5x text-muted"/>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+                
+                <!-- Product Info -->
+                <div class="col-md-7">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Title -->
+                            <h2><t t-out="product.name"/></h2>
+                            
+                            <!-- Reference -->
+                            <p class="text-muted" t-if="product.default_code">
+                                <strong>Reference:</strong> <t t-out="product.default_code"/>
+                            </p>
+                            
+                            <!-- Barcode -->
+                            <p class="text-muted" t-if="product.barcode">
+                                <strong>Barcode:</strong> <t t-out="product.barcode"/>
+                            </p>
+                            
+                            <!-- Price -->
+                            <h3 class="text-primary mb-4">
+                                <t t-out="'%.2f' % price"/> 
+                                <t t-out="catalog_client.pricelist_id.currency_id.symbol if catalog_client.pricelist_id else '€'"/>
+                            </h3>
+                            
+                            <!-- Category -->
+                            <p t-if="product.categ_id">
+                                <strong>Category:</strong> <t t-out="product.categ_id.display_name"/>
+                            </p>
+                            
+                            <!-- Type -->
+                            <p>
+                                <strong>Type:</strong> 
+                                <span class="badge badge-info">
+                                    <t t-if="product.type == 'product'">Storable Product</t>
+                                    <t t-elif="product.type == 'consu'">Consumable</t>
+                                    <t t-else="">Service</t>
+                                </span>
+                            </p>
+                            
+                            <!-- Weight & Volume -->
+                            <div class="row" t-if="product.weight or product.volume">
+                                <div class="col-md-6" t-if="product.weight">
+                                    <p><strong>Weight:</strong> <t t-out="'%.2f' % product.weight"/> kg</p>
+                                </div>
+                                <div class="col-md-6" t-if="product.volume">
+                                    <p><strong>Volume:</strong> <t t-out="'%.2f' % product.volume"/> m³</p>
+                                </div>
+                            </div>
+                            
+                            <hr/>
+                            
+                            <!-- Description -->
+                            <div t-if="product.catalog_description or product.description_sale">
+                                <h5>Description</h5>
+                                <div t-if="product.catalog_description" t-html="product.catalog_description"/>
+                                <div t-elif="product.description_sale" t-out="product.description_sale"/>
+                            </div>
+                            
+                            <hr/>
+
+                            <!-- Actions -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary btn-block btn-lg btn-add-to-cart"
+                                            t-att-data-product-id="product.id">
+                                        <i class="fa fa-plus"/> Add to Selection
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="/catalog/portal" class="btn btn-secondary btn-block btn-lg">
+                                        <i class="fa fa-arrow-left"/> Back to Catalog
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Variant Matrix -->
+            <t t-if="has_variants">
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">
+                                    <i class="fa fa-cubes"/> Product Variants
+                                    <span class="badge bg-secondary ml-2">
+                                        <t t-out="len(variants)"/>
+                                    </span>
+                                </h5>
+                                <t t-if="sync_variants">
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-success btn-variant-select-all"
+                                                t-att-data-product-id="product.id"
+                                                title="Select all variants">
+                                            <i class="fa fa-check-square-o"/> Select All
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary btn-variant-deselect-all ml-1"
+                                                t-att-data-product-id="product.id"
+                                                title="Deselect all variants">
+                                            <i class="fa fa-square-o"/> Deselect All
+                                        </button>
+                                    </div>
+                                </t>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <t t-if="sync_variants">
+                                                <th class="text-center" width="50">Sync</th>
+                                            </t>
+                                            <th>Variant</th>
+                                            <th>Reference</th>
+                                            <th>Barcode</th>
+                                            <th class="text-end">Extra Price</th>
+                                            <th class="text-end">Total Price</th>
+                                            <th class="text-end">Weight</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="variants" t-as="v">
+                                            <tr>
+                                                <t t-if="sync_variants">
+                                                    <td class="text-center">
+                                                        <input type="checkbox"
+                                                               class="variant-checkbox"
+                                                               t-att-data-variant-id="v['id']"
+                                                               t-att-checked="'checked' if v['selected'] else None"/>
+                                                    </td>
+                                                </t>
+                                                <td>
+                                                    <t t-out="v['combination_name']"/>
+                                                    <t t-if="v['has_image']">
+                                                        <i class="fa fa-image text-muted ml-1" title="Has specific image"/>
+                                                    </t>
+                                                </td>
+                                                <td><code t-out="v['default_code'] or '-'"/></td>
+                                                <td class="text-muted"><t t-out="v['barcode'] or '-'"/></td>
+                                                <td class="text-end">
+                                                    <t t-if="v['price_extra']">
+                                                        + <t t-out="'%.2f' % v['price_extra']"/>
+                                                    </t>
+                                                    <t t-else="">-</t>
+                                                </td>
+                                                <td class="text-end">
+                                                    <strong>
+                                                        <t t-out="'%.2f' % v['variant_price']"/>
+                                                        <t t-out="catalog_client.pricelist_id.currency_id.symbol if catalog_client.pricelist_id else '€'"/>
+                                                    </strong>
+                                                </td>
+                                                <td class="text-end">
+                                                    <t t-if="v['weight']">
+                                                        <t t-out="'%.2f' % v['weight']"/> kg
+                                                    </t>
+                                                    <t t-else="">-</t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <t t-if="sync_variants">
+                                <div class="card-footer text-muted small">
+                                    <i class="fa fa-info-circle"/>
+                                    Check the variants you want to import. Unchecked variants will be skipped during synchronization.
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+
+        </t>
+    </template>
+    
+</odoo>

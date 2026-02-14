@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sync Setup Template -->
+    <template id="portal_sync_setup" name="Sync Connection Setup">
+        <t t-call="catalog_web_portal.portal_catalog_layout">
+
+            <!-- Header -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2>
+                        <i class="fa fa-plug"/> Connect Your Odoo
+                    </h2>
+                    <p class="text-muted">
+                        Configure the connection to enable automatic product import into your Odoo
+                    </p>
+                </div>
+            </div>
+
+            <form method="post" action="/catalog/portal/sync/save" id="sync-setup-form">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                <div class="row">
+                    <div class="col-lg-8">
+
+                        <!-- Step 1: Connection Credentials -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">
+                                    <span class="badge badge-light text-primary mr-2">1</span>
+                                    Connection Credentials
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted mb-4">
+                                    Enter your Odoo instance details to establish the connection
+                                </p>
+
+                                <!-- Odoo URL -->
+                                <div class="form-group">
+                                    <label for="odoo_url">
+                                        <strong>Odoo URL</strong>
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="url"
+                                           class="form-control"
+                                           id="odoo_url"
+                                           name="odoo_url"
+                                           placeholder="https://yourcompany.odoo.com"
+                                           required="required"
+                                           t-att-value="connection.odoo_url if connection else ''"/>
+                                    <small class="form-text text-muted">
+                                        The full URL of your Odoo instance (must start with https://)
+                                    </small>
+                                </div>
+
+                                <!-- Database Name -->
+                                <div class="form-group">
+                                    <label for="database">
+                                        <strong>Database Name</strong>
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="database"
+                                           name="database"
+                                           placeholder="production"
+                                           required="required"
+                                           t-att-value="connection.database if connection else ''"/>
+                                    <small class="form-text text-muted">
+                                        Your Odoo database name
+                                    </small>
+                                </div>
+
+                                <!-- Username -->
+                                <div class="form-group">
+                                    <label for="username">
+                                        <strong>Username</strong>
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="username"
+                                           name="username"
+                                           placeholder="your.email@company.com"
+                                           required="required"
+                                           t-att-value="connection.username if connection else ''"/>
+                                    <small class="form-text text-muted">
+                                        Your Odoo username (email address)
+                                    </small>
+                                </div>
+
+                                <!-- API Key -->
+                                <div class="form-group">
+                                    <label for="api_key">
+                                        <strong>API Key</strong>
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="password"
+                                           class="form-control"
+                                           id="api_key"
+                                           name="api_key"
+                                           placeholder="••••••••••••••••••••"
+                                           required="required"
+                                           t-att-value="connection.api_key if connection else ''"/>
+                                    <small class="form-text text-muted">
+                                        Your Odoo API key. See the help box on the right for instructions.
+                                    </small>
+                                </div>
+
+                                <!-- SSL Option -->
+                                <div class="custom-control custom-checkbox mt-3">
+                                    <input type="checkbox"
+                                           class="custom-control-input"
+                                           id="verify_ssl"
+                                           name="verify_ssl"
+                                           checked="checked"
+                                           t-att-checked="'checked' if not connection or connection.verify_ssl else None"/>
+                                    <label class="custom-control-label" for="verify_ssl">
+                                        Verify SSL certificate
+                                    </label>
+                                    <small class="form-text text-muted">
+                                        Uncheck for local development with self-signed certificates
+                                    </small>
+                                </div>
+
+                                <!-- Step 1 Actions -->
+                                <div class="border-top pt-3 mt-3">
+                                    <button type="submit" class="btn btn-success" name="action" value="test">
+                                        <i class="fa fa-plug"/> Test Connection
+                                    </button>
+                                    <button type="submit" class="btn btn-primary ml-2" name="action" value="save">
+                                        <i class="fa fa-save"/> Save Credentials
+                                    </button>
+                                </div>
+
+                                <!-- Status Messages (visible right after action) -->
+                                <div t-if="message" class="alert mt-3" t-attf-class="alert-{{message_type or 'info'}}" role="alert">
+                                    <strong t-if="message_type == 'success'">
+                                        <i class="fa fa-check-circle"/> Success!
+                                    </strong>
+                                    <strong t-elif="message_type == 'danger'">
+                                        <i class="fa fa-exclamation-triangle"/> Error!
+                                    </strong>
+                                    <strong t-elif="message_type == 'warning'">
+                                        <i class="fa fa-exclamation-circle"/> Warning!
+                                    </strong>
+                                    <br/>
+                                    <t t-out="message"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Import Settings -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0">
+                                    <span class="badge badge-light text-info mr-2">2</span>
+                                    Import Settings
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted mb-4">
+                                    Choose what to import and how to handle it
+                                </p>
+
+                                <!-- Variant Sync -->
+                                <div class="custom-control custom-switch mb-3">
+                                    <input type="checkbox"
+                                           class="custom-control-input"
+                                           id="sync_variants"
+                                           name="sync_variants"
+                                           t-att-checked="'checked' if connection and connection.sync_variants else None"/>
+                                    <label class="custom-control-label" for="sync_variants">
+                                        <strong>Sync Product Variants</strong>
+                                    </label>
+                                    <small class="form-text text-muted">
+                                        Import product attributes, values, and variant-specific data
+                                        (reference, barcode, weight, images, extra price)
+                                    </small>
+                                </div>
+
+                                <!-- Reference Generation -->
+                                <hr/>
+                                <h6 class="text-info mb-3 mt-4">
+                                    <i class="fa fa-barcode"/> Product Reference Generation
+                                </h6>
+                                <p class="text-muted small mb-3">
+                                    Configure how product references (Internal Reference / default_code) are generated
+                                </p>
+
+                                <div class="form-group">
+                                    <label for="reference_mode">
+                                        <strong>Reference Mode</strong>
+                                    </label>
+                                    <select class="form-control" id="reference_mode" name="reference_mode">
+                                        <option value="keep_original" t-att-selected="'selected' if not connection or connection.reference_mode == 'keep_original' else None">
+                                            Keep Original Reference (from supplier)
+                                        </option>
+                                        <option value="supplier_ref" t-att-selected="'selected' if connection and connection.reference_mode == 'supplier_ref' else None">
+                                            Use Supplier Reference
+                                        </option>
+                                        <option value="product_id" t-att-selected="'selected' if connection and connection.reference_mode == 'product_id' else None">
+                                            Use Product ID
+                                        </option>
+                                        <option value="custom_format" t-att-selected="'selected' if connection and connection.reference_mode == 'custom_format' else None">
+                                            Custom Format (Advanced)
+                                        </option>
+                                        <option value="none" t-att-selected="'selected' if connection and connection.reference_mode == 'none' else None">
+                                            No Reference (Empty)
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="reference_prefix">Prefix</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="reference_prefix"
+                                               name="reference_prefix"
+                                               placeholder="SUP-"
+                                               t-att-value="connection.reference_prefix if connection else ''"/>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="reference_separator">Separator</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="reference_separator"
+                                               name="reference_separator"
+                                               placeholder="-"
+                                               maxlength="5"
+                                               t-att-value="connection.reference_separator if connection else ''"/>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="reference_suffix">Suffix</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="reference_suffix"
+                                               name="reference_suffix"
+                                               placeholder="-IMP"
+                                               t-att-value="connection.reference_suffix if connection else ''"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="custom_format_group" style="display: none;">
+                                    <label for="reference_custom_format">Custom Format</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="reference_custom_format"
+                                           name="reference_custom_format"
+                                           placeholder="{prefix}{separator}{ref}-{id}"
+                                           t-att-value="connection.reference_custom_format if connection else ''"/>
+                                    <small class="form-text text-muted">
+                                        Use placeholders: {prefix}, {ref}, {id}, {suffix}, {separator}
+                                    </small>
+                                </div>
+
+                                <div class="alert alert-secondary small mb-0">
+                                    <strong>Examples:</strong><br/>
+                                    • Prefix "SUP-", Ref "ABC123" → <code>SUP-ABC123</code><br/>
+                                    • Prefix "VENDOR", Separator "_", Product ID 42 → <code>VENDOR_42</code>
+                                </div>
+
+                                <!-- Step 2 Actions -->
+                                <div class="border-top pt-3 mt-3">
+                                    <button type="submit" class="btn btn-primary" name="action" value="save">
+                                        <i class="fa fa-save"/> Save Settings
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Supplier Info (Optional) -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">
+                                    <span class="badge badge-light text-success mr-2">3</span>
+                                    Invoice Recognition
+                                    <span class="badge badge-warning ml-2">Optional</span>
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted mb-4">
+                                    Enable automatic product matching when loading invoices from this supplier
+                                </p>
+
+                                <div class="custom-control custom-switch mb-4">
+                                    <input type="checkbox"
+                                           class="custom-control-input"
+                                           id="create_supplierinfo"
+                                           name="create_supplierinfo"
+                                           t-att-checked="'checked' if not connection or connection.create_supplierinfo else None"/>
+                                    <label class="custom-control-label" for="create_supplierinfo">
+                                        <strong>Enable Invoice Recognition</strong>
+                                    </label>
+                                    <small class="form-text text-muted">
+                                        Creates supplier info records linking products to this supplier
+                                    </small>
+                                </div>
+
+                                <div id="supplier_info_settings" t-att-style="'' if not connection or connection.create_supplierinfo else 'display: none;'">
+                                    <div class="alert alert-success small mb-4">
+                                        <i class="fa fa-lightbulb"/> <strong>How it works:</strong><br/>
+                                        Each imported product will have a supplier info record with the supplier's product code.
+                                        When you load an invoice from this supplier, Odoo will automatically find the matching products!
+                                    </div>
+
+                                    <!-- Supplier Partner Selection -->
+                                    <div class="form-group">
+                                        <label for="supplier_partner_select">
+                                            <strong>Supplier Partner (in your Odoo)</strong>
+                                        </label>
+
+                                        <!-- Search Field -->
+                                        <div class="input-group mb-2">
+                                            <input type="text"
+                                                   class="form-control"
+                                                   id="supplier_search_keyword"
+                                                   placeholder="Search by name (optional)..."/>
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-primary" id="btn_load_suppliers">
+                                                    <i class="fa fa-search"/> Search Suppliers
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Create New Supplier Button -->
+                                        <div class="mb-2">
+                                            <button type="button" class="btn btn-success btn-sm" id="btn_create_supplier">
+                                                <i class="fa fa-plus"/> Create New Supplier
+                                            </button>
+                                            <small class="text-muted ml-2">or search above to find an existing one</small>
+                                        </div>
+
+                                        <!-- Supplier Selection Dropdown (hidden by default) -->
+                                        <div id="supplier_select_container" style="display: none;">
+                                            <select class="form-control" id="supplier_partner_select" size="8">
+                                                <option value="">-- Select a supplier --</option>
+                                            </select>
+                                            <small class="form-text text-muted">
+                                                Select a supplier from the list, or create a new one
+                                            </small>
+                                        </div>
+
+                                        <!-- Hidden field for the actual partner ID -->
+                                        <input type="hidden"
+                                               id="supplier_partner_id"
+                                               name="supplier_partner_id"
+                                               t-att-value="connection.supplier_partner_id if connection and connection.supplier_partner_id else ''"/>
+
+                                        <!-- Display selected supplier -->
+                                        <div class="mt-2" id="supplier_partner_name_display">
+                                            <t t-if="connection and connection.supplier_partner_name">
+                                                <div class="alert alert-success small mb-0 py-2">
+                                                    <i class="fa fa-check-circle"/> Selected: <strong><t t-out="connection.supplier_partner_name"/></strong> (ID: <t t-out="connection.supplier_partner_id"/>)
+                                                </div>
+                                            </t>
+                                            <t t-else="">
+                                                <small class="text-muted">
+                                                    Click "Load Suppliers List" to choose from your existing suppliers
+                                                </small>
+                                            </t>
+                                        </div>
+                                    </div>
+
+                                    <!-- Price Configuration -->
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="supplierinfo_price_field">Price Source</label>
+                                            <select class="form-control" id="supplierinfo_price_field" name="supplierinfo_price_field">
+                                                <option value="list_price" t-att-selected="'selected' if not connection or connection.supplierinfo_price_field == 'list_price' else None">
+                                                    Catalog Sales Price
+                                                </option>
+                                                <option value="pricelist" t-att-selected="'selected' if connection and connection.supplierinfo_price_field == 'pricelist' else None">
+                                                    Pricelist Price (client-specific)
+                                                </option>
+                                                <option value="standard_price" t-att-selected="'selected' if connection and connection.supplierinfo_price_field == 'standard_price' else None">
+                                                    Cost Price
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="supplierinfo_price_coefficient">Price Multiplier</label>
+                                            <input type="number"
+                                                   class="form-control"
+                                                   id="supplierinfo_price_coefficient"
+                                                   name="supplierinfo_price_coefficient"
+                                                   step="0.01"
+                                                   min="0"
+                                                   placeholder="1.0"
+                                                   t-att-value="connection.supplierinfo_price_coefficient if connection else '1.0'"/>
+                                            <small class="form-text text-muted">
+                                                e.g., 0.9 for 10% discount
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3 Actions -->
+                                <div class="border-top pt-3 mt-3">
+                                    <button type="submit" class="btn btn-primary" name="action" value="save">
+                                        <i class="fa fa-save"/> Save Settings
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Back to Dashboard -->
+                        <div class="text-center mb-4">
+                            <a href="/catalog/portal" class="btn btn-outline-secondary">
+                                <i class="fa fa-arrow-left"/> Back to Dashboard
+                            </a>
+                        </div>
+
+                        <!-- View Mappings Link -->
+                        <div t-if="connection" class="card mt-3 border-info">
+                            <div class="card-body text-center">
+                                <h6 class="mb-3">
+                                    <i class="fa fa-exchange"/> Field Mappings
+                                </h6>
+                                <p class="text-muted small mb-3">
+                                    View and configure which fields are synchronized between the supplier catalog and your Odoo
+                                </p>
+                                <a href="/catalog/portal/sync/mappings" class="btn btn-info">
+                                    <i class="fa fa-cog"/> Configure Mappings
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Help Sidebar -->
+                    <div class="col-lg-4">
+                        <!-- API Key Help -->
+                        <div class="card mb-3 border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h6 class="mb-0">
+                                    <i class="fa fa-key"/> How to Get Your API Key
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <ol class="mb-0 pl-3">
+                                    <li class="mb-2">Log in to your Odoo instance</li>
+                                    <li class="mb-2">Click your name (top-right corner)</li>
+                                    <li class="mb-2">Go to <strong>My Profile</strong></li>
+                                    <li class="mb-2">Open <strong>Account Security</strong> tab</li>
+                                    <li class="mb-2">Click <strong>New API Key</strong></li>
+                                    <li class="mb-0">Copy the key and paste it above</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <!-- Security Info -->
+                        <div class="card mb-3 border-success">
+                            <div class="card-header bg-success text-white">
+                                <h6 class="mb-0">
+                                    <i class="fa fa-shield"/> Security
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small mb-2">
+                                    <i class="fa fa-check text-success"/> Your API key is stored encrypted
+                                </p>
+                                <p class="small mb-2">
+                                    <i class="fa fa-check text-success"/> Secure XML-RPC over HTTPS
+                                </p>
+                                <p class="small mb-0">
+                                    <i class="fa fa-check text-success"/> Never shared with third parties
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Invoice Recognition Help -->
+                        <div class="card mb-3 border-warning">
+                            <div class="card-header bg-warning text-dark">
+                                <h6 class="mb-0">
+                                    <i class="fa fa-file-invoice"/> About Invoice Recognition
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="small mb-2">
+                                    <strong>What is it?</strong>
+                                </p>
+                                <p class="small mb-3">
+                                    Links imported products to the supplier company in your Odoo.
+                                </p>
+                                <p class="small mb-2">
+                                    <strong>Why use it?</strong>
+                                </p>
+                                <p class="small mb-0">
+                                    When you receive an invoice, Odoo will automatically match products
+                                    by the supplier's product code!
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Quick Stats (if connection exists) -->
+                        <div t-if="connection" class="card border-info">
+                            <div class="card-header bg-info text-white">
+                                <h6 class="mb-0">
+                                    <i class="fa fa-info-circle"/> Connection Status
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <t t-if="connection.connection_status == 'ok'">
+                                    <p class="mb-2">
+                                        <i class="fa fa-check-circle text-success"/> <strong>Connected</strong>
+                                    </p>
+                                    <p class="small text-muted mb-0">
+                                        <strong>Database:</strong> <t t-out="connection.database"/>
+                                    </p>
+                                </t>
+                                <t t-else="">
+                                    <p class="mb-0">
+                                        <i class="fa fa-exclamation-triangle text-warning"/> Not tested yet
+                                    </p>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- JavaScript for Reference Mode and Supplier Info -->
+            <script type="text/javascript">
+                // Wait for jQuery to be available
+                (function waitForJQuery() {
+                    if (typeof jQuery === 'undefined') {
+                        setTimeout(waitForJQuery, 50);
+                        return;
+                    }
+
+                    jQuery(document).ready(function($) {
+                    // Toggle custom format field
+                    function toggleCustomFormat() {
+                        var mode = $('#reference_mode').val();
+                        if (mode === 'custom_format') {
+                            $('#custom_format_group').slideDown();
+                        } else {
+                            $('#custom_format_group').slideUp();
+                        }
+                    }
+
+                    // Initial state
+                    toggleCustomFormat();
+
+                    // On change
+                    $('#reference_mode').on('change', toggleCustomFormat);
+
+                    // Toggle supplier info settings
+                    $('#create_supplierinfo').on('change', function() {
+                        if ($(this).is(':checked')) {
+                            $('#supplier_info_settings').slideDown();
+                        } else {
+                            $('#supplier_info_settings').slideUp();
+                        }
+                    });
+
+                    // Load suppliers list (with optional keyword search)
+                    function loadSuppliers() {
+                        var $btn = $('#btn_load_suppliers');
+                        var keyword = $('#supplier_search_keyword').val();
+
+                        $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"/> Searching...');
+
+                        fetch('/catalog/portal/sync/supplier/list', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                jsonrpc: '2.0',
+                                method: 'call',
+                                id: Date.now(),
+                                params: {
+                                    keyword: keyword
+                                }
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            $btn.prop('disabled', false).html('<i class="fa fa-search"/> Search Suppliers');
+
+                            if (data.result &amp;&amp; data.result.success) {
+                                var $select = $('#supplier_partner_select');
+                                $select.empty();
+                                $select.append($('&lt;option&gt;').val('').text('-- Select a supplier --'));
+
+                                // Add suppliers to select
+                                if (data.result.suppliers &amp;&amp; data.result.suppliers.length > 0) {
+                                    data.result.suppliers.forEach(function(supplier) {
+                                        $select.append(
+                                            $('&lt;option&gt;').val(supplier.id).text('[' + supplier.id + '] ' + supplier.name)
+                                        );
+                                    });
+
+                                    // Show the select container
+                                    $('#supplier_select_container').slideDown();
+
+                                    // Show result count
+                                    if (keyword) {
+                                        alert('Found ' + data.result.suppliers.length + ' supplier(s) matching "' + keyword + '"');
+                                    }
+                                } else {
+                                    var msg = keyword ?
+                                        'No suppliers found matching "' + keyword + '". Try a different search term or create a new supplier.' :
+                                        'No suppliers found in your Odoo. Click "Create New Supplier" to add one.';
+                                    alert(msg);
+                                }
+                            } else {
+                                alert('Failed to load suppliers: ' + (data.result ? data.result.message : 'Unknown error'));
+                            }
+                        })
+                        .catch(error => {
+                            $btn.prop('disabled', false).html('<i class="fa fa-search"/> Search Suppliers');
+                            alert('Error loading suppliers: ' + error.message);
+                        });
+                    }
+
+                    // Click handler
+                    $('#btn_load_suppliers').on('click', function(e) {
+                        e.preventDefault();
+                        loadSuppliers();
+                    });
+
+                    // Enter key handler on search input
+                    $('#supplier_search_keyword').on('keypress', function(e) {
+                        if (e.which === 13) { // Enter key
+                            e.preventDefault();
+                            loadSuppliers();
+                        }
+                    });
+
+                    // Handle supplier selection
+                    $('#supplier_partner_select').on('change', function() {
+                        var selectedId = $(this).val();
+                        var selectedText = $(this).find('option:selected').text();
+
+                        if (selectedId) {
+                            // Extract name from "[ID] Name" format
+                            var name = selectedText.replace(/^\[\d+\]\s*/, '');
+
+                            // Update hidden field and display
+                            $('#supplier_partner_id').val(selectedId);
+                            var $alert = $('&lt;div&gt;').addClass('alert alert-success small mb-0 py-2');
+                            $alert.append($('&lt;i&gt;').addClass('fa fa-check-circle'));
+                            $alert.append(' Selected: ');
+                            $alert.append($('&lt;strong&gt;').text(name));
+                            $alert.append(' (ID: ' + selectedId + ')');
+                            $('#supplier_partner_name_display').empty().append($alert);
+                        }
+                    });
+
+                    // Create supplier partner
+                    $('#btn_create_supplier').on('click', function() {
+                        if (!confirm('This will create your supplier company in your Odoo. Continue?')) {
+                            return;
+                        }
+
+                        var $btn = $(this);
+                        $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"/> Creating...');
+
+                        fetch('/catalog/portal/sync/supplier/create', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                jsonrpc: '2.0',
+                                method: 'call',
+                                id: Date.now(),
+                                params: {}
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            $btn.prop('disabled', false).html('<i class="fa fa-plus"/> Create New Supplier');
+
+                            if (data.result &amp;&amp; data.result.success) {
+                                $('#supplier_partner_id').val(data.result.supplier_partner_id);
+                                var $alert2 = $('&lt;div&gt;').addClass('alert alert-success small mb-0 py-2');
+                                $alert2.append($('&lt;i&gt;').addClass('fa fa-check-circle'));
+                                $alert2.append(' Created: ');
+                                $alert2.append($('&lt;strong&gt;').text(data.result.supplier_partner_name));
+                                $alert2.append(' (ID: ' + data.result.supplier_partner_id + ')');
+                                $('#supplier_partner_name_display').empty().append($alert2);
+                                alert('Supplier created successfully: ' + data.result.message);
+
+                                // Reload suppliers list if it's visible
+                                if ($('#supplier_select_container').is(':visible')) {
+                                    $('#btn_load_suppliers').click();
+                                }
+                            } else {
+                                alert('Creation failed: ' + (data.result ? data.result.message : 'Unknown error'));
+                            }
+                        })
+                        .catch(error => {
+                            $btn.prop('disabled', false).html('<i class="fa fa-plus"/> Create New Supplier');
+                            alert('Error: ' + error.message);
+                        });
+                    });
+                    }); // End of jQuery(document).ready
+
+                })(); // End of waitForJQuery
+            </script>
+
+        </t>
+    </template>
+
+</odoo>

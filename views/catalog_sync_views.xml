@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================== -->
+    <!-- Sync History (must be first)   -->
+    <!-- ============================== -->
+
+    <!-- Action -->
+    <record id="action_catalog_sync_history" model="ir.actions.act_window">
+        <field name="name">Sync History</field>
+        <field name="res_model">catalog.sync.history</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_last_week': 1}</field>
+    </record>
+
+    <!-- ============================== -->
+    <!-- Catalog Client Connection      -->
+    <!-- ============================== -->
+
+    <record id="view_catalog_client_connection_tree" model="ir.ui.view">
+        <field name="name">catalog.client.connection.tree</field>
+        <field name="model">catalog.client.connection</field>
+        <field name="arch" type="xml">
+            <list string="Client Connections">
+                <field name="client_id"/>
+                <field name="odoo_url"/>
+                <field name="database"/>
+                <field name="connection_status"
+                       decoration-success="connection_status == 'ok'"
+                       decoration-danger="connection_status == 'error'"
+                       decoration-muted="connection_status == 'not_tested'"/>
+                <field name="last_sync_date"/>
+                <field name="total_syncs"/>
+                <field name="is_active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_catalog_client_connection_form" model="ir.ui.view">
+        <field name="name">catalog.client.connection.form</field>
+        <field name="model">catalog.client.connection</field>
+        <field name="arch" type="xml">
+            <form string="Client Connection">
+                <header>
+                    <button name="action_test_connection"
+                            type="object"
+                            string="Test Connection"
+                            class="btn-primary"/>
+                    <button name="action_create_default_mappings"
+                            type="object"
+                            string="Create Default Mappings"
+                            invisible="field_mapping_ids"/>
+                    <field name="connection_status" widget="badge"
+                           decoration-success="connection_status == 'ok'"
+                           decoration-danger="connection_status == 'error'"
+                           decoration-info="connection_status == 'not_tested'"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_catalog_sync_history)d"
+                                type="action"
+                                class="oe_stat_button"
+                                icon="fa-history"
+                                context="{'default_connection_id': id, 'search_default_connection_id': id}">
+                            <field name="total_syncs" widget="statinfo" string="Syncs"/>
+                        </button>
+                    </div>
+
+                    <widget name="web_ribbon" title="Inactive" invisible="is_active"/>
+
+                    <group>
+                        <group name="client" string="Client">
+                            <field name="client_id" readonly="1"/>
+                            <field name="is_active" widget="boolean_toggle"/>
+                        </group>
+                        <group name="status" string="Status">
+                            <field name="last_test_date" readonly="1"/>
+                            <field name="last_sync_date" readonly="1"/>
+                            <field name="last_sync_status" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Connection Settings">
+                        <group>
+                            <field name="odoo_url" placeholder="https://client.odoo.com"/>
+                            <field name="database" placeholder="production"/>
+                        </group>
+                        <group>
+                            <field name="username" placeholder="Optional"/>
+                            <field name="api_key" password="True"/>
+                        </group>
+                    </group>
+
+                    <field name="connection_error"
+                           invisible="not connection_error"
+                           readonly="1"/>
+
+                    <group string="Connection Options">
+                        <field name="verify_ssl"/>
+                    </group>
+
+                    <group string="Sync Options">
+                        <field name="auto_create_categories"/>
+                        <field name="include_images"/>
+                        <field name="preserve_client_images" invisible="not include_images"/>
+                    </group>
+
+                    <group string="Supplier Info (Invoice Recognition)">
+                        <group>
+                            <field name="create_supplierinfo" widget="boolean_toggle"/>
+                            <label for="supplier_partner_id" invisible="not create_supplierinfo"/>
+                            <div class="d-flex align-items-center" invisible="not create_supplierinfo">
+                                <field name="supplier_partner_id" class="oe_inline me-2"/>
+                                <button name="action_search_supplier_partner"
+                                        type="object"
+                                        string="Search"
+                                        class="btn-sm btn-secondary me-1"
+                                        icon="fa-search"
+                                        title="Search for your company in client's Odoo"/>
+                                <button name="action_create_supplier_partner"
+                                        type="object"
+                                        string="Create"
+                                        class="btn-sm btn-secondary"
+                                        icon="fa-plus"
+                                        title="Create your company in client's Odoo"/>
+                            </div>
+                            <field name="supplier_partner_name" readonly="1" invisible="not create_supplierinfo or not supplier_partner_id"/>
+                        </group>
+                        <group invisible="not create_supplierinfo">
+                            <field name="supplierinfo_price_field"/>
+                            <field name="supplierinfo_price_coefficient"/>
+                        </group>
+                    </group>
+
+                    <div class="alert alert-info" role="alert" invisible="not create_supplierinfo">
+                        <i class="fa fa-info-circle" title="Info"/>
+                        <strong>Invoice Recognition:</strong> When enabled, synced products will have
+                        <code>product.supplierinfo</code> records created in the client's Odoo.
+                        This allows automatic product matching when the client loads your supplier invoices.
+                        <br/>
+                        <strong>Supplier Product Code:</strong> Your product's Internal Reference (default_code)
+                        will be stored as the supplier's product code.
+                    </div>
+
+                    <notebook>
+                        <page string="Field Mappings" name="field_mappings">
+                            <field name="field_mapping_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="source_field"/>
+                                    <field name="target_field"/>
+                                    <field name="sync_mode"/>
+                                    <field name="default_value"/>
+                                    <field name="default_value_apply"/>
+                                    <field name="apply_coefficient" invisible="source_field == '_none'"/>
+                                    <field name="coefficient" invisible="not apply_coefficient or source_field == '_none'"/>
+                                    <field name="is_active" widget="boolean_toggle"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Category Mappings" name="category_mappings">
+                            <field name="category_mapping_ids">
+                                <list editable="bottom">
+                                    <field name="supplier_category_id"/>
+                                    <field name="supplier_category_name"/>
+                                    <field name="client_category_id"/>
+                                    <field name="client_category_name"/>
+                                    <field name="auto_create"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Sync History" name="history">
+                            <field name="sync_history_ids" readonly="1">
+                                <list>
+                                    <field name="create_date"/>
+                                    <field name="user_id"/>
+                                    <field name="products_created"/>
+                                    <field name="products_updated"/>
+                                    <field name="products_error"/>
+                                    <field name="status"
+                                           decoration-success="status == 'success'"
+                                           decoration-warning="status == 'partial'"
+                                           decoration-danger="status == 'error'"/>
+                                    <field name="duration"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_catalog_client_connection" model="ir.actions.act_window">
+        <field name="name">Client Connections</field>
+        <field name="res_model">catalog.client.connection</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a Client Connection
+            </p>
+            <p>
+                Configure how products are synchronized to your client's Odoo instance.
+            </p>
+        </field>
+    </record>
+
+    <!-- ============================== -->
+    <!-- Sync History                   -->
+    <!-- ============================== -->
+
+    <record id="view_catalog_sync_history_tree" model="ir.ui.view">
+        <field name="name">catalog.sync.history.tree</field>
+        <field name="model">catalog.sync.history</field>
+        <field name="arch" type="xml">
+            <list string="Sync History" create="0" edit="0">
+                <field name="create_date"/>
+                <field name="connection_id"/>
+                <field name="user_id"/>
+                <field name="total_products"/>
+                <field name="products_created"/>
+                <field name="products_updated"/>
+                <field name="products_error"/>
+                <field name="status"
+                       decoration-success="status == 'success'"
+                       decoration-warning="status == 'partial'"
+                       decoration-danger="status == 'error'"/>
+                <field name="duration"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_catalog_sync_history_form" model="ir.ui.view">
+        <field name="name">catalog.sync.history.form</field>
+        <field name="model">catalog.sync.history</field>
+        <field name="arch" type="xml">
+            <form string="Sync History" create="0" edit="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="create_date"/>
+                            <field name="connection_id"/>
+                            <field name="user_id"/>
+                        </group>
+                        <group>
+                            <field name="status"/>
+                            <field name="duration"/>
+                        </group>
+                    </group>
+
+                    <group string="Statistics">
+                        <group>
+                            <field name="products_created"/>
+                            <field name="products_updated"/>
+                        </group>
+                        <group>
+                            <field name="products_skipped"/>
+                            <field name="products_error"/>
+                        </group>
+                    </group>
+
+                    <field name="error_message" invisible="not error_message"/>
+
+                    <group string="Details">
+                        <field name="details" widget="text"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_catalog_sync_history_search" model="ir.ui.view">
+        <field name="name">catalog.sync.history.search</field>
+        <field name="model">catalog.sync.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Success" name="success" domain="[('status', '=', 'success')]"/>
+                <filter string="With Errors" name="errors" domain="[('status', 'in', ['partial', 'error'])]"/>
+                <separator/>
+                <filter string="Last 7 Days" name="last_week"
+                        domain="[('create_date', '&gt;=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                <group>
+                    <filter name="group_connection" string="Connection" context="{'group_by': 'connection_id'}"/>
+                    <filter name="group_user" string="User" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================== -->
+    <!-- Sync Preview Wizard            -->
+    <!-- ============================== -->
+
+    <record id="view_catalog_sync_preview_form" model="ir.ui.view">
+        <field name="name">catalog.sync.preview.form</field>
+        <field name="model">catalog.sync.preview</field>
+        <field name="arch" type="xml">
+            <form string="Sync Preview">
+                <header>
+                    <button name="action_generate_preview"
+                            type="object"
+                            string="Analyze Changes"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <field name="state" widget="badge"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="connection_id"/>
+                            <field name="product_ids" widget="many2many_tags" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="products_to_create"/>
+                            <field name="products_to_update"/>
+                            <field name="products_to_skip"/>
+                            <field name="products_with_warnings"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Changes" name="changes" invisible="state == 'draft'">
+                            <field name="change_ids">
+                                <list>
+                                    <field name="product_name"/>
+                                    <field name="product_ref"/>
+                                    <field name="change_type"
+                                           decoration-success="change_type == 'create'"
+                                           decoration-warning="change_type == 'update'"
+                                           decoration-muted="change_type == 'skip'"/>
+                                    <field name="has_warning"/>
+                                    <field name="warning_message"/>
+                                    <field name="is_excluded" widget="boolean_toggle"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button string="Execute Sync" type="object" name="action_execute_sync"
+                            class="btn-primary" invisible="state != 'ready'"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

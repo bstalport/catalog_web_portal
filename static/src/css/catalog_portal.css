@@ -1,0 +1,390 @@
+/* ==========================================================================
+   Catalog Web Portal - CSS Styles
+   ========================================================================== */
+
+/* Product Cards */
+.product-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.product-card .card-title a {
+    color: #212529;
+    text-decoration: none;
+}
+
+.product-card .card-title a:hover {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.product-card .card-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Add to Cart Button States */
+.btn-add-to-cart {
+    transition: all 0.3s ease;
+}
+
+.btn-add-to-cart:hover {
+    transform: scale(1.05);
+}
+
+.btn-add-to-cart.added {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-add-to-cart.added:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+/* Cart Badge */
+#cart-count {
+    min-width: 30px;
+    border-radius: 15px;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+/* Search and Filter Bar */
+.catalog-filters {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Product Table in Cart */
+.product-selection-table {
+    font-size: 0.95rem;
+}
+
+.product-selection-table img {
+    max-width: 60px;
+    max-height: 60px;
+    object-fit: contain;
+}
+
+.product-selection-table .btn-remove-from-cart {
+    transition: all 0.2s ease;
+}
+
+.product-selection-table .btn-remove-from-cart:hover {
+    transform: scale(1.1);
+}
+
+/* Export Options */
+.export-options {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* Loading Spinner */
+.catalog-loading {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.catalog-loading.active {
+    display: block;
+}
+
+.catalog-loading .spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Toast Notifications */
+.catalog-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+    min-width: 250px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 15px;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.catalog-toast.success {
+    border-left: 4px solid #28a745;
+}
+
+.catalog-toast.error {
+    border-left: 4px solid #dc3545;
+}
+
+.catalog-toast.info {
+    border-left: 4px solid #17a2b8;
+}
+
+.catalog-toast .close-toast {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #999;
+}
+
+.catalog-toast .close-toast:hover {
+    color: #333;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background-color: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+/* Product Detail Page */
+.product-detail-image {
+    max-height: 500px;
+    object-fit: contain;
+    padding: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .product-card {
+        margin-bottom: 20px;
+    }
+    
+    .catalog-filters .form-inline {
+        display: block;
+    }
+    
+    .catalog-filters .form-group {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .catalog-toast {
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+    }
+}
+
+/* Featured Badge */
+.featured-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ffc107;
+    color: #000;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    z-index: 10;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6c757d;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    color: #dee2e6;
+}
+
+/* Stats Cards */
+.stat-card {
+    border-left: 4px solid #007bff;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.stat-card .stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.stat-card .stat-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* View Toggle Buttons */
+.view-toggle .btn.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+/* Products List View */
+.products-list-table table {
+    border-collapse: collapse;
+}
+
+.products-list-table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.products-list-table tbody tr {
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.products-list-table tbody tr:hover {
+    background-color: #eef3f9;
+}
+
+.products-list-table .btn-add-to-cart {
+    min-width: 75px;
+}
+
+/* ========== Dashboard / Onboarding Styles ========== */
+
+/* Step Numbers */
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.setup-step {
+    position: relative;
+}
+
+.setup-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 50px;
+    bottom: -20px;
+    width: 2px;
+    background-color: #dee2e6;
+}
+
+/* Progress Cards */
+.setup-step .alert {
+    border-left: 4px solid;
+}
+
+.setup-step .alert-success {
+    border-left-color: #28a745;
+}
+
+.setup-step .alert-info {
+    border-left-color: #17a2b8;
+}
+
+.setup-step .alert-warning {
+    border-left-color: #ffc107;
+}
+
+/* Method Cards */
+.setup-step .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.setup-step .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Help Section */
+.bg-light.card {
+    border: 1px dashed #dee2e6;
+}
+
+/* Badge improvements */
+.badge {
+    font-weight: 600;
+    padding: 0.35em 0.65em;
+}
+
+/* Stats Cards Animation */
+.row .card {
+    transition: transform 0.2s ease;
+}
+
+.row .card:hover {
+    transform: translateY(-3px);
+}
+
+/* Collapse Button */
+button[data-toggle="collapse"] {
+    text-decoration: none;
+    font-size: 0.875rem;
+}
+
+button[data-toggle="collapse"]:hover {
+    text-decoration: underline;
+}
+
+/* Step Content Spacing */
+.setup-step h6 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.setup-step p {
+    font-size: 0.95rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .setup-step:not(:last-child)::after {
+        left: 17px;
+    }
+}

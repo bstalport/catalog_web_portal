@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Inherit Product Template Form -->
+    <record id="view_product_template_form_inherit_catalog" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.catalog</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            
+            <!-- Add button box buttons -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_catalog_logs" type="object" class="oe_stat_button" icon="fa-history"
+                        invisible="export_count == 0">
+                    <field name="export_count" widget="statinfo" string="Exports"/>
+                </button>
+                <button name="action_view_catalog_logs" type="object" class="oe_stat_button" icon="fa-eye"
+                        invisible="view_count == 0">
+                    <field name="view_count" widget="statinfo" string="Views"/>
+                </button>
+            </xpath>
+            
+            <!-- Add Catalog tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Catalog" name="catalog">
+                    <group>
+                        <group string="Publishing">
+                            <field name="is_published"/>
+                            <field name="catalog_featured"/>
+                            <field name="catalog_public"/>
+                        </group>
+                        <group string="Statistics">
+                            <field name="export_count"/>
+                            <field name="last_export_date"/>
+                            <field name="view_count"/>
+                        </group>
+                    </group>
+                    <group string="Catalog Description">
+                        <field name="catalog_description" nolabel="1" widget="html"/>
+                    </group>
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+    
+    <!-- Inherit Product Template Tree -->
+    <record id="view_product_template_tree_inherit_catalog" model="ir.ui.view">
+        <field name="name">product.template.tree.inherit.catalog</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="decoration-success">is_published == True</attribute>
+                <attribute name="decoration-muted">is_published == False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="is_published" string="📚 Catalog"/>
+                <field name="catalog_featured" string="⭐"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- Action: Publish Products in Catalog -->
+    <record id="action_product_publish_catalog" model="ir.actions.server">
+        <field name="name">Publish in Catalog</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+action = records.action_publish_catalog()
+        </field>
+    </record>
+    
+    <!-- Action: Unpublish Products from Catalog -->
+    <record id="action_product_unpublish_catalog" model="ir.actions.server">
+        <field name="name">Unpublish from Catalog</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+action = records.action_unpublish_catalog()
+        </field>
+    </record>
+    
+</odoo>

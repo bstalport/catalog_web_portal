@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="catalog_home" name="Catalog Home">
+        <t t-call="portal.portal_layout">
+            <t t-set="additional_title">Product Catalog</t>
+            
+            <div class="container catalog-home">
+                
+                <!-- Welcome Section -->
+                <div class="row mt-4">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h1 class="mb-3">
+                                    <i class="fa fa-cubes mr-2" style="color: #007bff;"></i>
+                                    Product Catalog
+                                </h1>
+                                <t t-if="config.portal_welcome_message">
+                                    <t t-out="config.portal_welcome_message"/>
+                                </t>
+                                <p class="text-muted mb-0">
+                                    <i class="fa fa-check-circle text-success"></i>
+                                    <strong><t t-out="total_products"/></strong> products available
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <a href="/my/catalog/browse" class="card catalog-action-card text-decoration-none">
+                            <div class="card-body text-center">
+                                <i class="fa fa-search fa-3x mb-3" style="color: #007bff;"></i>
+                                <h4>Browse All Products</h4>
+                                <p class="text-muted">Search and filter our complete product catalog</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="/my/catalog/export" class="card catalog-action-card text-decoration-none">
+                            <div class="card-body text-center">
+                                <i class="fa fa-download fa-3x mb-3" style="color: #28a745;"></i>
+                                <h4>Export Products</h4>
+                                <p class="text-muted">Download selected products for import into Odoo</p>
+                                <span class="badge badge-info" id="cart-count-badge" style="display: none;">
+                                    <span id="cart-count">0</span> selected
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Featured Products -->
+                <t t-if="featured_products">
+                    <div class="row mt-5">
+                        <div class="col-lg-12">
+                            <h3 class="mb-4">
+                                <i class="fa fa-star text-warning mr-2"></i>
+                                Featured Products
+                            </h3>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <t t-foreach="featured_products" t-as="product">
+                            <div class="col-md-4 col-lg-3 mb-4">
+                                <t t-call="catalog_web_portal.product_card">
+                                    <t t-set="product" t-value="product"/>
+                                    <t t-set="config" t-value="config"/>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+                
+                <!-- Categories -->
+                <t t-if="categories">
+                    <div class="row mt-5">
+                        <div class="col-lg-12">
+                            <h3 class="mb-4">
+                                <i class="fa fa-folder-open mr-2"></i>
+                                Browse by Category
+                            </h3>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <t t-foreach="categories[:8]" t-as="category">
+                            <div class="col-md-6 col-lg-3 mb-3">
+                                <a t-attf-href="/my/catalog/browse/category/#{category.id}" 
+                                   class="card category-card text-decoration-none h-100">
+                                    <div class="card-body">
+                                        <h5 class="mb-1"><t t-out="category.name"/></h5>
+                                        <small class="text-muted">
+                                            <t t-out="len(products.filtered(lambda p: p.categ_id == category))"/> products
+                                        </small>
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+                
+            </div>
+        </t>
+    </template>
+    
+    <!-- Product Card Component -->
+    <template id="product_card" name="Product Card">
+        <div class="card product-card h-100">
+            <t t-if="config.show_product_images and product.image_128">
+                <img t-att-src="image_data_uri(product.image_128)" 
+                     class="card-img-top" 
+                     t-att-alt="product.name"
+                     style="height: 200px; object-fit: contain; padding: 10px;"/>
+            </t>
+            <t t-else="">
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                     style="height: 200px;">
+                    <i class="fa fa-image fa-3x text-muted"></i>
+                </div>
+            </t>
+            
+            <div class="card-body">
+                <h6 class="card-title">
+                    <a t-attf-href="/my/catalog/product/#{product.id}" class="text-dark">
+                        <t t-out="product.name"/>
+                    </a>
+                </h6>
+                
+                <t t-if="product.default_code">
+                    <p class="text-muted small mb-2">
+                        Ref: <t t-out="product.default_code"/>
+                    </p>
+                </t>
+                
+                <t t-if="config.show_product_prices">
+                    <p class="text-primary font-weight-bold mb-2">
+                        <t t-out="product.list_price" t-options="{'widget': 'monetary', 'display_currency': product.currency_id}"/>
+                    </p>
+                </t>
+                
+                <div class="d-flex justify-content-between">
+                    <a t-attf-href="/my/catalog/product/#{product.id}" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-eye"></i> View
+                    </a>
+                    <button type="button" class="btn btn-sm btn-success add-to-cart" 
+                            t-att-data-product-id="product.id">
+                        <i class="fa fa-plus"></i> Select
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+</odoo>

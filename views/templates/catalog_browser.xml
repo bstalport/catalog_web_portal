@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Catalog Browser Template -->
+    <template id="portal_catalog_browser" name="Catalog Browser">
+        <t t-call="catalog_web_portal.portal_catalog_layout">
+            <t t-set="page_type">browse</t>
+            
+            <!-- Header with selection counter -->
+            <div class="row mb-4">
+                <div class="col-md-8">
+                    <h2>
+                        <i class="fa fa-book"/> Product Catalog
+                    </h2>
+                    <p class="text-muted">
+                        Browse and select products to import into your Odoo
+                    </p>
+                </div>
+                <div class="col-md-4 text-right">
+                    <a href="/catalog/portal" class="btn btn-outline-secondary mr-2">
+                        <i class="fa fa-arrow-left"/> Dashboard
+                    </a>
+                    <a href="/catalog/portal/cart" class="btn btn-primary">
+                        Selection
+                        <span class="badge badge-light ml-2" id="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Search and Filters -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="get" action="/catalog/portal/browse">
+                        <div class="row">
+                            <!-- Search -->
+                            <div class="col-md-6 mb-3">
+                                <label class="small text-muted mb-1">
+                                    <i class="fa fa-search"/> Search
+                                </label>
+                                <input type="text"
+                                       name="search"
+                                       class="form-control"
+                                       placeholder="Search by name, reference..."
+                                       t-att-value="search"/>
+                            </div>
+
+                            <!-- Category Filter -->
+                            <div class="col-md-3 mb-3">
+                                <label class="small text-muted mb-1">
+                                    <i class="fa fa-filter"/> Filter by Category
+                                </label>
+                                <select name="category" class="form-control" onchange="this.form.submit()">
+                                    <option value="">All Categories</option>
+                                    <t t-foreach="categories" t-as="cat">
+                                        <option t-att-value="cat.id"
+                                                t-att-selected="'selected' if category == cat.id else None">
+                                            <t t-out="cat.display_name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+
+                            <!-- Sort -->
+                            <div class="col-md-3 mb-3">
+                                <label class="small text-muted mb-1">
+                                    <i class="fa fa-sort"/> Sort By
+                                </label>
+                                <select name="sortby" class="form-control" onchange="this.form.submit()">
+                                    <option value="name" t-att-selected="'selected' if sortby == 'name' else None">
+                                        Name (A-Z)
+                                    </option>
+                                    <option value="price" t-att-selected="'selected' if sortby == 'price' else None">
+                                        Price
+                                    </option>
+                                    <option value="date" t-att-selected="'selected' if sortby == 'date' else None">
+                                        Newest First
+                                    </option>
+                                    <option value="ref" t-att-selected="'selected' if sortby == 'ref' else None">
+                                        Reference
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Search Button -->
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-search"/> Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Results count + View toggle -->
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <p class="text-muted mb-0">
+                        <strong><t t-out="product_count"/></strong> product(s) found
+                    </p>
+                </div>
+                <div class="col-md-4 text-right">
+                    <div class="btn-group view-toggle" role="group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary active" id="btn-view-grid" title="Grid view">
+                            <i class="fa fa-th"/>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="btn-view-list" title="List view">
+                            <i class="fa fa-list"/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Products Grid -->
+            <div class="row" id="products-grid">
+                <t t-foreach="products" t-as="product">
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100 product-card" t-att-data-product-id="product.id">
+                            <!-- Product Image -->
+                            <t t-if="product.image_1920">
+                                <img t-att-src="'/web/image/product.template/%s/image_512' % product.id" 
+                                     class="card-img-top" 
+                                     t-att-alt="product.name"
+                                     style="height: 200px; object-fit: contain; padding: 15px;"/>
+                            </t>
+                            <t t-else="">
+                                <div class="card-img-top d-flex align-items-center justify-content-center bg-light" 
+                                     style="height: 200px;">
+                                    <i class="fa fa-image fa-3x text-muted"/>
+                                </div>
+                            </t>
+                            
+                            <div class="card-body">
+                                <!-- Product Name -->
+                                <h5 class="card-title">
+                                    <a t-attf-href="/catalog/portal/product/#{product.id}">
+                                        <t t-out="product.name"/>
+                                    </a>
+                                </h5>
+                                
+                                <!-- Product Code -->
+                                <p class="text-muted small mb-2" t-if="product.default_code">
+                                    Ref: <t t-out="product.default_code"/>
+                                </p>
+                                
+                                <!-- Price -->
+                                <p class="mb-2">
+                                    <strong class="text-primary">
+                                        <t t-out="'%.2f' % product.list_price"/> 
+                                        <t t-out="catalog_client.pricelist_id.currency_id.symbol if catalog_client.pricelist_id else '€'"/>
+                                    </strong>
+                                </p>
+                                
+                                <!-- Category -->
+                                <p class="text-muted small mb-3" t-if="product.categ_id">
+                                    <i class="fa fa-folder-open"/> <t t-out="product.categ_id.name"/>
+                                </p>
+                            </div>
+                            
+                            <div class="card-footer">
+                                <!-- Add to Selection Button -->
+                                <t t-set="is_selected" t-value="product.id in selected_product_ids"/>
+                                <button t-att-class="'btn btn-block btn-add-to-cart ' + ('btn-success' if is_selected else 'btn-primary')"
+                                        t-att-data-product-id="product.id">
+                                    <i t-att-class="'fa ' + ('fa-check' if is_selected else 'fa-plus')"/>
+                                    <t t-if="is_selected">Already in Selection</t>
+                                    <t t-else="">Add to Selection</t>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+            
+            <!-- Products List -->
+            <div id="products-list" class="products-list-table" style="display:none;">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th width="70"></th>
+                            <th>Product</th>
+                            <th>Reference</th>
+                            <th>Category</th>
+                            <th class="text-right">Price</th>
+                            <th class="text-center" width="130">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="products" t-as="product">
+                            <tr t-att-data-product-id="product.id">
+                                <td>
+                                    <t t-if="product.image_1920">
+                                        <img t-att-src="'/web/image/product.template/%s/image_128' % product.id"
+                                             class="img-thumbnail"
+                                             t-att-alt="product.name"
+                                             style="max-width:55px; max-height:55px; object-fit:contain;"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="d-flex align-items-center justify-content-center bg-light"
+                                             style="width:55px; height:55px;">
+                                            <i class="fa fa-image text-muted"/>
+                                        </div>
+                                    </t>
+                                </td>
+                                <td>
+                                    <a t-attf-href="/catalog/portal/product/#{product.id}">
+                                        <strong><t t-out="product.name"/></strong>
+                                    </a>
+                                </td>
+                                <td class="text-muted">
+                                    <t t-out="product.default_code or '-'"/>
+                                </td>
+                                <td class="text-muted">
+                                    <t t-if="product.categ_id" t-out="product.categ_id.name"/>
+                                    <t t-else="">-</t>
+                                </td>
+                                <td class="text-right">
+                                    <strong class="text-primary">
+                                        <t t-out="'%.2f' % product.list_price"/>
+                                        <t t-out="catalog_client.pricelist_id.currency_id.symbol if catalog_client.pricelist_id else '€'"/>
+                                    </strong>
+                                </td>
+                                <td class="text-center">
+                                    <t t-set="is_selected" t-value="product.id in selected_product_ids"/>
+                                    <button t-att-class="'btn btn-sm btn-add-to-cart ' + ('btn-success' if is_selected else 'btn-primary')"
+                                            t-att-data-product-id="product.id">
+                                        <i t-att-class="'fa ' + ('fa-check' if is_selected else 'fa-plus')"/>
+                                        <t t-if="is_selected">Selected</t>
+                                        <t t-else="">Add</t>
+                                    </button>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- No products message -->
+            <div class="row" t-if="not products">
+                <div class="col-md-12">
+                    <div class="alert alert-info text-center" role="alert">
+                        <h4><i class="fa fa-info-circle"/> No products found</h4>
+                        <p>Try adjusting your search or filters</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="row" t-if="pager and product_count > 0">
+                <div class="col-md-12">
+                    <t t-call="portal.pager"/>
+                </div>
+            </div>
+            
+        </t>
+    </template>
+    
+</odoo>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Default Export Fields Configuration -->
+
+        <record id="export_field_name" model="catalog.export.field">
+            <field name="name">Product Name</field>
+            <field name="technical_name">name</field>
+            <field name="field_type">product</field>
+            <field name="sequence">1</field>
+            <field name="is_default">True</field>
+            <field name="export_header">name</field>
+            <field name="description">The product display name</field>
+        </record>
+
+        <record id="export_field_default_code" model="catalog.export.field">
+            <field name="name">Internal Reference</field>
+            <field name="technical_name">default_code</field>
+            <field name="field_type">product</field>
+            <field name="sequence">2</field>
+            <field name="is_default">True</field>
+            <field name="export_header">default_code</field>
+            <field name="description">Product internal reference/SKU</field>
+        </record>
+
+        <record id="export_field_barcode" model="catalog.export.field">
+            <field name="name">Barcode</field>
+            <field name="technical_name">barcode</field>
+            <field name="field_type">product</field>
+            <field name="sequence">3</field>
+            <field name="is_default">True</field>
+            <field name="export_header">barcode</field>
+            <field name="description">Product barcode (EAN13, UPC, etc.)</field>
+        </record>
+
+        <record id="export_field_list_price" model="catalog.export.field">
+            <field name="name">Sales Price</field>
+            <field name="technical_name">list_price</field>
+            <field name="field_type">product</field>
+            <field name="sequence">4</field>
+            <field name="is_default">True</field>
+            <field name="export_header">list_price</field>
+            <field name="description">Product sales price (may be adjusted by pricelist)</field>
+        </record>
+
+        <record id="export_field_uom" model="catalog.export.field">
+            <field name="name">Unit of Measure</field>
+            <field name="technical_name">uom_name</field>
+            <field name="field_type">relation</field>
+            <field name="sequence">5</field>
+            <field name="is_default">True</field>
+            <field name="export_header">uom_id/id</field>
+            <field name="description">Product unit of measure</field>
+        </record>
+
+        <record id="export_field_category" model="catalog.export.field">
+            <field name="name">Category</field>
+            <field name="technical_name">categ_name</field>
+            <field name="field_type">relation</field>
+            <field name="sequence">6</field>
+            <field name="is_default">True</field>
+            <field name="export_header">categ_id/id</field>
+            <field name="description">Product category hierarchy</field>
+        </record>
+
+        <record id="export_field_description_sale" model="catalog.export.field">
+            <field name="name">Sales Description</field>
+            <field name="technical_name">description_sale</field>
+            <field name="field_type">product</field>
+            <field name="sequence">7</field>
+            <field name="is_default">False</field>
+            <field name="export_header">description_sale</field>
+            <field name="description">Description shown on sales orders and invoices</field>
+        </record>
+
+        <record id="export_field_catalog_description" model="catalog.export.field">
+            <field name="name">Catalog Description</field>
+            <field name="technical_name">catalog_description</field>
+            <field name="field_type">product</field>
+            <field name="sequence">8</field>
+            <field name="is_default">False</field>
+            <field name="export_header">description</field>
+            <field name="description">Extended catalog description (HTML)</field>
+        </record>
+
+        <record id="export_field_weight" model="catalog.export.field">
+            <field name="name">Weight</field>
+            <field name="technical_name">weight</field>
+            <field name="field_type">product</field>
+            <field name="sequence">9</field>
+            <field name="is_default">False</field>
+            <field name="export_header">weight</field>
+            <field name="description">Product weight in default UoM</field>
+        </record>
+
+        <record id="export_field_volume" model="catalog.export.field">
+            <field name="name">Volume</field>
+            <field name="technical_name">volume</field>
+            <field name="field_type">product</field>
+            <field name="sequence">10</field>
+            <field name="is_default">False</field>
+            <field name="export_header">volume</field>
+            <field name="description">Product volume</field>
+        </record>
+
+        <record id="export_field_image_url" model="catalog.export.field">
+            <field name="name">Image URL</field>
+            <field name="technical_name">image_url</field>
+            <field name="field_type">computed</field>
+            <field name="sequence">11</field>
+            <field name="is_default">False</field>
+            <field name="export_header">image_url</field>
+            <field name="description">URL to product image (for external use)</field>
+        </record>
+
+        <record id="export_field_type" model="catalog.export.field">
+            <field name="name">Product Type</field>
+            <field name="technical_name">type</field>
+            <field name="field_type">product</field>
+            <field name="sequence">12</field>
+            <field name="is_default">False</field>
+            <field name="export_header">type</field>
+            <field name="description">Product type (consumable, service, storable)</field>
+        </record>
+
+        <record id="export_field_standard_price" model="catalog.export.field">
+            <field name="name">Cost</field>
+            <field name="technical_name">standard_price</field>
+            <field name="field_type">product</field>
+            <field name="sequence">13</field>
+            <field name="is_default">False</field>
+            <field name="export_header">standard_price</field>
+            <field name="description">Product cost (WARNING: sensitive information)</field>
+        </record>
+
+    </data>
+</odoo>

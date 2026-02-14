@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Default Catalog Configuration -->
+        <record id="default_catalog_config" model="catalog.config">
+            <field name="name">Catalog Configuration</field>
+            <field name="portal_access_enabled" eval="True"/>
+            <field name="allow_csv_export" eval="True"/>
+            <field name="allow_excel_export" eval="True"/>
+            <field name="allow_direct_odoo_import" eval="True"/>
+            <field name="max_products_per_export" eval="1000"/>
+            <field name="export_rate_limit" eval="10"/>
+            <field name="default_product_visibility">all</field>
+            <field name="portal_primary_color">#007bff</field>
+            <field name="portal_welcome_message"><![CDATA[
+                <h3>Welcome to Our Product Catalog</h3>
+                <p>Browse our complete product range and easily import items into your Odoo instance.</p>
+                <p>Select products, export to CSV, and import them with a single click!</p>
+            ]]></field>
+        </record>
+        
+    </data>
+</odoo>

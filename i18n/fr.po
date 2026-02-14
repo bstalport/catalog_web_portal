@@ -1,0 +1,1159 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* catalog_web_portal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-08 09:19+0000\n"
+"PO-Revision-Date: 2026-02-08 10:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "%d field mappings created"
+msgstr "%d correspondances de champs créées"
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "%d products created, %d updated, %d errors"
+msgstr "%d produits créés, %d mis à jour, %d erreurs"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__api_key
+msgid "API Key"
+msgstr "Clé API"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__api_secret
+msgid "API Secret"
+msgstr "Secret API"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_access_log__action__api_request
+msgid "API Request"
+msgstr "Requête API"
+
+#. module: catalog_web_portal
+msgid "API Credentials"
+msgstr "Identifiants API"
+
+#. module: catalog_web_portal
+msgid "API Usage"
+msgstr "Utilisation API"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__api_key
+msgid "API key for direct Odoo import via XML-RPC"
+msgstr "Clé API pour l'import direct Odoo via XML-RPC"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__api_secret
+msgid "API secret for authentication"
+msgstr "Secret API pour l'authentification"
+
+#. module: catalog_web_portal
+msgid "Access & Features"
+msgstr "Accès et Fonctionnalités"
+
+#. module: catalog_web_portal
+msgid "Access Control"
+msgstr "Contrôle d'Accès"
+
+#. module: catalog_web_portal
+#: model:ir.model,name:catalog_web_portal.model_catalog_access_log
+msgid "Access Log"
+msgstr "Journal d'Accès"
+
+#. module: catalog_web_portal
+msgid "Access Logs"
+msgstr "Journaux d'Accès"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__access_mode
+msgid "Access Mode"
+msgstr "Mode d'Accès"
+
+#. module: catalog_web_portal
+msgid "Access Modes"
+msgstr "Modes d'Accès"
+
+#. module: catalog_web_portal
+msgid "Access Statistics"
+msgstr "Statistiques d'Accès"
+
+#. module: catalog_web_portal
+msgid "Accesses"
+msgstr "Accès"
+
+#. module: catalog_web_portal
+msgid "Action"
+msgstr "Action"
+
+#. module: catalog_web_portal
+msgid "Action Details"
+msgstr "Détails de l'Action"
+
+#. module: catalog_web_portal
+msgid "Action Needed"
+msgstr "Action Requise"
+
+#. module: catalog_web_portal
+msgid "Actions"
+msgstr "Actions"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__is_active
+msgid "Active"
+msgstr "Actif"
+
+#. module: catalog_web_portal
+msgid "Active Clients"
+msgstr "Clients Actifs"
+
+#. module: catalog_web_portal
+msgid "Activities"
+msgstr "Activités"
+
+#. module: catalog_web_portal
+msgid "Add"
+msgstr "Ajouter"
+
+#. module: catalog_web_portal
+msgid "Add to Selection"
+msgstr "Ajouter à la Sélection"
+
+#. module: catalog_web_portal
+msgid "Additional details about the action"
+msgstr "Détails supplémentaires sur l'action"
+
+#. module: catalog_web_portal
+msgid "All Published Products"
+msgstr "Tous les Produits Publiés"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__allow_csv_export
+msgid "Allow CSV Export"
+msgstr "Autoriser l'Export CSV"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__allow_direct_odoo_import
+msgid "Allow Direct Odoo Import"
+msgstr "Autoriser l'Import Direct Odoo"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__allow_excel_export
+msgid "Allow Excel Export"
+msgstr "Autoriser l'Export Excel"
+
+#. module: catalog_web_portal
+msgid "Allow customers to access catalog through secure portal"
+msgstr "Autoriser les clients à accéder au catalogue via le portail sécurisé"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__allowed_category_ids
+msgid "Allowed Categories"
+msgstr "Catégories Autorisées"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__allowed_product_ids
+msgid "Allowed Products"
+msgstr "Produits Autorisés"
+
+#. module: catalog_web_portal
+msgid "Already in Selection"
+msgstr "Déjà dans la Sélection"
+
+#. module: catalog_web_portal
+msgid "Automatic import"
+msgstr "Import automatique"
+
+#. module: catalog_web_portal
+msgid "Back to Catalog"
+msgstr "Retour au Catalogue"
+
+#. module: catalog_web_portal
+msgid "Back to My Account"
+msgstr "Retour à Mon Compte"
+
+#. module: catalog_web_portal
+msgid "Back to Selection"
+msgstr "Retour à la Sélection"
+
+#. module: catalog_web_portal
+msgid "Browse Catalog"
+msgstr "Parcourir le Catalogue"
+
+#. module: catalog_web_portal
+msgid "Browse & Select Products"
+msgstr "Parcourir et Sélectionner des Produits"
+
+#. module: catalog_web_portal
+msgid "Browse the catalog and add products to your selection"
+msgstr "Parcourez le catalogue et ajoutez des produits à votre sélection"
+
+#. module: catalog_web_portal
+msgid "Browse the supplier's catalog and add products to your selection."
+msgstr "Parcourez le catalogue du fournisseur et ajoutez des produits à votre sélection."
+
+#. module: catalog_web_portal
+msgid "CSV Export"
+msgstr "Export CSV"
+
+#. module: catalog_web_portal
+msgid "CSV export works immediately and gives you full control. Direct import is faster but requires a one-time connection setup with your Odoo."
+msgstr "L'export CSV fonctionne immédiatement et vous donne un contrôle total. L'import direct est plus rapide mais nécessite une configuration de connexion unique avec votre Odoo."
+
+#. module: catalog_web_portal
+msgid "CSV vs Direct Import:"
+msgstr "CSV vs Import Direct :"
+
+#. module: catalog_web_portal
+#: model:ir.model,name:catalog_web_portal.model_catalog_client
+msgid "Catalog Client"
+msgstr "Client du Catalogue"
+
+#. module: catalog_web_portal
+msgid "Catalog Clients"
+msgstr "Clients du Catalogue"
+
+#. module: catalog_web_portal
+#: model:ir.model,name:catalog_web_portal.model_catalog_config
+msgid "Catalog Configuration"
+msgstr "Configuration du Catalogue"
+
+#. module: catalog_web_portal
+msgid "Catalog Portal Dashboard"
+msgstr "Tableau de Bord du Portail Catalogue"
+
+#. module: catalog_web_portal
+msgid "Catalog Selection Cart"
+msgstr "Panier de Sélection du Catalogue"
+
+#. module: catalog_web_portal
+msgid "Catalog Browser"
+msgstr "Navigateur de Catalogue"
+
+#. module: catalog_web_portal
+msgid "Category"
+msgstr "Catégorie"
+
+#. module: catalog_web_portal
+msgid "Category Mappings"
+msgstr "Correspondances de Catégories"
+
+#. module: catalog_web_portal
+msgid "Check Connection"
+msgstr "Vérifier la Connexion"
+
+#. module: catalog_web_portal
+msgid "Clear All"
+msgstr "Tout Effacer"
+
+#. module: catalog_web_portal
+msgid "Client"
+msgstr "Client"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__name
+msgid "Client Name"
+msgstr "Nom du Client"
+
+#. module: catalog_web_portal
+msgid "Clients"
+msgstr "Clients"
+
+#. module: catalog_web_portal
+msgid "Configuration"
+msgstr "Configuration"
+
+#. module: catalog_web_portal
+msgid "Configuration Name"
+msgstr "Nom de la Configuration"
+
+#. module: catalog_web_portal
+msgid "Connect Your Odoo"
+msgstr "Connecter Votre Odoo"
+
+#. module: catalog_web_portal
+msgid "Connected to"
+msgstr "Connecté à"
+
+#. module: catalog_web_portal
+msgid "Connection"
+msgstr "Connexion"
+
+#. module: catalog_web_portal
+msgid "Connection Settings"
+msgstr "Paramètres de Connexion"
+
+#. module: catalog_web_portal
+msgid "Connection configured but not tested"
+msgstr "Connexion configurée mais non testée"
+
+#. module: catalog_web_portal
+msgid "Connection successful! Default field mappings created."
+msgstr "Connexion réussie ! Correspondances de champs par défaut créées."
+
+#. module: catalog_web_portal
+msgid "Create"
+msgstr "Créer"
+
+#. module: catalog_web_portal
+msgid "Create Default Mappings"
+msgstr "Créer les Correspondances par Défaut"
+
+#. module: catalog_web_portal
+msgid "Created"
+msgstr "Créé"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__pricelist_id
+msgid "Custom Pricelist"
+msgstr "Liste de Prix Personnalisée"
+
+#. module: catalog_web_portal
+msgid "Custom Product List"
+msgstr "Liste de Produits Personnalisée"
+
+#. module: catalog_web_portal
+msgid "Custom per Client"
+msgstr "Personnalisé par Client"
+
+#. module: catalog_web_portal
+msgid "Dashboard"
+msgstr "Tableau de Bord"
+
+#. module: catalog_web_portal
+msgid "Database"
+msgstr "Base de Données"
+
+#. module: catalog_web_portal
+msgid "Date"
+msgstr "Date"
+
+#. module: catalog_web_portal
+msgid "Default Field Mappings"
+msgstr "Correspondances de Champs par Défaut"
+
+#. module: catalog_web_portal
+msgid "Default Product Visibility"
+msgstr "Visibilité des Produits par Défaut"
+
+#. module: catalog_web_portal
+msgid "Delete"
+msgstr "Supprimer"
+
+#. module: catalog_web_portal
+msgid "Description"
+msgstr "Description"
+
+#. module: catalog_web_portal
+msgid "Direct Import"
+msgstr "Import Direct"
+
+#. module: catalog_web_portal
+msgid "Download"
+msgstr "Télécharger"
+
+#. module: catalog_web_portal
+msgid "Download CSV"
+msgstr "Télécharger le CSV"
+
+#. module: catalog_web_portal
+msgid "Download a CSV file and import manually into your Odoo."
+msgstr "Téléchargez un fichier CSV et importez-le manuellement dans votre Odoo."
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__email
+msgid "Email"
+msgstr "E-mail"
+
+#. module: catalog_web_portal
+msgid "Enable Portal Access"
+msgstr "Activer l'Accès au Portail"
+
+#. module: catalog_web_portal
+msgid "Errors"
+msgstr "Erreurs"
+
+#. module: catalog_web_portal
+msgid "Execute Import Now"
+msgstr "Exécuter l'Import Maintenant"
+
+#. module: catalog_web_portal
+msgid "Export"
+msgstr "Exporter"
+
+#. module: catalog_web_portal
+msgid "Export Count"
+msgstr "Nombre d'Exports"
+
+#. module: catalog_web_portal
+msgid "Export Fields"
+msgstr "Champs d'Export"
+
+#. module: catalog_web_portal
+msgid "Export Rate Limit (per hour)"
+msgstr "Limite d'Export (par heure)"
+
+#. module: catalog_web_portal
+msgid "Exports"
+msgstr "Exports"
+
+#. module: catalog_web_portal
+msgid "Exports This Month"
+msgstr "Exports ce Mois"
+
+#. module: catalog_web_portal
+msgid "Exports Today"
+msgstr "Exports Aujourd'hui"
+
+#. module: catalog_web_portal
+msgid "Faster workflow"
+msgstr "Flux de travail plus rapide"
+
+#. module: catalog_web_portal
+msgid "Fetch Categories from My Odoo"
+msgstr "Récupérer les Catégories depuis Mon Odoo"
+
+#. module: catalog_web_portal
+msgid "Field Mappings"
+msgstr "Correspondances de Champs"
+
+#. module: catalog_web_portal
+msgid "First, select some products from the catalog"
+msgstr "D'abord, sélectionnez des produits du catalogue"
+
+#. module: catalog_web_portal
+msgid "For automatic import, connect your Odoo instance. Or skip this step and use CSV export."
+msgstr "Pour l'import automatique, connectez votre instance Odoo. Ou ignorez cette étape et utilisez l'export CSV."
+
+#. module: catalog_web_portal
+msgid "Full Catalog"
+msgstr "Catalogue Complet"
+
+#. module: catalog_web_portal
+msgid "Full control over import"
+msgstr "Contrôle total sur l'import"
+
+#. module: catalog_web_portal
+msgid "Get Your Products"
+msgstr "Obtenir Vos Produits"
+
+#. module: catalog_web_portal
+msgid "Go to Dashboard"
+msgstr "Aller au Tableau de Bord"
+
+#. module: catalog_web_portal
+msgid "Grid view"
+msgstr "Vue en grille"
+
+#. module: catalog_web_portal
+msgid "Help"
+msgstr "Aide"
+
+#. module: catalog_web_portal
+msgid "How to browse products:"
+msgstr "Comment parcourir les produits :"
+
+#. module: catalog_web_portal
+msgid "IP Address"
+msgstr "Adresse IP"
+
+#. module: catalog_web_portal
+msgid "Image"
+msgstr "Image"
+
+#. module: catalog_web_portal
+msgid "Import"
+msgstr "Importer"
+
+#. module: catalog_web_portal
+msgid "Import Options"
+msgstr "Options d'Import"
+
+#. module: catalog_web_portal
+msgid "Import Partially Successful"
+msgstr "Import Partiellement Réussi"
+
+#. module: catalog_web_portal
+msgid "Import Preview"
+msgstr "Aperçu de l'Import"
+
+#. module: catalog_web_portal
+msgid "Import Successful!"
+msgstr "Import Réussi !"
+
+#. module: catalog_web_portal
+msgid "Import Summary"
+msgstr "Résumé de l'Import"
+
+#. module: catalog_web_portal
+msgid "Import directly into your Odoo with one click."
+msgstr "Importez directement dans votre Odoo en un clic."
+
+#. module: catalog_web_portal
+msgid "Import products automatically with one click"
+msgstr "Importer des produits automatiquement en un clic"
+
+#. module: catalog_web_portal
+msgid "Import to My Odoo"
+msgstr "Importer dans Mon Odoo"
+
+#. module: catalog_web_portal
+msgid "Include Supplier Info in Exports"
+msgstr "Inclure les Infos Fournisseur dans les Exports"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__notes
+msgid "Internal Notes"
+msgstr "Notes Internes"
+
+#. module: catalog_web_portal
+msgid "Invoice Recognition"
+msgstr "Reconnaissance de Factures"
+
+#. module: catalog_web_portal
+msgid "Keep your product data synchronized"
+msgstr "Gardez vos données produits synchronisées"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__last_access_date
+msgid "Last Access"
+msgstr "Dernier Accès"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__last_export_date
+msgid "Last Export"
+msgstr "Dernier Export"
+
+#. module: catalog_web_portal
+msgid "List view"
+msgstr "Vue en liste"
+
+#. module: catalog_web_portal
+msgid "Load"
+msgstr "Charger"
+
+#. module: catalog_web_portal
+msgid "Load a previously saved selection to quickly restore your product list"
+msgstr "Charger une sélection précédemment sauvegardée pour restaurer rapidement votre liste de produits"
+
+#. module: catalog_web_portal
+msgid "Manage Connection"
+msgstr "Gérer la Connexion"
+
+#. module: catalog_web_portal
+msgid "Max Products per Export"
+msgstr "Nombre Max de Produits par Export"
+
+#. module: catalog_web_portal
+msgid "Modify Connection Settings"
+msgstr "Modifier les Paramètres de Connexion"
+
+#. module: catalog_web_portal
+msgid "My Account"
+msgstr "Mon Compte"
+
+#. module: catalog_web_portal
+msgid "My Saved Selections"
+msgstr "Mes Sélections Sauvegardées"
+
+#. module: catalog_web_portal
+msgid "My Selection"
+msgstr "Ma Sélection"
+
+#. module: catalog_web_portal
+msgid "Name"
+msgstr "Nom"
+
+#. module: catalog_web_portal
+msgid "Need Help?"
+msgstr "Besoin d'Aide ?"
+
+#. module: catalog_web_portal
+msgid "Newest"
+msgstr "Plus Récents"
+
+#. module: catalog_web_portal
+msgid "No configuration needed"
+msgstr "Aucune configuration requise"
+
+#. module: catalog_web_portal
+msgid "No field mappings configured."
+msgstr "Aucune correspondance de champs configurée."
+
+#. module: catalog_web_portal
+msgid "No products found"
+msgstr "Aucun produit trouvé"
+
+#. module: catalog_web_portal
+msgid "No products in current selection"
+msgstr "Aucun produit dans la sélection actuelle"
+
+#. module: catalog_web_portal
+msgid "Not configured yet. You can still export to CSV!"
+msgstr "Pas encore configuré. Vous pouvez toujours exporter en CSV !"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__notes
+msgid "Internal notes about this client (not visible to client)"
+msgstr "Notes internes sur ce client (non visibles par le client)"
+
+#. module: catalog_web_portal
+msgid "Optional"
+msgstr "Optionnel"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__partner_id
+msgid "Related Partner"
+msgstr "Partenaire Associé"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__partner_id
+msgid "Odoo partner associated with this catalog client"
+msgstr "Partenaire Odoo associé à ce client catalogue"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__phone
+msgid "Phone"
+msgstr "Téléphone"
+
+#. module: catalog_web_portal
+msgid "Portal Invitation Sent"
+msgstr "Invitation au Portail Envoyée"
+
+#. module: catalog_web_portal
+msgid "Portal Logo"
+msgstr "Logo du Portail"
+
+#. module: catalog_web_portal
+msgid "Preview before importing"
+msgstr "Aperçu avant import"
+
+#. module: catalog_web_portal
+msgid "Price"
+msgstr "Prix"
+
+#. module: catalog_web_portal
+msgid "Primary Color"
+msgstr "Couleur Principale"
+
+#. module: catalog_web_portal
+msgid "Product"
+msgstr "Produit"
+
+#. module: catalog_web_portal
+msgid "Product Catalog"
+msgstr "Catalogue Produits"
+
+#. module: catalog_web_portal
+msgid "Product Template"
+msgstr "Modèle de Produit"
+
+#. module: catalog_web_portal
+msgid "Products"
+msgstr "Produits"
+
+#. module: catalog_web_portal
+msgid "Products Available"
+msgstr "Produits Disponibles"
+
+#. module: catalog_web_portal
+msgid "Products Selected"
+msgstr "Produits Sélectionnés"
+
+#. module: catalog_web_portal
+msgid "Quick Stats"
+msgstr "Statistiques Rapides"
+
+#. module: catalog_web_portal
+msgid "Ready to export or import?"
+msgstr "Prêt à exporter ou importer ?"
+
+#. module: catalog_web_portal
+msgid "Ref:"
+msgstr "Réf :"
+
+#. module: catalog_web_portal
+msgid "Reference"
+msgstr "Référence"
+
+#. module: catalog_web_portal
+msgid "Regenerate API Credentials"
+msgstr "Régénérer les Identifiants API"
+
+#. module: catalog_web_portal
+msgid "Remove"
+msgstr "Retirer"
+
+#. module: catalog_web_portal
+msgid "Restricted Products"
+msgstr "Produits Restreints"
+
+#. module: catalog_web_portal
+msgid "Save"
+msgstr "Enregistrer"
+
+#. module: catalog_web_portal
+msgid "Save Current Selection"
+msgstr "Enregistrer la Sélection Actuelle"
+
+#. module: catalog_web_portal
+msgid "Save This Selection"
+msgstr "Enregistrer Cette Sélection"
+
+#. module: catalog_web_portal
+msgid "Save time - no manual CSV import needed"
+msgstr "Gagnez du temps - pas d'import CSV manuel nécessaire"
+
+#. module: catalog_web_portal
+msgid "Saved Selections"
+msgstr "Sélections Sauvegardées"
+
+#. module: catalog_web_portal
+msgid "Search"
+msgstr "Rechercher"
+
+#. module: catalog_web_portal
+msgid "Search products..."
+msgstr "Rechercher des produits..."
+
+#. module: catalog_web_portal
+msgid "Select which product fields will be available for export by clients"
+msgstr "Sélectionnez les champs produits disponibles pour l'export par les clients"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__selected_product_ids
+msgid "Selected Products"
+msgstr "Produits Sélectionnés"
+
+#. module: catalog_web_portal
+msgid "Selected"
+msgstr "Sélectionné"
+
+#. module: catalog_web_portal
+msgid "Selection"
+msgstr "Sélection"
+
+#. module: catalog_web_portal
+msgid "Selection cleared"
+msgstr "Sélection effacée"
+
+#. module: catalog_web_portal
+msgid "Send Portal Invite"
+msgstr "Envoyer l'Invitation au Portail"
+
+#. module: catalog_web_portal
+msgid "Setup Connection"
+msgstr "Configurer la Connexion"
+
+#. module: catalog_web_portal
+msgid "Setup Connection First"
+msgstr "Configurer la Connexion d'Abord"
+
+#. module: catalog_web_portal
+msgid "Setup Required"
+msgstr "Configuration Requise"
+
+#. module: catalog_web_portal
+msgid "Specific pricelist for this client. If not set, uses default prices."
+msgstr "Liste de prix spécifique pour ce client. Si non définie, utilise les prix par défaut."
+
+#. module: catalog_web_portal
+msgid "Start Browsing Catalog"
+msgstr "Commencer à Parcourir le Catalogue"
+
+#. module: catalog_web_portal
+msgid "Statistics"
+msgstr "Statistiques"
+
+#. module: catalog_web_portal
+msgid "Status"
+msgstr "Statut"
+
+#. module: catalog_web_portal
+msgid "Success"
+msgstr "Succès"
+
+#. module: catalog_web_portal
+msgid "Supplier"
+msgstr "Fournisseur"
+
+#. module: catalog_web_portal
+msgid "Supplier Info"
+msgstr "Infos Fournisseur"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__support_email
+msgid "Support Email"
+msgstr "E-mail de Support"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__support_phone
+msgid "Support Phone"
+msgstr "Téléphone de Support"
+
+#. module: catalog_web_portal
+msgid "Sync"
+msgstr "Synchroniser"
+
+#. module: catalog_web_portal
+msgid "Synchronization"
+msgstr "Synchronisation"
+
+#. module: catalog_web_portal
+msgid "Target"
+msgstr "Cible"
+
+#. module: catalog_web_portal
+msgid "Test Connection"
+msgstr "Tester la Connexion"
+
+#. module: catalog_web_portal
+msgid "Total Accesses"
+msgstr "Accès Totaux"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__total_clients
+msgid "Total Clients"
+msgstr "Total Clients"
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__export_count
+msgid "Total Exports"
+msgstr "Total Exports"
+
+#. module: catalog_web_portal
+msgid "Try adjusting your search or filters"
+msgstr "Essayez d'ajuster votre recherche ou vos filtres"
+
+#. module: catalog_web_portal
+msgid "Updated"
+msgstr "Mis à jour"
+
+#. module: catalog_web_portal
+msgid "Use the search bar and filters to find products. Click on a product to see details, or use the \"Add to Selection\" button to add it to your cart."
+msgstr "Utilisez la barre de recherche et les filtres pour trouver des produits. Cliquez sur un produit pour voir les détails, ou utilisez le bouton \"Ajouter à la Sélection\" pour l'ajouter à votre panier."
+
+#. module: catalog_web_portal
+msgid "User"
+msgstr "Utilisateur"
+
+#. module: catalog_web_portal
+msgid "User Agent"
+msgstr "Agent Utilisateur"
+
+#. module: catalog_web_portal
+msgid "View Access Logs"
+msgstr "Voir les Journaux d'Accès"
+
+#. module: catalog_web_portal
+msgid "View Field Mappings"
+msgstr "Voir les Correspondances de Champs"
+
+#. module: catalog_web_portal
+msgid "View Selection"
+msgstr "Voir la Sélection"
+
+#. module: catalog_web_portal
+msgid "Welcome Message"
+msgstr "Message de Bienvenue"
+
+#. module: catalog_web_portal
+msgid "Welcome to Your Product Catalog"
+msgstr "Bienvenue dans Votre Catalogue Produits"
+
+#. module: catalog_web_portal
+msgid "Why connect my Odoo?"
+msgstr "Pourquoi connecter mon Odoo ?"
+
+#. module: catalog_web_portal
+msgid "Works with any Odoo (including Odoo Online)"
+msgstr "Fonctionne avec n'importe quel Odoo (y compris Odoo Online)"
+
+#. module: catalog_web_portal
+msgid "You do not have access to this product."
+msgstr "Vous n'avez pas accès à ce produit."
+
+#. module: catalog_web_portal
+msgid "You don't have access to the product catalog."
+msgstr "Vous n'avez pas accès au catalogue de produits."
+
+#. module: catalog_web_portal
+msgid "Your Progress"
+msgstr "Votre Progression"
+
+#. module: catalog_web_portal
+msgid "Your selection is empty"
+msgstr "Votre sélection est vide"
+
+#. module: catalog_web_portal
+msgid "Your selection is saved. Go to the Dashboard to download as CSV or import directly to your Odoo."
+msgstr "Votre sélection est enregistrée. Allez au Tableau de Bord pour télécharger en CSV ou importer directement dans votre Odoo."
+
+#. module: catalog_web_portal
+msgid "product(s) found"
+msgstr "produit(s) trouvé(s)"
+
+#. module: catalog_web_portal
+msgid "product(s) in your selection."
+msgstr "produit(s) dans votre sélection."
+
+#. module: catalog_web_portal
+msgid "product(s) selected"
+msgstr "produit(s) sélectionné(s)"
+
+#. module: catalog_web_portal
+msgid "products"
+msgstr "produits"
+
+#. module: catalog_web_portal
+msgid "Import products from your supplier directly into your Odoo with just a few clicks. Follow the steps below to get started."
+msgstr "Importez les produits de votre fournisseur directement dans votre Odoo en quelques clics. Suivez les étapes ci-dessous pour commencer."
+
+#. module: catalog_web_portal
+msgid "Manage your selection here, then go to the Dashboard to export or import."
+msgstr "Gérez votre sélection ici, puis allez au Tableau de Bord pour exporter ou importer."
+
+#. module: catalog_web_portal
+msgid "Save your current selection with a name to reload it later from the Dashboard."
+msgstr "Enregistrez votre sélection actuelle avec un nom pour la recharger plus tard depuis le Tableau de Bord."
+
+#. module: catalog_web_portal
+msgid "Choose your preferred method to get the selected products into your Odoo."
+msgstr "Choisissez votre méthode préférée pour obtenir les produits sélectionnés dans votre Odoo."
+
+#. module: catalog_web_portal
+msgid "All Categories"
+msgstr "Toutes les Catégories"
+
+#. module: catalog_web_portal
+msgid "Access Denied"
+msgstr "Accès Refusé"
+
+#. module: catalog_web_portal
+msgid "Partner must have an email address to create portal access."
+msgstr "Le partenaire doit avoir une adresse e-mail pour créer un accès au portail."
+
+#. module: catalog_web_portal
+msgid "API Credentials Regenerated"
+msgstr "Identifiants API Régénérés"
+
+#. module: catalog_web_portal
+msgid "New API credentials have been generated for this client."
+msgstr "De nouveaux identifiants API ont été générés pour ce client."
+
+#. module: catalog_web_portal
+msgid "Portal invitation has been sent to"
+msgstr "L'invitation au portail a été envoyée à"
+
+#. module: catalog_web_portal
+msgid "already has catalog access."
+msgstr "a déjà accès au catalogue."
+
+#. module: catalog_web_portal
+msgid "No catalog access"
+msgstr "Pas d'accès au catalogue"
+
+#. module: catalog_web_portal
+msgid "Product not accessible"
+msgstr "Produit non accessible"
+
+#. module: catalog_web_portal
+msgid "Product added to selection"
+msgstr "Produit ajouté à la sélection"
+
+#. module: catalog_web_portal
+msgid "Product removed from selection"
+msgstr "Produit retiré de la sélection"
+
+#. module: catalog_web_portal
+msgid "Please provide a name for the selection"
+msgstr "Veuillez fournir un nom pour la sélection"
+
+#. module: catalog_web_portal
+msgid "No catalog access found"
+msgstr "Aucun accès au catalogue trouvé"
+
+#. module: catalog_web_portal
+msgid "A selection with this name already exists"
+msgstr "Une sélection avec ce nom existe déjà"
+
+#. module: catalog_web_portal
+msgid "Selection saved successfully"
+msgstr "Sélection enregistrée avec succès"
+
+#. module: catalog_web_portal
+msgid "Saved selection not found"
+msgstr "Sélection sauvegardée non trouvée"
+
+#. module: catalog_web_portal
+msgid "Selection loaded successfully"
+msgstr "Sélection chargée avec succès"
+
+#. module: catalog_web_portal
+msgid "Selection deleted successfully"
+msgstr "Sélection supprimée avec succès"
+
+#. module: catalog_web_portal
+msgid "No connection configured"
+msgstr "Aucune connexion configurée"
+
+#. module: catalog_web_portal
+msgid "Please configure your connection first"
+msgstr "Veuillez d'abord configurer votre connexion"
+
+#. module: catalog_web_portal
+msgid "Please test your connection first"
+msgstr "Veuillez d'abord tester votre connexion"
+
+#. module: catalog_web_portal
+msgid "Connection settings saved successfully. Default field mappings created."
+msgstr "Paramètres de connexion enregistrés avec succès. Correspondances de champs par défaut créées."
+
+#. module: catalog_web_portal
+msgid "Please select products first"
+msgstr "Veuillez d'abord sélectionner des produits"
+
+#. module: catalog_web_portal
+msgid "Invalid preview"
+msgstr "Aperçu invalide"
+
+#. module: catalog_web_portal
+msgid "Invalid sync history"
+msgstr "Historique de synchronisation invalide"
+
+#. module: catalog_web_portal
+msgid "Default field mappings created successfully!"
+msgstr "Correspondances de champs par défaut créées avec succès !"
+
+#. module: catalog_web_portal
+msgid "Unauthorized"
+msgstr "Non autorisé"
+
+#. module: catalog_web_portal
+msgid "Mapping deleted"
+msgstr "Correspondance supprimée"
+
+#. module: catalog_web_portal
+msgid "Mapping saved"
+msgstr "Correspondance enregistrée"
+
+#. module: catalog_web_portal
+msgid "Category mapping deleted"
+msgstr "Correspondance de catégorie supprimée"
+
+#. module: catalog_web_portal
+msgid "Category mapping saved"
+msgstr "Correspondance de catégorie enregistrée"
+
+#. module: catalog_web_portal
+msgid "Supplier settings saved successfully"
+msgstr "Paramètres fournisseur enregistrés avec succès"
+
+#. module: catalog_web_portal
+msgid "Browse and select products to import into your Odoo"
+msgstr "Parcourez et sélectionnez des produits à importer dans votre Odoo"
+
+#. module: catalog_web_portal
+msgid "Controls which products this client can see"
+msgstr "Contrôle quels produits ce client peut voir"
+
+#. module: catalog_web_portal
+msgid "If unchecked, client cannot access catalog"
+msgstr "Si décoché, le client ne peut pas accéder au catalogue"
+
+#. module: catalog_web_portal
+msgid "Products visible to this client (when access mode is not Full)"
+msgstr "Produits visibles par ce client (lorsque le mode d'accès n'est pas Complet)"
+
+#. module: catalog_web_portal
+msgid "Product categories visible to this client (when access mode is Restricted)"
+msgstr "Catégories de produits visibles par ce client (lorsque le mode d'accès est Restreint)"
+
+#. module: catalog_web_portal
+msgid "Products currently in client's selection cart for export"
+msgstr "Produits actuellement dans le panier de sélection du client pour export"
+
+#. module: catalog_web_portal
+msgid "Allow customers to export product data as CSV"
+msgstr "Autoriser les clients à exporter les données produits en CSV"
+
+#. module: catalog_web_portal
+msgid "Allow customers to import directly via XML-RPC API"
+msgstr "Autoriser les clients à importer directement via l'API XML-RPC"
+
+#. module: catalog_web_portal
+msgid "Maximum number of products in a single export (0 = unlimited)"
+msgstr "Nombre maximum de produits dans un seul export (0 = illimité)"
+
+#. module: catalog_web_portal
+msgid "Maximum exports per hour per user (0 = unlimited)"
+msgstr "Exports maximum par heure par utilisateur (0 = illimité)"
+
+#. module: catalog_web_portal
+msgid "Logo displayed in customer portal"
+msgstr "Logo affiché dans le portail client"
+
+#. module: catalog_web_portal
+msgid "Hex color code for portal theme"
+msgstr "Code couleur hexadécimal pour le thème du portail"
+
+#. module: catalog_web_portal
+msgid "Message displayed on portal home page"
+msgstr "Message affiché sur la page d'accueil du portail"
+
+#. module: catalog_web_portal
+msgid "Email for customer support"
+msgstr "E-mail pour le support client"
+
+#. module: catalog_web_portal
+msgid "Max products per export must be >= 0"
+msgstr "Le nombre max de produits par export doit être >= 0"
+
+#. module: catalog_web_portal
+msgid "Color must be in hex format (#RRGGBB)"
+msgstr "La couleur doit être au format hexadécimal (#RRGGBB)"
+
+#. module: catalog_web_portal
+msgid "view_catalog"
+msgstr "voir_catalogue"
+
+#. module: catalog_web_portal
+msgid "view_product"
+msgstr "voir_produit"
+
+#. module: catalog_web_portal
+msgid "export_csv"
+msgstr "export_csv"
+
+#. module: catalog_web_portal
+msgid "export_excel"
+msgstr "export_excel"
+
+#. module: catalog_web_portal
+msgid "View Catalog"
+msgstr "Voir le Catalogue"
+
+#. module: catalog_web_portal
+msgid "View Product"
+msgstr "Voir le Produit"
+
+#. module: catalog_web_portal
+msgid "Export CSV"
+msgstr "Export CSV"
+
+#. module: catalog_web_portal
+msgid "Export Excel"
+msgstr "Export Excel"

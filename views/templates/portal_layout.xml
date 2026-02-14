@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Portal Layout for Catalog -->
+    <template id="portal_catalog_layout" name="Catalog Portal Layout">
+        <t t-call="portal.portal_layout">
+            <t t-set="additional_title">Product Catalog</t>
+
+            <div class="container mt-4">
+                <!-- Navigation Bar -->
+                <div class="card mb-3">
+                    <div class="card-body py-2">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <a href="/catalog/portal" t-attf-class="btn btn-sm {{ 'btn-primary' if page_type == 'dashboard' else 'btn-outline-primary' }}">
+                                    <i class="fa fa-dashboard"/> Dashboard
+                                </a>
+                                <a href="/catalog/portal/browse" t-attf-class="btn btn-sm ml-2 {{ 'btn-primary' if page_type == 'browse' else 'btn-outline-primary' }}">
+                                    <i class="fa fa-th"/> Browse Catalog
+                                </a>
+                                <a href="/catalog/portal/cart" t-attf-class="btn btn-sm ml-2 {{ 'btn-primary' if page_type == 'cart' else 'btn-outline-primary' }}">
+                                    <i class="fa fa-shopping-cart"/> My Selection
+                                    <span class="badge bg-warning text-dark ml-1" id="nav-cart-count">0</span>
+                                </a>
+                            </div>
+                            <div>
+                                <a href="/my" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fa fa-arrow-left"/> My Account
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <t t-out="0"/>
+            </div>
+
+            <!-- Update nav cart count -->
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    // Function to update nav cart count
+                    function updateNavCartCount() {
+                        $.ajax({
+                            url: '/catalog/portal/cart/count',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                jsonrpc: '2.0',
+                                method: 'call',
+                                id: new Date().getTime(),
+                                params: {}
+                            }),
+                            success: function(response) {
+                                if (response.result) {
+                                    var count = response.result.count || 0;
+                                    $('#nav-cart-count').text(count);
+                                    if (count > 0) {
+                                        $('#nav-cart-count').removeClass('bg-light').addClass('bg-warning');
+                                    } else {
+                                        $('#nav-cart-count').removeClass('bg-warning').addClass('bg-light');
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                    // Update on page load
+                    updateNavCartCount();
+
+                    // Make function globally available
+                    window.updateNavCartCount = updateNavCartCount;
+                });
+            </script>
+        </t>
+    </template>
+    
+    <!-- No Access Template -->
+    <template id="no_access_template" name="No Catalog Access">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="alert alert-warning" role="alert">
+                            <h4 class="alert-heading">
+                                <i class="fa fa-exclamation-triangle"/> Access Denied
+                            </h4>
+                            <p>
+                                You do not have access to the product catalog.
+                            </p>
+                            <hr/>
+                            <p class="mb-0">
+                                Please contact your supplier to request catalog access.
+                            </p>
+                        </div>
+                        <div class="text-center mt-4">
+                            <a href="/my" class="btn btn-primary">
+                                <i class="fa fa-arrow-left"/> Back to My Account
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    
+</odoo>

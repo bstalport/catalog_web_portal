@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Simplified Catalog Cart/Selection Template -->
+    <template id="portal_catalog_cart" name="Catalog Selection Cart">
+        <t t-call="catalog_web_portal.portal_catalog_layout">
+            <t t-set="page_type">cart</t>
+
+            <!-- Header -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2>
+                        <i class="fa fa-shopping-cart"/> My Selection
+                    </h2>
+                    <p class="text-muted">
+                        <strong><t t-out="product_count"/></strong> product(s) in your selection.
+                        Manage your selection here, then go to the Dashboard to export or import.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Empty cart message -->
+            <div class="row" t-if="not selected_products">
+                <div class="col-md-12">
+                    <div class="alert alert-info text-center" role="alert">
+                        <h4><i class="fa fa-shopping-cart"/> Your selection is empty</h4>
+                        <p class="mb-4">Browse the catalog and add products to your selection</p>
+                        <a href="/catalog/portal/browse" class="btn btn-primary">
+                            <i class="fa fa-book"/> Browse Catalog
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Selected Products -->
+            <div t-if="selected_products">
+
+                <!-- Quick Actions Card -->
+                <div class="card mb-4 border-primary">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-0">
+                                    <i class="fa fa-info-circle text-primary"/> Ready to export or import?
+                                </h6>
+                                <p class="text-muted small mb-0">
+                                    Your selection is saved. Go to the Dashboard to download as CSV or import directly to your Odoo.
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <a href="/catalog/portal" class="btn btn-primary">
+                                    <i class="fa fa-dashboard"/> Go to Dashboard
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Selection Card -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fa fa-bookmark"/> Save This Selection
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-3">
+                            Save your current selection with a name to reload it later from the Dashboard.
+                        </p>
+                        <button type="button" class="btn btn-success" id="btn-save-selection">
+                            <i class="fa fa-save"/> Save Current Selection
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Selected Products</h5>
+                        <button class="btn btn-sm btn-warning" id="btn-clear-selection">
+                            <i class="fa fa-times"/> Clear All
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 product-selection-table">
+                            <thead>
+                                <tr>
+                                    <th width="80">Image</th>
+                                    <th>Product</th>
+                                    <th>Reference</th>
+                                    <th>Category</th>
+                                    <th width="120" class="text-right">Price</th>
+                                    <th width="80" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="selected_products" t-as="product">
+                                    <tr t-att-data-product-id="product.id">
+                                        <!-- Image -->
+                                        <td>
+                                            <t t-if="product.image_512">
+                                                <img t-att-src="'/web/image/product.template/%s/image_128' % product.id"
+                                                     class="img-thumbnail"
+                                                     style="max-width: 60px;"/>
+                                            </t>
+                                            <t t-else="">
+                                                <div class="d-flex align-items-center justify-content-center bg-light"
+                                                     style="width: 60px; height: 60px;">
+                                                    <i class="fa fa-image text-muted"/>
+                                                </div>
+                                            </t>
+                                        </td>
+
+                                        <!-- Name -->
+                                        <td>
+                                            <a t-attf-href="/catalog/portal/product/#{product.id}">
+                                                <strong><t t-out="product.name"/></strong>
+                                            </a>
+                                        </td>
+
+                                        <!-- Reference -->
+                                        <td>
+                                            <span class="text-muted" t-out="product.default_code or '-'"/>
+                                        </td>
+
+                                        <!-- Category -->
+                                        <td>
+                                            <span t-if="product.categ_id" t-out="product.categ_id.name"/>
+                                            <span t-else="" class="text-muted">-</span>
+                                        </td>
+
+                                        <!-- Price -->
+                                        <td class="text-right">
+                                            <strong>
+                                                <t t-out="'%.2f' % product.list_price"/>
+                                                <t t-out="catalog_client.pricelist_id.currency_id.symbol if catalog_client.pricelist_id else '€'"/>
+                                            </strong>
+                                        </td>
+
+                                        <!-- Remove button -->
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-danger btn-remove-from-cart"
+                                                    t-att-data-product-id="product.id">
+                                                <i class="fa fa-trash"/>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </t>
+    </template>
+
+</odoo>

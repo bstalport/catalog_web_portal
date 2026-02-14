@@ -1,0 +1,4171 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* catalog_web_portal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-08 09:19+0000\n"
+"PO-Revision-Date: 2026-02-08 09:19+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "%d field mappings created"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "%d products created, %d updated, %d errors"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "&amp;nbsp;"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "(will be created)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "- Database:"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "... and"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "1.0"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "<b>Access Control:</b> Show different products to different clients"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "<b>Analytics:</b> Track who views and exports what"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "<b>Custom Pricing:</b> Set specific pricelists per client"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "<b>For XML-RPC Sync (Direct Odoo Import):</b>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid ""
+"<b>Important:</b> Keep these credentials secure. They provide access to your"
+" catalog."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "<b>No Client Installation Required:</b> Works with Odoo Online!"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "<b>Secure Access:</b> Each client has their own portal account"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "<i class=\"fa fa-arrow-left\"/> Back to Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.no_access_template
+msgid "<i class=\"fa fa-arrow-left\"/> Back to My Account"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "<i class=\"fa fa-arrow-left\"/> Back to Selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_layout
+msgid "<i class=\"fa fa-arrow-left\"/> My Account"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-arrow-up\"/> First, select some products from the catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "<i class=\"fa fa-book\"/> Back to Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "<i class=\"fa fa-book\"/> Browse Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "<i class=\"fa fa-book\"/> Product Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-book\"/> Start Browsing Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-bookmark\"/> My Saved Selections"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "<i class=\"fa fa-bookmark\"/> Save This Selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-check-circle\"/> Connected to"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "<i class=\"fa fa-check-circle\"/> Import Successful!"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "<i class=\"fa fa-cloud-upload\"/> Execute Import Now"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "<i class=\"fa fa-cloud-upload\"/> Import Preview"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-cloud-upload\"/> Import to My Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "<i class=\"fa fa-cog\"/> Check Connection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<i class=\"fa fa-cog\"/> Import Options"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-cog\"/> Manage Connection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<i class=\"fa fa-cog\"/> Modify Connection Settings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_layout
+msgid "<i class=\"fa fa-dashboard\"/> Dashboard"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "<i class=\"fa fa-dashboard\"/> Go to Dashboard"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_kanban
+msgid "<i class=\"fa fa-download\" title=\"Exports\"/>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-download\"/> Download CSV"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<i class=\"fa fa-download\"/> Fetch Categories from My Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-download\"/> Get Your Products"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<i class=\"fa fa-exchange\"/> Field Mappings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<i class=\"fa fa-exchange\"/> View Field Mappings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "<i class=\"fa fa-exclamation-circle\"/> Errors"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.no_access_template
+msgid "<i class=\"fa fa-exclamation-triangle\"/> Access Denied"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "<i class=\"fa fa-exclamation-triangle\"/> Attention"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid ""
+"<i class=\"fa fa-exclamation-triangle\"/> Connection configured but not "
+"tested"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "<i class=\"fa fa-exclamation-triangle\"/> Import Partially Successful"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<i class=\"fa fa-exclamation-triangle\"/> No field mappings configured."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-eye\"/> View Selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-file-excel-o text-success\"/> CSV Export"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<i class=\"fa fa-file-invoice text-success\"/> Invoice Recognition (Supplier"
+" Info)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<i class=\"fa fa-file-invoice\"/> Invoice Recognition"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<i class=\"fa fa-folder-open\"/> Category Mappings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "<i class=\"fa fa-info-circle text-primary\"/> Ready to export or import?"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid ""
+"<i class=\"fa fa-info-circle\" title=\"Info\"/>\n"
+"                                        When enabled, exported CSV/Excel files include\n"
+"                                        <code>seller_ids</code> columns for <code>product.supplierinfo</code>.\n"
+"                                        This allows clients to automatically match products when loading your invoices."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid ""
+"<i class=\"fa fa-info-circle\" title=\"Info\"/>\n"
+"                        <strong>Invoice Recognition:</strong> When enabled, synced products will have\n"
+"                        <code>product.supplierinfo</code> records created in the client's Odoo.\n"
+"                        This allows automatic product matching when the client loads your supplier invoices.\n"
+"                        <br/>\n"
+"                        <strong>Supplier Product Code:</strong> Your product's Internal Reference (default_code)\n"
+"                        will be stored as the supplier's product code."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid ""
+"<i class=\"fa fa-info-circle\"/> No category mappings configured.\n"
+"                            Categories will be created automatically based on supplier categories."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "<i class=\"fa fa-info-circle\"/> No products found"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid ""
+"<i class=\"fa fa-info-circle\"/> Not configured yet. You can still export to"
+" CSV!"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "<i class=\"fa fa-info-circle\"/> Target:"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<i class=\"fa fa-lightbulb\"/> <strong>How it works:</strong><br/>\n"
+"                                        When you import products, each product will have a <strong>supplier info</strong> record\n"
+"                                        linking it to the supplier's company in your Odoo. The supplier's product code\n"
+"                                        (Internal Reference from the catalog) will be stored.<br/><br/>\n"
+"                                        <strong>Result:</strong> When you load an invoice from this supplier, Odoo will\n"
+"                                        automatically match products by reference!"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-magic text-info\"/> Direct Import"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<i class=\"fa fa-magic\"/> Create Default Field Mappings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid ""
+"<i class=\"fa fa-plug\"/> Connect Your Odoo\n"
+"                                            <span class=\"badge bg-info text-white ml-2\">Optional</span>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<i class=\"fa fa-plug\"/> Odoo Connection Setup"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<i class=\"fa fa-plug\"/> Test Connection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<i class=\"fa fa-plus\"/> Add New Field Mapping"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "<i class=\"fa fa-plus\"/> Add to Selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<i class=\"fa fa-plus\"/> Create"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<i class=\"fa fa-question-circle\"/> How to get your API Key"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-question-circle\"/> Need Help?"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-rocket\"/> Welcome to Your Product Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<i class=\"fa fa-save\"/> Save"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<i class=\"fa fa-save\"/> Save Connection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "<i class=\"fa fa-save\"/> Save Current Selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<i class=\"fa fa-search\"/> Search"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<i class=\"fa fa-shield\"/> Security"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-shopping-basket\"/> Browse &amp; Select Products"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "<i class=\"fa fa-shopping-cart\"/> My Selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_layout
+msgid ""
+"<i class=\"fa fa-shopping-cart\"/> My Selection\n"
+"                                    <span class=\"badge bg-warning text-dark ml-1\" id=\"nav-cart-count\">0</span>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid ""
+"<i class=\"fa fa-shopping-cart\"/> Selection\n"
+"                        <span class=\"badge badge-light ml-2\" id=\"cart-count\">0</span>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "<i class=\"fa fa-shopping-cart\"/> View Selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "<i class=\"fa fa-shopping-cart\"/> Your selection is empty"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-tasks\"/> Your Progress"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_layout
+msgid "<i class=\"fa fa-th\"/> Browse Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<i class=\"fa fa-th-list\"/> Field Mappings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<i class=\"fa fa-times\"/> Cancel"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "<i class=\"fa fa-times\"/> Clear All"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "<i class=\"fa fa-times-circle\"/> Import Failed"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-upload\"/> Load"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-wrench\"/> Setup Connection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<i class=\"fa fa-wrench\"/> Setup Connection First"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "<option value=\"\">All Categories</option>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid ""
+"<select class=\"form-control\" id=\"new-sync-mode\">\n"
+"                                                <option value=\"always\">Always</option>\n"
+"                                                <option value=\"create_only\">Create Only</option>\n"
+"                                                <option value=\"update_only\">Update Only</option>\n"
+"                                                <option value=\"if_empty\">If Empty</option>\n"
+"                                            </select>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<small class=\"form-text text-muted\">\n"
+"                                                Multiply price by this value (e.g., 0.9 for 10% discount)\n"
+"                                            </small>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<small class=\"form-text text-muted\">\n"
+"                                        Creates <code>product.supplierinfo</code> records linking products to the supplier.\n"
+"                                        This enables automatic product matching when loading supplier invoices.\n"
+"                                    </small>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<small class=\"form-text text-muted\">\n"
+"                                        The full URL of your Odoo instance (must start with https://)\n"
+"                                    </small>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<small class=\"form-text text-muted\">\n"
+"                                        Uncheck for local development with self-signed certificates\n"
+"                                    </small>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<small class=\"form-text text-muted\">\n"
+"                                        Use placeholders: {prefix}, {ref}, {id}, {suffix}, {separator}\n"
+"                                    </small>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<small class=\"form-text text-muted\">\n"
+"                                        Your Odoo API key. Generate one in: My Profile → Account Security → API Keys\n"
+"                                    </small>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<small class=\"form-text text-muted\">\n"
+"                                        Your Odoo database name\n"
+"                                    </small>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<small class=\"form-text text-muted\">\n"
+"                                        Your Odoo username (email). Leave empty if using API key only.\n"
+"                                    </small>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<small class=\"form-text text-muted\">Character(s) to separate "
+"prefix/reference/suffix (leave empty for none)</small>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<small class=\"form-text text-muted\">Optional prefix before "
+"reference</small>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<small class=\"form-text text-muted\">Optional suffix after "
+"reference</small>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid ""
+"<small class=\"text-muted\">\n"
+"                                Load a previously saved selection to quickly restore your product list\n"
+"                            </small>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<span class=\"badge bg-warning text-dark\">Setup Required</span>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<span class=\"text-muted\">-</span>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<span class=\"text-muted\">Not mapped</span>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<strong class=\"ml-2\">Auto-create missing categories</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<strong class=\"ml-2\">Include product images</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "<strong class=\"ml-2\">Preserve images modified in your Odoo</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<strong>API Key</strong>\n"
+"                                        <span class=\"text-danger\">*</span>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "<strong>Barcode:</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<strong>CSV vs Direct Import:</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "<strong>Category:</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid ""
+"<strong>Configure Export Fields:</strong> Select which product fields your clients can include when exporting products.\n"
+"                                Fields are displayed in the order defined by their sequence."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<strong>Create Supplier Info records</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<strong>Database Name</strong>\n"
+"                                        <span class=\"text-danger\">*</span>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<strong>Examples:</strong><br/>\n"
+"                                    • Prefix \"SUP-\", Separator \"\", Ref \"ABC123\" → <code>SUP-ABC123</code><br/>\n"
+"                                    • Prefix \"VENDOR\", Separator \"_\", Product ID 42 → <code>VENDOR_42</code><br/>\n"
+"                                    • Custom: \"{prefix}-{ref}-{id}\" → <code>SUP-ABC123-42</code>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "<strong>How to browse products:</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<strong>How to set it up?</strong><br/>\n"
+"                                1. Enable \"Create Supplier Info records\"<br/>\n"
+"                                2. Click \"Search\" to find the supplier in your Odoo<br/>\n"
+"                                3. Or click \"Create\" to add them automatically"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<strong>Odoo URL</strong>\n"
+"                                        <span class=\"text-danger\">*</span>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<strong>Reference Mode</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "<strong>Reference:</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<strong>Supplier Partner (in your Odoo)</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "<strong>Type:</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "<strong>Username</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "<strong>Volume:</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "<strong>Weight:</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<strong>What is it?</strong><br/>\n"
+"                                When enabled, imported products will include supplier info records\n"
+"                                that link them to the supplier's company."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"<strong>Why use it?</strong><br/>\n"
+"                                When you load a supplier invoice (manually or via OCR),\n"
+"                                Odoo will automatically find the right product by matching\n"
+"                                the supplier's product code!"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "<strong>Your existing products will NEVER be modified</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "API Credentials"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__api_key
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__api_key
+msgid "API Key"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_access_log__action__api_request
+msgid "API Request"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__api_secret
+msgid "API Secret"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "API Usage"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__api_key
+msgid "API key for direct Odoo import via XML-RPC"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__api_secret
+msgid "API secret for authentication"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Access & Features"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "Access Control"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_form
+msgid "Access Log"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.actions.act_window,name:catalog_web_portal.action_catalog_access_log
+#: model:ir.ui.menu,name:catalog_web_portal.menu_catalog_access_logs
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_search
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_tree
+msgid "Access Logs"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__access_mode
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_search
+msgid "Access Mode"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Access Modes"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "Access Statistics"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.actions.act_window,help:catalog_web_portal.action_catalog_access_log
+msgid ""
+"Access logs will appear here once clients start using the catalog portal."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__access_warning
+msgid "Access warning"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "Accesses"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__action
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_search
+msgid "Action"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__action_details
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_form
+msgid "Action Details"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__message_needaction
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Actions"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__is_active
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__is_active
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__is_active
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_kanban
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_search
+msgid "Active"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__active_clients
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Active Clients"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__activity_ids
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__activity_exception_decoration
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__activity_state
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__activity_type_icon
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "Add"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "Add to Selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_access_log__action_details
+msgid "Additional details about the action"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_config__default_product_visibility__all
+msgid "All Published Products"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__allow_csv_export
+msgid "Allow CSV Export"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__allow_direct_odoo_import
+msgid "Allow Direct Odoo Import"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__allow_excel_export
+msgid "Allow Excel Export"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__portal_access_enabled
+msgid "Allow customers to access catalog through secure portal"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__allow_csv_export
+msgid "Allow customers to export product data as CSV"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__allow_direct_odoo_import
+msgid "Allow customers to import directly via XML-RPC API"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__allowed_category_ids
+msgid "Allowed Categories"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__allowed_product_ids
+msgid "Allowed Products"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "Already in Selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__username
+msgid "Alternative: username (if API key not available)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Always"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__sync_mode__always
+msgid "Always Update"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.ui.menu,name:catalog_web_portal.menu_catalog_analytics
+msgid "Analytics"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_preview_form
+msgid "Analyze Changes"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_sync_preview__state__analyzing
+msgid "Analyzing..."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__apply_coefficient
+msgid "Apply Coefficient"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__message_attachment_count
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Authentication failed"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid ""
+"Authentication failed - Unable to connect to your Odoo.\n"
+"\n"
+"Possible causes:\n"
+"• Your API Key may be invalid or expired\n"
+"• The Username may be incorrect\n"
+"• The Database name may be wrong\n"
+"\n"
+"Please:\n"
+"1. Go to the Connection Setup page\n"
+"2. Verify your API Key is still valid\n"
+"3. Generate a new API Key if needed\n"
+"4. Test the connection again"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid ""
+"Authentication failed.\n"
+"\n"
+"Please verify:\n"
+"• API Key is valid (not expired)\n"
+"• Username is correct\n"
+"• Database name is correct\n"
+"\n"
+"Tip: Generate a new API Key in your Odoo:\n"
+"Settings → Users → Your User → API Keys"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Auto-Create"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__auto_create_categories
+msgid "Auto-create Categories"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_category_mapping__auto_create
+msgid "Auto-create if Missing"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Auto-create missing product categories"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Automatic import"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__auto_create_categories
+msgid "Automatically create missing categories in client Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,name:catalog_web_portal.export_field_barcode
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__source_field__barcode
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__target_field__barcode
+msgid "Barcode"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Branding"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "Browse and select products to import into your Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "Browse the catalog and add products to your selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Browse the supplier's catalog and add products to your selection."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_access_log__user_agent
+msgid "Browser/client user agent"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_access_log__export_format__csv
+msgid "CSV"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_export_field__export_header
+msgid "CSV Header"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid ""
+"CSV export works immediately and gives you full control. Direct import is faster\n"
+"                                        but requires a one-time connection setup with your Odoo."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid ""
+"CSV/Excel exports include <code>seller_ids</code> columns for "
+"<code>product.supplierinfo</code>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:res.groups,comment:catalog_web_portal.group_catalog_manager
+msgid "Can manage catalog configuration, clients, and view analytics"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:res.groups,comment:catalog_web_portal.group_catalog_user
+msgid "Can view catalog configuration and clients"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_preview_form
+msgid "Cancel"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_sync_preview__state__cancelled
+msgid "Cancelled"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_product_template_form_inherit_catalog
+msgid "Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model,name:catalog_web_portal.model_catalog_access_log
+msgid "Catalog Access Log"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model,name:catalog_web_portal.model_catalog_client
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__client_id
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "Catalog Client"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.actions.act_window,name:catalog_web_portal.action_catalog_client
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_search
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_tree
+msgid "Catalog Clients"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.actions.act_window,name:catalog_web_portal.action_catalog_config
+#: model:ir.model,name:catalog_web_portal.model_catalog_config
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Catalog Configuration"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,name:catalog_web_portal.export_field_catalog_description
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_product__catalog_description
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_template__catalog_description
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_product_template_form_inherit_catalog
+msgid "Catalog Description"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model,name:catalog_web_portal.model_catalog_export_field
+msgid "Catalog Export Field"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:res.groups,name:catalog_web_portal.group_catalog_manager
+msgid "Catalog Manager"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.ui.menu,name:catalog_web_portal.menu_catalog_root
+msgid "Catalog Portal"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Catalog Sales Price"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:res.groups,name:catalog_web_portal.group_catalog_user
+msgid "Catalog User"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_product__view_count
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_template__view_count
+msgid "Catalog Views"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.actions.act_window,help:catalog_web_portal.action_catalog_client
+msgid ""
+"Catalog clients are customers who can access your product catalog through a secure portal.\n"
+"                They can browse, select and export products to import into their own Odoo instance."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Categories in Your Odoo:"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "Categories will be created automatically if missing"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,name:catalog_web_portal.export_field_category
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__source_field__categ_id
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__target_field__categ_id
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "Category"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model,name:catalog_web_portal.model_catalog_category_mapping
+msgid "Category Mapping"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__category_mapping_ids
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Category Mappings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Category Name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid ""
+"Category mappings allow you to map supplier categories to your own category "
+"structure."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__change_type
+msgid "Change Type"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__change_ids
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_preview_form
+msgid "Changes"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "Changes Detail ("
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid ""
+"Choose your preferred method to get the selected products into your Odoo."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Click <strong>New API Key</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Click your name in the top-right corner"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__client_id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_saved_selection__catalog_client_id
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_search
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Client"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__api_key
+msgid "Client API key for authentication (stored encrypted)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_category_mapping__client_category_id
+msgid "Client Category ID"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_category_mapping__client_category_name
+msgid "Client Category Name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Client Connection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.actions.act_window,name:catalog_web_portal.action_catalog_client_connection
+#: model:ir.ui.menu,name:catalog_web_portal.menu_catalog_client_connections
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_tree
+msgid "Client Connections"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__target_field
+msgid "Client Field"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "Client Information"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__client_name
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__name
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "Client Name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model,name:catalog_web_portal.model_catalog_client_connection
+msgid "Client Odoo Connection Configuration"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__odoo_url
+msgid "Client Odoo URL"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__client_product_id
+msgid "Client Product ID"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__database
+msgid "Client database name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_saved_selection__catalog_client_id
+msgid "Client who owns this selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_access_log__client_id
+msgid "Client who performed the action (if authenticated)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.ui.menu,name:catalog_web_portal.menu_catalog_clients
+msgid "Clients"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Clients will receive an email with login credentials"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__coefficient
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Coefficient"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_export_field__export_header
+msgid "Column header in exported CSV (defaults to Field Label if empty)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_export_field__field_type__computed
+msgid "Computed Field"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.ui.menu,name:catalog_web_portal.menu_catalog_configuration
+msgid "Configuration"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__name
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Configuration Name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Configuration of fields synchronized between supplier and your Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"Configure how product references (Internal Reference / default_code) are "
+"generated in your Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.actions.act_window,help:catalog_web_portal.action_catalog_client_connection
+msgid ""
+"Configure how products are synchronized to your client's Odoo instance."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Configure your Odoo instance to enable automatic product import"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.actions.act_window,help:catalog_web_portal.action_catalog_config
+msgid "Configure your catalog portal settings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Configure your supplier partner ID in the Client Connection settings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__connection_status__ok
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Connected"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_category_mapping__connection_id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__connection_id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__connection_id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__connection_id
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_history_search
+msgid "Connection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__connection_status__error
+msgid "Connection Error"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Connection Information"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Connection Options"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Connection Settings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__connection_status
+msgid "Connection Status"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Connection Successful"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Connection failed: %s"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "Consumable"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Contact Info"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__access_mode
+msgid "Controls which products this client can see"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Copy the generated key and paste it here"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,name:catalog_web_portal.export_field_standard_price
+msgid "Cost"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__supplierinfo_price_field__standard_price
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__target_field__standard_price
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Cost Price"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Create"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Create Default Mappings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_sync_change__change_type__create
+msgid "Create New Product"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Create Only"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__create_supplierinfo
+msgid "Create Supplier Info"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.actions.act_window,help:catalog_web_portal.action_catalog_client_connection
+msgid "Create a Client Connection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Create catalog clients in the <b>Clients</b> menu"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_category_mapping__auto_create
+msgid "Create category in client Odoo if it does not exist"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__create_supplierinfo
+msgid ""
+"Create product.supplierinfo records in client Odoo. This enables automatic "
+"product recognition when loading supplier invoices."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Create the supplier in your Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Create your company in client's Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.actions.act_window,help:catalog_web_portal.action_catalog_client
+msgid "Create your first catalog client"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "Created"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_saved_selection__create_date
+msgid "Created On"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__create_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_category_mapping__create_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__create_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__create_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__create_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_export_field__create_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__create_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_saved_selection__create_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__create_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__create_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__create_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_category_mapping__create_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__create_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__create_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__create_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_export_field__create_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__create_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__create_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__create_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Created: %s (ID: %d)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_search
+msgid "Custom"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__reference_custom_format
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__reference_mode__custom_format
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Custom Format"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Custom Format (Advanced)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__pricelist_id
+msgid "Custom Pricelist"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client__access_mode__custom
+msgid "Custom Product List"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__reference_custom_format
+msgid ""
+"Custom format using placeholders: {prefix}, {ref}, {id}, {suffix}. Example: "
+"\"{prefix}{ref}-{id}\""
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_config__default_product_visibility__custom
+msgid "Custom per Client"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__access_url
+msgid "Customer Portal URL"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__database
+msgid "Database Name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "Database:"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_search
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_tree
+msgid "Date"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "Date:"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Default Mappings Created"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__default_product_visibility
+msgid "Default Product Visibility"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Delete"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_export_field__description
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "Description"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,description:catalog_web_portal.export_field_description_sale
+msgid "Description shown on sales orders and invoices"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_export_field__description
+msgid "Description shown to supplier when configuring exports"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_history_form
+msgid "Details"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_access_log__action__direct_import
+msgid "Direct Odoo Import"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__verify_ssl
+msgid "Disable for local development with self-signed certificates"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__display_name
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_category_mapping__display_name
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__display_name
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__display_name
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__display_name
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_export_field__display_name
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__display_name
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_saved_selection__display_name
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__display_name
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__display_name
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__display_name
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_template__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_export_field__name
+msgid "Display name shown to clients during export"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_sync_preview__state__done
+msgid "Done"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Download a CSV file and import manually into your Odoo."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_sync_preview__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__duration
+msgid "Duration (seconds)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "Duration:"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__email
+msgid "Email"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__support_email
+msgid "Email for customer support"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__portal_access_enabled
+msgid "Enable Portal Access"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"Enable automatic product matching when loading invoices from this supplier"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_export_field__is_default
+msgid "Enabled by Default"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__last_sync_status__error
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Error"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__error_message
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__error_message
+msgid "Error Message"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_access_log__error_message
+msgid "Error message if action failed"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_search
+msgid "Errors"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_access_log__export_format__excel
+msgid "Excel"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/controllers/export.py:0
+msgid "Excel export is not enabled."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__is_excluded
+msgid "Exclude from Sync"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_preview_form
+msgid "Execute Sync"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_sync_preview__state__executing
+msgid "Executing..."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid ""
+"Existing products (with our External ID) will be updated only for mapped "
+"fields"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_access_log__action__export_csv
+msgid "Export CSV"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_access_log__action__export_excel
+msgid "Export Excel"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Export Features"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__export_field_ids
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Export Fields"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__export_format
+msgid "Export Format"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__export_rate_limit
+msgid "Export Rate Limit (per hour)"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/controllers/export.py:0
+msgid "Export limit reached (%s exports per hour). Please try again later."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_search
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_product_template_form_inherit_catalog
+msgid "Exports"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__total_exports_month
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Exports This Month"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__total_exports_today
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Exports Today"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,description:catalog_web_portal.export_field_catalog_description
+msgid "Extended catalog description (HTML)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_product_product__catalog_description
+#: model:ir.model.fields,help:catalog_web_portal.field_product_template__catalog_description
+msgid ""
+"Extended description for catalog display (if different from sales "
+"description)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__supplier_external_id
+msgid ""
+"External ID used for your company in CSV/Excel exports. Clients should "
+"create a partner with this external ID before importing."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_sync_history__status__error
+msgid "Failed"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Failed to create partner: %s"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Failed to fetch categories: %s"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Failed to search partner: %s"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Faster workflow"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_product__catalog_featured
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_template__catalog_featured
+msgid "Featured Product"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_product_product__catalog_featured
+#: model:ir.model.fields,help:catalog_web_portal.field_product_template__catalog_featured
+msgid "Featured products appear first in catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__field_changes
+msgid "Field Changes"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_export_field__name
+msgid "Field Label"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model,name:catalog_web_portal.model_catalog_field_mapping
+msgid "Field Mapping Configuration"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__field_mapping_ids
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Field Mappings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_export_field__field_type
+msgid "Field Type"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__message_follower_ids
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__message_partner_ids
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__activity_type_icon
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid ""
+"For automatic import, connect your Odoo instance. Or skip this step and use "
+"CSV export."
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Found: %s (ID: %d)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_search
+msgid "Full Access"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client__access_mode__full
+msgid "Full Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__odoo_url
+msgid "Full URL of client Odoo instance (e.g., https://mycompany.odoo.com)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Full control over import"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Go to <strong>My Profile</strong>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "Grid view"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__http_referer
+msgid "HTTP Referer"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__has_message
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__has_warning
+msgid "Has Warning"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Help"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__portal_primary_color
+msgid "Hex color code for portal theme"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "How to Use Catalog Portal"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__reference_mode
+msgid "How to generate the product reference (default_code) in client Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_category_mapping__id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_export_field__id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_saved_selection__id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_template__id
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "ID"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_category_mapping__client_category_id
+msgid "ID of the category in client Odoo (if exists)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"ID of the supplier's company in your Odoo. Click \"Search\" to find it "
+"automatically."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__supplier_partner_id
+msgid ""
+"ID of your company (the supplier) in the client's Odoo. Required for "
+"creating product.supplierinfo records."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "ID:"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__ip_address
+msgid "IP Address"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_access_log__ip_address
+msgid "IP address of the request"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__activity_exception_icon
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__activity_exception_icon
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "If Empty"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__message_needaction
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__message_has_error
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__message_has_sms_error
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__message_has_error
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_export_field__is_default
+msgid "If checked, this field is enabled by default for new configurations"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_product_product__is_published
+#: model:ir.model.fields,help:catalog_web_portal.field_product_template__is_published
+msgid "If checked, this product is visible in the shared catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_product_product__catalog_public
+#: model:ir.model.fields,help:catalog_web_portal.field_product_template__catalog_public
+msgid "If checked, visible in public (non-authenticated) catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__preserve_client_images
+msgid "If client has modified the image, keep their version"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__is_active
+msgid "If disabled, sync will not be available"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__is_active
+msgid "If unchecked, client cannot access catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "Image"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,name:catalog_web_portal.export_field_image_url
+msgid "Image URL"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Import Options"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Import directly into your Odoo with one click."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Import products automatically with one click"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid ""
+"Import products from your supplier directly into your Odoo with just a few clicks.\n"
+"                                Follow the steps below to get started."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_kanban
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_search
+msgid "Inactive"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__include_images
+msgid "Include Product Images"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__include_supplier_info_in_exports
+msgid "Include Supplier Info in Exports"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Include product images"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__include_supplier_info_in_exports
+msgid ""
+"Include product.supplierinfo columns in CSV/Excel exports. This enables "
+"automatic product matching when clients load your invoices."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__notes
+msgid "Internal Notes"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,name:catalog_web_portal.export_field_default_code
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__product_ref
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__source_field__default_code
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__target_field__default_code
+msgid "Internal Reference"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__notes
+msgid "Internal notes about this client (not visible to client)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "Internal notes about this client..."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Invoice Recognition (Supplier Info)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__message_is_follower
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_access_log__export_format__json
+msgid "JSON"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_sync_history__details
+msgid "JSON with detailed changes"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__reference_mode__keep_original
+msgid "Keep Original Reference"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Keep Original Reference (from supplier)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Keep your product data synchronized"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Key Features"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_history_search
+msgid "Last 7 Days"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__last_access_date
+msgid "Last Access"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__connection_error
+msgid "Last Connection Error"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__last_test_date
+msgid "Last Connection Test"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__last_export_date
+msgid "Last Export"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_product__last_export_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_template__last_export_date
+msgid "Last Export Date"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__last_sync_date
+msgid "Last Sync"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__last_sync_status
+msgid "Last Sync Status"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__write_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_category_mapping__write_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__write_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__write_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__write_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_export_field__write_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__write_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_saved_selection__write_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__write_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__write_uid
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__write_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_category_mapping__write_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__write_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__write_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__write_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_export_field__write_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__write_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_saved_selection__write_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__write_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__write_date
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Limitations"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "List view"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid ""
+"Load the list of product categories from your Odoo to see what's available."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Log in to your Odoo instance"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__portal_logo
+msgid "Logo displayed in customer portal"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__sync_mode__manual
+msgid "Manual Approval"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__max_products_per_export
+msgid "Max Products per Export"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/controllers/export.py:0
+msgid "Maximum %s products per export. Please reduce your selection."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__export_rate_limit
+msgid "Maximum exports per hour per user (0 = unlimited)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__max_products_per_export
+msgid "Maximum number of products in a single export (0 = unlimited)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__message_has_error
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__portal_welcome_message
+msgid "Message displayed on portal home page"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__message_ids
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid ""
+"Multiple partners found. Please set the ID manually:\n"
+"%s"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__supplierinfo_price_coefficient
+msgid "Multiply the price by this coefficient (e.g., 0.8 for 20% discount)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_field_mapping__apply_coefficient
+msgid "Multiply value by coefficient before sync"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__my_activity_date_deadline
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__product_name
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "Name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_category_mapping__client_category_name
+msgid "Name fetched from client Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__supplier_partner_name
+msgid "Name of the supplier partner in client's Odoo (fetched automatically)."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_saved_selection__name
+msgid "Name to identify this saved selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "New Field Mapping"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "New Products"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "New products will be created with all configured fields"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "Newest"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__activity_calendar_event_id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__activity_date_deadline
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__activity_summary
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__activity_type_id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "No Changes"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__reference_mode__none
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "No Reference (Empty)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.actions.act_window,help:catalog_web_portal.action_catalog_access_log
+msgid "No access logs yet"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/controllers/export.py:0
+msgid "No accessible products to export."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "No configuration needed"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "No manual setup required on the client side!"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid ""
+"No partner found in client's Odoo matching:\n"
+"• Name: %s\n"
+"• VAT: %s\n"
+"\n"
+"You can create it or set the ID manually."
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/controllers/export.py:0
+msgid "No products selected for export."
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "No products selected for sync"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__connection_status__not_tested
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Not Tested"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "Notes"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__message_needaction_counter
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__message_has_error_counter
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__message_needaction_counter
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__message_has_error_counter
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_access_log__product_count
+msgid "Number of products involved in the action"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_product_product__export_count
+#: model:ir.model.fields,help:catalog_web_portal.field_product_template__export_count
+msgid "Number of times this product has been exported by clients"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_product_product__view_count
+#: model:ir.model.fields,help:catalog_web_portal.field_product_template__view_count
+msgid "Number of times this product has been viewed in catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Odoo URL must start with http:// or https://"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__partner_id
+msgid "Odoo partner associated with this catalog client"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_access_log__user_id
+msgid "Odoo user who performed the action"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__sync_mode__if_empty
+msgid "Only if Empty"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__sync_mode__create_only
+msgid "Only on Creation"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "Open Portal"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Open the <strong>Account Security</strong> tab"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Optional"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_export_field__sequence
+msgid "Order in export file columns"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__last_sync_status__partial
+msgid "Partial"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_sync_history__status__partial
+msgid "Partial (with errors)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Partner ID"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__phone
+msgid "Phone"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.no_access_template
+msgid "Please contact your supplier to request catalog access."
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Please test the connection first"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__access_url
+msgid "Portal Access URL"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__portal_logo
+msgid "Portal Logo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Prefix"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__reference_prefix
+msgid "Prefix to add before the reference (e.g., \"SUP-\")"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__preserve_client_images
+msgid "Preserve Modified Images"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Preserve images modified in my Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__preview_id
+msgid "Preview"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Preview before importing"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Preview changes before importing"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Preview generation failed: %s"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Preview must be analyzed first"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "Price"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__supplierinfo_price_coefficient
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Price Coefficient"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Price for Supplier Info"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__supplierinfo_price_field
+msgid "Price for Supplierinfo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__supplierinfo_price_field__pricelist
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Pricelist Price (client-specific)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "Pricing"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__portal_primary_color
+msgid "Primary Color"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model,name:catalog_web_portal.model_product_template
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__product_id
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "Product"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_layout
+msgid "Product Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__product_count
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_saved_selection__product_count
+msgid "Product Count"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_export_field__field_type__product
+msgid "Product Field"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,name:catalog_web_portal.export_field_name
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__source_field__name
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__target_field__name
+msgid "Product Name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Product Reference Generation"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,name:catalog_web_portal.export_field_type
+msgid "Product Type"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Product Visibility"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,description:catalog_web_portal.export_field_barcode
+msgid "Product barcode (EAN13, UPC, etc.)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__allowed_category_ids
+msgid ""
+"Product categories visible to this client (when access mode is Restricted)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,description:catalog_web_portal.export_field_category
+msgid "Product category hierarchy"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,description:catalog_web_portal.export_field_standard_price
+msgid "Product cost (WARNING: sensitive information)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "Product images will be synchronized"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,description:catalog_web_portal.export_field_default_code
+msgid "Product internal reference/SKU"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,description:catalog_web_portal.export_field_list_price
+msgid "Product sales price (may be adjusted by pricelist)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,description:catalog_web_portal.export_field_type
+msgid "Product type (consumable, service, storable)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,description:catalog_web_portal.export_field_uom
+msgid "Product unit of measure"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,description:catalog_web_portal.export_field_volume
+msgid "Product volume"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,description:catalog_web_portal.export_field_weight
+msgid "Product weight in default UoM"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__product_ids
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_saved_selection__product_ids
+#: model:ir.ui.menu,name:catalog_web_portal.menu_catalog_products
+msgid "Products"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Products Available"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__products_created
+msgid "Products Created"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Products Selected"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__products_skipped
+msgid "Products Skipped"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__products_updated
+msgid "Products Updated"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__selected_product_ids
+msgid "Products currently in client's selection cart for export"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_saved_selection__product_ids
+msgid "Products in this saved selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_access_log__product_ids
+msgid "Products involved in this action"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__product_ids
+msgid "Products to Sync"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__allowed_product_ids
+msgid "Products visible to this client (when access mode is not Full)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "Products will be identified by External ID:"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__products_error
+msgid "Products with Errors"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_product__catalog_public
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_template__catalog_public
+msgid "Public Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.actions.server,name:catalog_web_portal.action_product_publish_catalog
+msgid "Publish in Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Publish products you want to share (set \"Published in Catalog\" to True)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_product__is_published
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_template__is_published
+msgid "Published in Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_product_template_form_inherit_catalog
+msgid "Publishing"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__target_field__description_purchase
+msgid "Purchase Description"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__rating_ids
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__rating_ids
+msgid "Ratings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_sync_preview__state__ready
+msgid "Ready for Review"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "Ref:"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "Reference"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__reference_mode
+msgid "Reference Mode"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__reference_prefix
+msgid "Reference Prefix"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__reference_suffix
+msgid "Reference Suffix"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_access_log__http_referer
+msgid "Referer URL"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "Regenerate API Keys"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_export_field__field_type__relation
+msgid "Related Field"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__partner_id
+msgid "Related Partner"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_form
+msgid "Request Information"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__activity_user_id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_search
+msgid "Restricted"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client__access_mode__restricted
+msgid "Restricted Products"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_form
+msgid "Result"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "Review changes before importing to your Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__message_has_sms_error
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid ""
+"Safety check failed: Product %s does not have our external ID. Refusing to "
+"update to prevent modifying client's own products."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,name:catalog_web_portal.export_field_description_sale
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__source_field__description_sale
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__target_field__description_sale
+msgid "Sales Description"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,name:catalog_web_portal.export_field_list_price
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__source_field__list_price
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__target_field__list_price
+msgid "Sales Price"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__supplierinfo_price_field__list_price
+msgid "Sales Price (from catalog)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Save time - no manual CSV import needed"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid ""
+"Save your current selection with a name to reload it later from the "
+"Dashboard."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model,name:catalog_web_portal.model_catalog_saved_selection
+msgid "Saved Product Selection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Saved Selections"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Search"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Search for the supplier in your Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Search for your company in client's Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "Search products..."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__access_token
+msgid "Security Token"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"See which fields are synchronized between the supplier catalog and your Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__export_field_ids
+msgid "Select which product fields will be available for export by clients"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "Selected"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__selected_product_count
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__selected_product_ids
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "Selected Products"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_saved_selection.py:0
+msgid "Selection \"%s\" has been loaded (%d products)"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_saved_selection.py:0
+msgid "Selection Loaded"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_saved_selection__name
+msgid "Selection Name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid "Send Portal Invitation"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Send portal invitations to your clients"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__reference_separator
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Separator"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__reference_separator
+msgid "Separator between prefix/reference/suffix (e.g., \"-\" or \"_\")"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_export_field__sequence
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "Service"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.actions.act_window,help:catalog_web_portal.action_catalog_config
+msgid ""
+"Set up access modes, export options, branding, and limitations for your "
+"shared catalog."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.ui.menu,name:catalog_web_portal.menu_catalog_config
+msgid "Settings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "Skip"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_sync_change__change_type__skip
+msgid "Skip (No Changes)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "Skipped"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "Some products have warnings. Please review the changes below."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Source Field"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Source Field (Supplier)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__pricelist_id
+msgid "Specific pricelist for this client. If not set, uses default prices."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__state
+msgid "State"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_history_form
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_product_template_form_inherit_catalog
+msgid "Statistics"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__status
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_search
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_history_search
+msgid "Status"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__activity_state
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Status:"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "Storable Product"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__success
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__last_sync_status__success
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_sync_history__status__success
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_search
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_history_search
+msgid "Success"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Successfully connected to client Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Suffix"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__reference_suffix
+msgid "Suffix to add after the reference (e.g., \"-IMP\")"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_category_mapping__supplier_category_id
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Supplier Category"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_category_mapping__supplier_category_name
+msgid "Supplier Category Path"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__supplier_external_id
+msgid "Supplier External ID"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__source_field
+msgid "Supplier Field"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Supplier Info (Invoice Recognition)"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Supplier Partner Created"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Supplier Partner Found"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__supplier_partner_id
+msgid "Supplier Partner ID (in client)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__supplier_partner_name
+msgid "Supplier Partner Name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__support_email
+msgid "Support Email"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__support_phone
+msgid "Support Phone"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model,name:catalog_web_portal.model_catalog_sync_change
+msgid "Sync Change Detail (Transient)"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Sync Complete"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__details
+msgid "Sync Details"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.actions.act_window,name:catalog_web_portal.action_catalog_sync_history
+#: model:ir.model,name:catalog_web_portal.model_catalog_sync_history
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__sync_history_ids
+#: model:ir.ui.menu,name:catalog_web_portal.menu_catalog_sync_history
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_history_form
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_history_tree
+msgid "Sync History"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_field_mapping__sync_mode
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Sync Mode"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Sync Options"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_preview_form
+msgid "Sync Preview"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model,name:catalog_web_portal.model_catalog_sync_preview
+msgid "Sync Preview (Transient)"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "Sync failed: %s"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__include_images
+msgid "Sync product images"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "Synchronization Details"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Syncs"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Target Field"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Target Field (Your Odoo)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "Target Odoo:"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_export_field__technical_name
+msgid "Technical Name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_export_field__technical_name
+msgid "Technical field name used in export (e.g., default_code, list_price)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "Test Connection"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "The CSV can be imported directly into their Odoo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,description:catalog_web_portal.export_field_name
+msgid "The product display name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid ""
+"The sync will automatically create <code>product.supplierinfo</code> records"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_form
+msgid ""
+"These credentials can be used by the client for direct Odoo import via XML-"
+"RPC."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid ""
+"These fields will be synchronized from the supplier catalog to your Odoo "
+"database."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "They can browse your catalog at: <code>/catalog/portal</code>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "They can select products and export to CSV"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid ""
+"This will create standard mappings for name, price, reference, barcode, "
+"weight, and description fields."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_sync_history__duration
+msgid "Time taken for sync"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_product__export_count
+#: model:ir.model.fields,field_description:catalog_web_portal.field_product_template__export_count
+msgid "Times Exported"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__total_access_count
+msgid "Total Accesses"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__total_clients
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Total Clients"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__export_count
+msgid "Total Exports"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__total_products
+msgid "Total Products"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "Total Products:"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__total_syncs
+msgid "Total Syncs"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "Try adjusting your search or filters"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__activity_exception_decoration
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,description:catalog_web_portal.export_field_image_url
+msgid "URL to product image (for external use)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,name:catalog_web_portal.export_field_uom
+msgid "Unit of Measure"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.actions.server,name:catalog_web_portal.action_product_unpublish_catalog
+msgid "Unpublish from Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "Update"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_sync_change__change_type__update
+msgid "Update Existing"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Update Only"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "Updated"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "Updates"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__reference_mode__product_id
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Use Product ID"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_client_connection__reference_mode__supplier_ref
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Use Supplier Reference"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid ""
+"Use the search bar and filters to find products. Click on a product to see details,\n"
+"                                        or use the \"Add to Selection\" button to add it to your cart."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__user_id
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_history__user_id
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_history_search
+msgid "User"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__user_agent
+msgid "User Agent"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_form
+msgid "User Information"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_access_log__user_name
+msgid "User Name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__username
+msgid "Username"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_field_mapping__coefficient
+msgid "Value will be multiplied by this (e.g., 1.2 for 20% markup)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client_connection__verify_ssl
+msgid "Verify SSL Certificate"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "Verify SSL certificate"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_access_log__action__view_catalog
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_search
+msgid "View Catalog"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "View Clients"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "View Logs"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_access_log__action__view_product
+msgid "View Product Detail"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_access_log_form
+msgid "View Products"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_product_template_form_inherit_catalog
+msgid "Views"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Visual"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,name:catalog_web_portal.export_field_volume
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__source_field__volume
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__target_field__volume
+msgid "Volume"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_change__warning_message
+msgid "Warning"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__products_with_warnings
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "Warnings"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_client__website_message_ids
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client__website_message_ids
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_config__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:catalog.export.field,name:catalog_web_portal.export_field_weight
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__source_field__weight
+#: model:ir.model.fields.selection,name:catalog_web_portal.selection__catalog_field_mapping__target_field__weight
+msgid "Weight"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_config__portal_welcome_message
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "Welcome Message"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "What will happen during import"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid "When \"Include Supplier Info in Exports\" is enabled:"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid ""
+"When clients load your supplier invoices, Odoo will automatically match "
+"products"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_field_mapping__sync_mode
+msgid "When to sync this field"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_access_log__success
+msgid "Whether the action was successful"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,help:catalog_web_portal.field_catalog_client_connection__supplierinfo_price_field
+msgid "Which price to use as the supplier price in product.supplierinfo"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Why connect my Odoo?"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__products_to_create
+msgid "Will Create"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__products_to_skip
+msgid "Will Skip"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model:ir.model.fields,field_description:catalog_web_portal.field_catalog_sync_preview__products_to_update
+msgid "Will Update"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_sync_history_search
+msgid "With Errors"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "Works with any Odoo (including Odoo Online)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.no_access_template
+msgid "You do not have access to the product catalog."
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/controllers/portal.py:0
+msgid "You do not have access to this product."
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/controllers/export.py:0
+msgid "You do not have catalog access."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid ""
+"Your API key is stored encrypted and never shared.\n"
+"                                The connection uses secure XML-RPC over HTTPS."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "Your Category"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_config_form
+msgid ""
+"Your product reference (default_code) is stored as the supplier's product "
+"code"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid ""
+"Your selection is saved. Go to the Dashboard to download as CSV or import "
+"directly to your Odoo."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "_product_XXX"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "browse"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid "cart"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "created"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "dashboard"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "e.g., - or _"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "e.g., -IMP"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "e.g., SUP-"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "e.g., list_price"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "e.g., standard_price"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "e.g., {prefix}{separator}{ref}-{id}"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_kanban
+msgid "exports"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "https://client.odoo.com"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "https://yourcompany.odoo.com"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "kg"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_mappings
+msgid "mappings)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "more products"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_product_detail
+msgid "m³"
+msgstr ""
+
+#. module: catalog_web_portal
+#. odoo-python
+#: code:addons/catalog_web_portal/models/catalog_sync.py:0
+msgid "name"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "product(s)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_browser
+msgid "product(s) found"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_cart
+msgid ""
+"product(s) in your selection.\n"
+"                        Manage your selection here, then go to the Dashboard to export or import."
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_catalog_client_connection_form
+msgid "production"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "products)"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid ""
+"products<br/>\n"
+"                                                    <i class=\"fa fa-clock-o\"/>"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_result
+msgid "seconds"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_catalog_dashboard
+msgid "selected"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_preview_page
+msgid "supplier_"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.portal_sync_setup
+msgid "your.email@company.com"
+msgstr ""
+
+#. module: catalog_web_portal
+#: model_terms:ir.ui.view,arch_db:catalog_web_portal.view_product_template_tree_inherit_catalog
+msgid "📚 Catalog"
+msgstr ""

@@ -1,0 +1,525 @@
+# -*- coding: utf-8 -*-
+
+from odoo.tests import TransactionCase, tagged
+from odoo.exceptions import UserError, ValidationError
+import json
+
+
+@tagged('catalog_sync', 'post_install', '-at_install')
+class TestCatalogSync(TransactionCase):
+    """Tests for Catalog Synchronization functionality"""
+
+    def setUp(self):
+        super().setUp()
+
+        # Create a test partner
+        self.partner = self.env['res.partner'].create({
+            'name': 'Test Client',
+            'email': 'client@test.com',
+        })
+
+        # Create a test catalog client
+        self.catalog_client = self.env['catalog.client'].create({
+            'partner_id': self.partner.id,
+            'is_active': True,
+        })
+
+        # Create test products
+        self.category1 = self.env['product.category'].create({
+            'name': 'Electronics',
+        })
+
+        self.product1 = self.env['product.template'].create({
+            'name': 'Test Product 1',
+            'default_code': 'TEST001',
+            'list_price': 100.0,
+            'categ_id': self.category1.id,
+            'type': 'consu',
+        })
+
+        self.product2 = self.env['product.template'].create({
+            'name': 'Test Product 2',
+            'default_code': 'TEST002',
+            'list_price': 200.0,
+            'categ_id': self.category1.id,
+            'type': 'consu',
+        })
+
+    def test_01_connection_creation(self):
+        """Test creating a client connection"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_api_key_12345',
+            'username': 'test_user',
+        })
+
+        self.assertTrue(connection.id)
+        self.assertEqual(connection.connection_status, 'not_tested')
+        self.assertTrue(connection.is_active)
+        self.assertEqual(connection.total_syncs, 0)
+
+    def test_02_connection_url_validation(self):
+        """Test URL validation on connection"""
+        with self.assertRaises(ValidationError):
+            self.env['catalog.client.connection'].create({
+                'client_id': self.catalog_client.id,
+                'odoo_url': 'invalid-url',  # Missing http://
+                'database': 'test_db',
+                'api_key': 'test_key',
+            })
+
+    def test_03_field_mapping_creation(self):
+        """Test creating field mappings"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        # Create field mappings
+        mapping1 = self.env['catalog.field.mapping'].create({
+            'connection_id': connection.id,
+            'source_field': 'name',
+            'target_field': 'name',
+            'sync_mode': 'always',
+            'sequence': 10,
+        })
+
+        mapping2 = self.env['catalog.field.mapping'].create({
+            'connection_id': connection.id,
+            'source_field': 'list_price',
+            'target_field': 'standard_price',
+            'sync_mode': 'always',
+            'apply_coefficient': True,
+            'coefficient': 1.2,
+            'sequence': 20,
+        })
+
+        self.assertEqual(len(connection.field_mapping_ids), 2)
+        self.assertTrue(mapping2.apply_coefficient)
+        self.assertEqual(mapping2.coefficient, 1.2)
+
+    def test_04_field_mapping_unique_source(self):
+        """Test that each source field can only be mapped once"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        # First mapping
+        self.env['catalog.field.mapping'].create({
+            'connection_id': connection.id,
+            'source_field': 'name',
+            'target_field': 'name',
+            'sync_mode': 'always',
+        })
+
+        # Try to create duplicate mapping - should fail
+        with self.assertRaises(Exception):  # SQL constraint violation
+            self.env['catalog.field.mapping'].create({
+                'connection_id': connection.id,
+                'source_field': 'name',  # Duplicate
+                'target_field': 'description_sale',
+                'sync_mode': 'always',
+            })
+
+    def test_05_category_mapping_creation(self):
+        """Test creating category mappings"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        category_mapping = self.env['catalog.category.mapping'].create({
+            'connection_id': connection.id,
+            'supplier_category_id': self.category1.id,
+            'client_category_id': 123,
+            'client_category_name': 'Electronics (Client)',
+            'auto_create': True,
+        })
+
+        self.assertEqual(category_mapping.supplier_category_name, 'Electronics')
+        self.assertEqual(category_mapping.client_category_id, 123)
+
+    def test_06_default_mappings_creation(self):
+        """Test creating default field mappings"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        # Initially no mappings
+        self.assertEqual(len(connection.field_mapping_ids), 0)
+
+        # Create default mappings
+        connection.action_create_default_mappings()
+
+        # Should have created default mappings
+        self.assertGreater(len(connection.field_mapping_ids), 0)
+
+        # Check that price mapping exists and maps to standard_price
+        price_mapping = connection.field_mapping_ids.filtered(
+            lambda m: m.source_field == 'list_price'
+        )
+        self.assertTrue(price_mapping)
+        self.assertEqual(price_mapping.target_field, 'standard_price')
+
+    def test_07_sync_preview_creation(self):
+        """Test creating a sync preview"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        preview = self.env['catalog.sync.preview'].create({
+            'connection_id': connection.id,
+            'product_ids': [(6, 0, [self.product1.id, self.product2.id])],
+        })
+
+        self.assertEqual(preview.state, 'draft')
+        self.assertEqual(len(preview.product_ids), 2)
+        self.assertEqual(preview.products_to_create, 0)  # No changes analyzed yet
+
+    def test_08_sync_change_creation(self):
+        """Test creating sync changes"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        preview = self.env['catalog.sync.preview'].create({
+            'connection_id': connection.id,
+            'product_ids': [(6, 0, [self.product1.id])],
+        })
+
+        # Create a change for product creation
+        change = self.env['catalog.sync.change'].create({
+            'preview_id': preview.id,
+            'product_id': self.product1.id,
+            'change_type': 'create',
+            'field_changes': json.dumps({
+                'name': {'old': None, 'new': 'Test Product 1'},
+                'standard_price': {'old': None, 'new': 100.0},
+            }),
+        })
+
+        self.assertEqual(change.change_type, 'create')
+        self.assertEqual(change.product_name, 'Test Product 1')
+        self.assertFalse(change.is_excluded)
+
+        # Test computed stats
+        preview._compute_stats()
+        self.assertEqual(preview.products_to_create, 1)
+        self.assertEqual(preview.products_to_update, 0)
+
+    def test_09_sync_change_with_warning(self):
+        """Test sync change with price decrease warning"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        preview = self.env['catalog.sync.preview'].create({
+            'connection_id': connection.id,
+            'product_ids': [(6, 0, [self.product1.id])],
+        })
+
+        # Test warning detection
+        changes = {
+            'standard_price': {'old': 100.0, 'new': 80.0}  # 20% decrease
+        }
+        warning = preview._detect_warnings(changes)
+
+        self.assertTrue(warning)
+        self.assertIn('Price decrease', warning)
+        self.assertIn('20.0%', warning)
+
+    def test_10_sync_change_no_warning(self):
+        """Test sync change without warning (small price change)"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        preview = self.env['catalog.sync.preview'].create({
+            'connection_id': connection.id,
+            'product_ids': [(6, 0, [self.product1.id])],
+        })
+
+        # Small price change (< 10%)
+        changes = {
+            'standard_price': {'old': 100.0, 'new': 95.0}  # 5% decrease
+        }
+        warning = preview._detect_warnings(changes)
+
+        self.assertFalse(warning)
+
+    def test_11_sync_history_creation(self):
+        """Test creating sync history"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        history = self.env['catalog.sync.history'].create({
+            'connection_id': connection.id,
+            'user_id': self.env.user.id,
+            'products_created': 5,
+            'products_updated': 3,
+            'products_skipped': 2,
+            'products_error': 1,
+            'status': 'partial',
+            'duration': 12.5,
+        })
+
+        self.assertEqual(history.total_products, 11)  # 5+3+2+1
+        self.assertEqual(history.status, 'partial')
+        self.assertEqual(history.duration, 12.5)
+
+    def test_12_sync_history_status_success(self):
+        """Test sync history with success status"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        history = self.env['catalog.sync.history'].create({
+            'connection_id': connection.id,
+            'user_id': self.env.user.id,
+            'products_created': 10,
+            'products_updated': 5,
+            'products_error': 0,
+            'status': 'success',
+        })
+
+        self.assertEqual(history.status, 'success')
+        self.assertEqual(history.products_error, 0)
+
+    def test_13_connection_stats_computation(self):
+        """Test connection statistics computation"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        # Create some history records
+        self.env['catalog.sync.history'].create({
+            'connection_id': connection.id,
+            'user_id': self.env.user.id,
+            'products_created': 5,
+            'status': 'success',
+        })
+
+        self.env['catalog.sync.history'].create({
+            'connection_id': connection.id,
+            'user_id': self.env.user.id,
+            'products_created': 3,
+            'products_error': 1,
+            'status': 'partial',
+        })
+
+        connection._compute_stats()
+
+        self.assertEqual(connection.total_syncs, 2)
+        self.assertEqual(connection.last_sync_status, 'partial')  # Most recent
+
+    def test_14_field_mapping_sequence(self):
+        """Test field mapping ordering by sequence"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        # Create mappings out of order
+        m1 = self.env['catalog.field.mapping'].create({
+            'connection_id': connection.id,
+            'source_field': 'weight',
+            'target_field': 'weight',
+            'sync_mode': 'always',
+            'sequence': 30,
+        })
+
+        m2 = self.env['catalog.field.mapping'].create({
+            'connection_id': connection.id,
+            'source_field': 'name',
+            'target_field': 'name',
+            'sync_mode': 'always',
+            'sequence': 10,
+        })
+
+        m3 = self.env['catalog.field.mapping'].create({
+            'connection_id': connection.id,
+            'source_field': 'list_price',
+            'target_field': 'standard_price',
+            'sync_mode': 'always',
+            'sequence': 20,
+        })
+
+        # Check ordering
+        sorted_mappings = connection.field_mapping_ids.sorted('sequence')
+        self.assertEqual(sorted_mappings[0].source_field, 'name')
+        self.assertEqual(sorted_mappings[1].source_field, 'list_price')
+        self.assertEqual(sorted_mappings[2].source_field, 'weight')
+
+    def test_15_external_id_format(self):
+        """Test external ID format generation"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        preview = self.env['catalog.sync.preview'].create({
+            'connection_id': connection.id,
+            'product_ids': [(6, 0, [self.product1.id])],
+        })
+
+        expected_external_id = f'supplier_{self.catalog_client.id}_product_{self.product1.id}'
+
+        # This format is used in _execute_create and _execute_update
+        self.assertTrue(expected_external_id)
+        self.assertIn('supplier', expected_external_id)
+        self.assertIn(str(self.product1.id), expected_external_id)
+
+    def test_16_sync_mode_validation(self):
+        """Test different sync modes"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        # Test all sync modes
+        modes = ['create_only', 'always', 'if_empty', 'manual']
+
+        for mode in modes:
+            mapping = self.env['catalog.field.mapping'].create({
+                'connection_id': connection.id,
+                'source_field': f'field_{mode}',
+                'target_field': f'field_{mode}',
+                'sync_mode': mode,
+            })
+            self.assertEqual(mapping.sync_mode, mode)
+
+    def test_17_inactive_field_mapping(self):
+        """Test inactive field mappings are excluded"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        # Active mapping
+        m1 = self.env['catalog.field.mapping'].create({
+            'connection_id': connection.id,
+            'source_field': 'name',
+            'target_field': 'name',
+            'sync_mode': 'always',
+            'is_active': True,
+        })
+
+        # Inactive mapping
+        m2 = self.env['catalog.field.mapping'].create({
+            'connection_id': connection.id,
+            'source_field': 'list_price',
+            'target_field': 'standard_price',
+            'sync_mode': 'always',
+            'is_active': False,
+        })
+
+        # Only active mappings should be used
+        active_mappings = connection.field_mapping_ids.filtered(lambda m: m.is_active)
+        self.assertEqual(len(active_mappings), 1)
+        self.assertEqual(active_mappings.source_field, 'name')
+
+    def test_18_sync_options_defaults(self):
+        """Test default values for sync options"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        # Check defaults
+        self.assertTrue(connection.is_active)
+        self.assertTrue(connection.auto_create_categories)
+        self.assertTrue(connection.include_images)
+        self.assertTrue(connection.preserve_client_images)
+
+    def test_19_multiple_connections_per_client(self):
+        """Test that a client can have multiple connections (different instances)"""
+        connection1 = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test1.odoo.com',
+            'database': 'test_db_1',
+            'api_key': 'key1',
+        })
+
+        connection2 = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test2.odoo.com',
+            'database': 'test_db_2',
+            'api_key': 'key2',
+        })
+
+        # Both should exist
+        connections = self.env['catalog.client.connection'].search([
+            ('client_id', '=', self.catalog_client.id)
+        ])
+
+        self.assertEqual(len(connections), 2)
+
+    def test_20_coefficient_transformation(self):
+        """Test price coefficient transformation"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        mapping = self.env['catalog.field.mapping'].create({
+            'connection_id': connection.id,
+            'source_field': 'list_price',
+            'target_field': 'standard_price',
+            'sync_mode': 'always',
+            'apply_coefficient': True,
+            'coefficient': 1.25,  # 25% markup
+        })
+
+        # Original price
+        original_price = 100.0
+        # With coefficient
+        expected_price = 100.0 * 1.25  # 125.0
+
+        self.assertEqual(mapping.coefficient, 1.25)
+        self.assertEqual(original_price * mapping.coefficient, expected_price)

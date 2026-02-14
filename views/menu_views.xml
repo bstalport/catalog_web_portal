@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Main Menu -->
+    <menuitem id="menu_catalog_root"
+              name="Catalog Portal"
+              web_icon="catalog_web_portal,static/description/icon.png"
+              sequence="50"/>
+    
+    <!-- Clients submenu -->
+    <menuitem id="menu_catalog_clients"
+              name="Clients"
+              parent="menu_catalog_root"
+              action="action_catalog_client"
+              sequence="10"/>
+
+    <!-- Products submenu -->
+    <menuitem id="menu_catalog_products"
+              name="Products"
+              parent="menu_catalog_root"
+              action="product.product_template_action_all"
+              sequence="20"/>
+    
+    <!-- Configuration submenu -->
+    <menuitem id="menu_catalog_configuration"
+              name="Configuration"
+              parent="menu_catalog_root"
+              sequence="90"/>
+    
+    <menuitem id="menu_catalog_config"
+              name="Settings"
+              parent="menu_catalog_configuration"
+              action="action_catalog_config"
+              sequence="10"/>
+
+    <menuitem id="menu_catalog_client_connections"
+              name="Client Connections"
+              parent="menu_catalog_configuration"
+              action="action_catalog_client_connection"
+              sequence="20"/>
+
+    <!-- Analytics submenu -->
+    <menuitem id="menu_catalog_analytics"
+              name="Analytics"
+              parent="menu_catalog_root"
+              sequence="80"/>
+
+    <menuitem id="menu_catalog_access_logs"
+              name="Access Logs"
+              parent="menu_catalog_analytics"
+              action="action_catalog_access_log"
+              sequence="10"/>
+
+    <menuitem id="menu_catalog_sync_history"
+              name="Sync History"
+              parent="menu_catalog_analytics"
+              action="action_catalog_sync_history"
+              sequence="20"/>
+
+</odoo>

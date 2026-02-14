@@ -1,0 +1,905 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sync Preview Page -->
+    <template id="portal_sync_preview_page" name="Sync Preview">
+        <t t-call="catalog_web_portal.portal_catalog_layout">
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2>
+                        <i class="fa fa-cloud-upload"/> Import Preview
+                    </h2>
+                    <p class="text-muted">
+                        Review changes before importing to your Odoo
+                    </p>
+                </div>
+            </div>
+
+            <!-- Connection Info -->
+            <div class="alert alert-info">
+                <i class="fa fa-info-circle"/> Target: <strong t-out="connection.odoo_url"/> - Database: <strong t-out="connection.database"/>
+            </div>
+
+            <!-- Summary Statistics -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-success"><t t-out="preview.products_to_create"/></h3>
+                            <p class="mb-0 text-muted">New Products</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-warning"><t t-out="preview.products_to_update"/></h3>
+                            <p class="mb-0 text-muted">Updates</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-muted"><t t-out="preview.products_to_skip"/></h3>
+                            <p class="mb-0 text-muted">No Changes</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-danger"><t t-out="preview.products_with_warnings"/></h3>
+                            <p class="mb-0 text-muted">Warnings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Warnings -->
+            <div class="alert alert-warning" t-if="preview.products_with_warnings > 0">
+                <h5><i class="fa fa-exclamation-triangle"/> Attention</h5>
+                <p class="mb-0">
+                    Some products have warnings. Please review the changes below.
+                </p>
+            </div>
+
+            <!-- What will happen -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">What will happen during import</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        <li>Products will be identified by External ID: <code>supplier_<t t-out="catalog_client.id"/>_product_XXX</code></li>
+                        <li>New products will be created with all configured fields</li>
+                        <li>Existing products (with our External ID) will be updated only for mapped fields</li>
+                        <li><strong>Your existing products will NEVER be modified</strong></li>
+                        <li t-if="connection.auto_create_categories">Categories will be created automatically if missing</li>
+                        <li t-if="connection.include_images">Product images will be synchronized</li>
+                        <li t-if="connection.sync_variants">
+                            <strong>Product variants</strong> (attributes, values, variant-specific data) will be synchronized
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Changes Detail -->
+            <div class="card mb-4" t-if="preview.change_ids">
+                <div class="card-header">
+                    <h5 class="mb-0">Changes Detail (<t t-out="len(preview.change_ids)"/> products)</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Reference</th>
+                                <th>Action</th>
+                                <th>Warnings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="preview.change_ids[:20]" t-as="change">
+                                <tr>
+                                    <td>
+                                        <t t-out="change.product_name"/>
+                                        <t t-if="change.variant_changes">
+                                            <button class="btn btn-sm btn-link p-0 ml-1 btn-toggle-variants"
+                                                    t-att-data-target="'variants-' + str(change.id)"
+                                                    title="Show variants">
+                                                <i class="fa fa-cubes"/>
+                                            </button>
+                                        </t>
+                                    </td>
+                                    <td><code t-out="change.product_ref or '-'"/></td>
+                                    <td>
+                                        <span t-if="change.change_type == 'create'" class="badge bg-success">Create</span>
+                                        <span t-elif="change.change_type == 'update'" class="badge bg-warning">Update</span>
+                                        <span t-else="" class="badge bg-secondary">Skip</span>
+                                    </td>
+                                    <td>
+                                        <span t-if="change.has_warning" class="text-danger">
+                                            <i class="fa fa-exclamation-triangle"/> <t t-out="change.warning_message"/>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <!-- Variant sub-rows (hidden by default) -->
+                                <t t-if="change.variant_changes">
+                                    <t t-set="variants" t-value="json.loads(change.variant_changes)"/>
+                                    <tr t-att-id="'variants-' + str(change.id)" style="display:none;" class="variant-detail-row">
+                                        <td colspan="4" class="p-0">
+                                            <table class="table table-sm mb-0 ms-4" style="background: #f8f9fa;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="small">Variant Combination</th>
+                                                        <th class="small">SKU</th>
+                                                        <th class="small text-end">Price Extra</th>
+                                                        <th class="small">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <t t-foreach="variants" t-as="v">
+                                                        <tr>
+                                                            <td class="small"><t t-out="v.get('combination', '')"/></td>
+                                                            <td class="small"><code t-out="v.get('sku', '-')"/></td>
+                                                            <td class="small text-end">
+                                                                <t t-if="v.get('price_extra')">
+                                                                    + <t t-out="'%.2f' % v['price_extra']"/>
+                                                                </t>
+                                                                <t t-else="">-</t>
+                                                            </td>
+                                                            <td class="small">
+                                                                <span t-if="v.get('action') == 'create'" class="badge bg-success">Create</span>
+                                                                <span t-elif="v.get('action') == 'update'" class="badge bg-warning">Update</span>
+                                                                <span t-else="" class="badge bg-secondary">Skip</span>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                            <tr t-if="len(preview.change_ids) > 20">
+                                <td colspan="4" class="text-muted text-center">
+                                    ... and <t t-out="len(preview.change_ids) - 20"/> more products
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" action="/catalog/portal/sync/execute">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <input type="hidden" name="preview_id" t-att-value="preview.id"/>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="/catalog/portal/cart" class="btn btn-secondary btn-lg btn-block">
+                                    <i class="fa fa-arrow-left"/> Back to Selection
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success btn-lg btn-block" id="btn-execute-sync"
+                                        onclick="this.disabled=true; this.innerHTML='&lt;i class=&quot;fa fa-spinner fa-spin&quot;&gt;&lt;/i&gt; Starting import...'; this.form.submit();">
+                                    <i class="fa fa-cloud-upload"/> Execute Import Now
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </t>
+    </template>
+
+    <!-- Sync Progress Page (background sync) -->
+    <template id="portal_sync_progress" name="Sync Progress">
+        <t t-call="catalog_web_portal.portal_catalog_layout">
+
+            <!-- Hidden field for JS -->
+            <input type="hidden" id="sync-preview-id" t-att-value="preview.id"/>
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2>
+                        <i class="fa fa-cloud-upload"/> Importing Products...
+                    </h2>
+                    <p class="text-muted">
+                        Your products are being imported into your Odoo. Please do not close this page.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Progress Card -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <!-- Progress Bar -->
+                    <div class="progress mb-3" style="height: 30px;">
+                        <div id="sync-progress-bar"
+                             class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+                             role="progressbar"
+                             t-att-style="'width: ' + str(preview.sync_progress) + '%;'"
+                             t-att-aria-valuenow="preview.sync_progress"
+                             aria-valuemin="0"
+                             aria-valuemax="100">
+                            <span id="sync-progress-text"><t t-out="preview.sync_progress"/>%</span>
+                        </div>
+                    </div>
+
+                    <!-- Current Status -->
+                    <div class="text-center mb-3">
+                        <span id="sync-status-message" class="text-muted">
+                            <i class="fa fa-spinner fa-spin"/> <t t-out="preview.sync_message or 'Starting import...'"/>
+                        </span>
+                    </div>
+
+                    <!-- Stats Row -->
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <h4 id="sync-stat-current" class="mb-0"><t t-out="preview.sync_current"/></h4>
+                            <small class="text-muted">Processed</small>
+                        </div>
+                        <div class="col-md-3">
+                            <h4 id="sync-stat-total" class="mb-0"><t t-out="preview.sync_total"/></h4>
+                            <small class="text-muted">Total</small>
+                        </div>
+                        <div class="col-md-3">
+                            <h4 id="sync-stat-elapsed" class="mb-0">0s</h4>
+                            <small class="text-muted">Elapsed</small>
+                        </div>
+                        <div class="col-md-3">
+                            <h4 id="sync-stat-remaining" class="mb-0">--</h4>
+                            <small class="text-muted">Estimated Remaining</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Alert (hidden by default) -->
+            <div id="sync-error-alert" class="alert alert-danger" style="display:none;">
+                <h5><i class="fa fa-exclamation-circle"/> Import Error</h5>
+                <p id="sync-error-message"></p>
+                <a href="/catalog/portal/cart" class="btn btn-secondary">
+                    <i class="fa fa-arrow-left"/> Back to Selection
+                </a>
+            </div>
+
+            <!-- Cancel Button -->
+            <div class="text-center mb-4" id="sync-cancel-container">
+                <button type="button" class="btn btn-outline-danger" id="btn-cancel-sync">
+                    <i class="fa fa-stop"/> Cancel Import
+                </button>
+            </div>
+
+            <!-- Warning -->
+            <div class="alert alert-warning">
+                <i class="fa fa-info-circle"/> <strong>Please do not close this page.</strong>
+                The import is running in the background and you will be redirected when it completes.
+            </div>
+
+        </t>
+    </template>
+
+    <!-- Sync Result Page -->
+    <template id="portal_sync_result" name="Sync Result">
+        <t t-call="catalog_web_portal.portal_catalog_layout">
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <t t-if="history.status == 'success'">
+                        <div class="alert alert-success" role="alert">
+                            <h4><i class="fa fa-check-circle"/> Import Successful!</h4>
+                        </div>
+                    </t>
+                    <t t-elif="history.status == 'partial'">
+                        <div class="alert alert-warning" role="alert">
+                            <h4><i class="fa fa-exclamation-triangle"/> Import Partially Successful</h4>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="alert alert-danger" role="alert">
+                            <h4><i class="fa fa-times-circle"/> Import Failed</h4>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-success"><t t-out="history.products_created"/></h3>
+                            <p class="mb-0 text-muted">Created</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-warning"><t t-out="history.products_updated"/></h3>
+                            <p class="mb-0 text-muted">Updated</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-muted"><t t-out="history.products_skipped"/></h3>
+                            <p class="mb-0 text-muted">Skipped</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h3 class="text-danger"><t t-out="history.products_error"/></h3>
+                            <p class="mb-0 text-muted">Errors</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sync Info -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Synchronization Details</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-3">Target Odoo:</dt>
+                        <dd class="col-sm-9"><t t-out="history.connection_id.odoo_url"/></dd>
+
+                        <dt class="col-sm-3">Database:</dt>
+                        <dd class="col-sm-9"><t t-out="history.connection_id.database"/></dd>
+
+                        <dt class="col-sm-3">Date:</dt>
+                        <dd class="col-sm-9"><t t-out="history.create_date" t-options="{'widget': 'datetime'}"/></dd>
+
+                        <dt class="col-sm-3">Duration:</dt>
+                        <dd class="col-sm-9"><t t-out="'%.2f' % history.duration"/> seconds</dd>
+
+                        <dt class="col-sm-3">Total Products:</dt>
+                        <dd class="col-sm-9"><t t-out="history.total_products"/></dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- Error Messages -->
+            <div class="card mb-4" t-if="history.error_message">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="fa fa-exclamation-circle"/> Errors</h5>
+                </div>
+                <div class="card-body">
+                    <pre class="mb-0" style="white-space: pre-wrap;"><t t-out="history.error_message"/></pre>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="card">
+                <div class="card-body text-center">
+                    <a href="/catalog/portal" class="btn btn-primary btn-lg">
+                        <i class="fa fa-home"/> Back to Dashboard
+                    </a>
+                    <t t-if="history.status != 'success'">
+                        <a href="/catalog/portal/sync/setup" class="btn btn-warning btn-lg ml-2">
+                            <i class="fa fa-cog"/> Check Connection
+                        </a>
+                    </t>
+                </div>
+            </div>
+
+        </t>
+    </template>
+
+    <!-- Field Mappings Configuration Page -->
+    <template id="portal_sync_mappings" name="Field Mappings">
+        <t t-call="catalog_web_portal.portal_catalog_layout">
+
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h2>
+                        <i class="fa fa-exchange"/> Field Mappings
+                    </h2>
+                    <p class="text-muted">
+                        Configuration of fields synchronized between supplier and your Odoo
+                    </p>
+                </div>
+            </div>
+
+            <!-- Connection Info -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Connection Information</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-3">Target Odoo:</dt>
+                        <dd class="col-sm-9"><t t-out="connection.odoo_url"/></dd>
+
+                        <dt class="col-sm-3">Database:</dt>
+                        <dd class="col-sm-9"><t t-out="connection.database"/></dd>
+
+                        <dt class="col-sm-3">Status:</dt>
+                        <dd class="col-sm-9">
+                            <span t-if="connection.connection_status == 'ok'" class="badge bg-success">Connected</span>
+                            <span t-elif="connection.connection_status == 'error'" class="badge bg-danger">Error</span>
+                            <span t-else="" class="badge bg-secondary">Not Tested</span>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <!-- Field Mappings -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fa fa-th-list"/> Field Mappings
+                        <small class="text-muted">(<t t-out="len(connection.field_mapping_ids)"/> mappings)</small>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">
+                        These fields will be synchronized from the supplier catalog to your Odoo database.
+                    </p>
+
+                    <t t-if="connection.field_mapping_ids">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Source Field</th>
+                                        <th>Target Field</th>
+                                        <th>Sync Mode</th>
+                                        <th>Default Value</th>
+                                        <th>Coefficient</th>
+                                        <th class="text-center">Active</th>
+                                        <th class="text-center" width="80">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="field_mappings.sorted('sequence')" t-as="mapping">
+                                        <tr t-att-class="'table-secondary' if not mapping.is_active else ''" t-att-data-mapping-id="mapping.id">
+                                            <td>
+                                                <t t-if="mapping.source_field == '_none'">
+                                                    <span class="text-muted fst-italic">(default only)</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-out="source_labels.get(mapping.source_field, mapping.source_field)"/>
+                                                    <br/><small class="text-muted"><t t-out="mapping.source_field"/></small>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t t-out="target_labels.get(mapping.target_field, mapping.target_field)"/>
+                                                <br/><small class="text-muted"><t t-out="mapping.target_field"/></small>
+                                            </td>
+                                            <td>
+                                                <span t-if="mapping.sync_mode == 'create_only'" class="badge bg-info">Create Only</span>
+                                                <span t-elif="mapping.sync_mode == 'always'" class="badge bg-success">Always</span>
+                                                <span t-elif="mapping.sync_mode == 'if_empty'" class="badge bg-secondary">If Empty</span>
+                                                <span t-else="" class="badge bg-secondary"><t t-out="mapping.sync_mode"/></span>
+                                            </td>
+                                            <td>
+                                                <t t-if="mapping.default_value and mapping.default_value_apply != 'never'">
+                                                    <code t-out="mapping.default_value"/>
+                                                    <br/>
+                                                    <small class="text-muted">
+                                                        <span t-if="mapping.default_value_apply == 'if_source_empty'" class="badge bg-secondary">if empty</span>
+                                                        <span t-elif="mapping.default_value_apply == 'always'" class="badge bg-info">always</span>
+                                                    </small>
+                                                </t>
+                                                <t t-else="">
+                                                    <span class="text-muted">-</span>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t t-if="mapping.apply_coefficient and mapping.source_field != '_none'">
+                                                    × <t t-out="mapping.coefficient"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span class="text-muted">-</span>
+                                                </t>
+                                            </td>
+                                            <td class="text-center">
+                                                <i t-if="mapping.is_active" class="fa fa-check text-success"/>
+                                                <i t-else="" class="fa fa-times text-muted"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-danger btn-delete-field-mapping"
+                                                        t-att-data-mapping-id="mapping.id"
+                                                        title="Delete">
+                                                    <i class="fa fa-trash"/>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Add New Field Mapping Form -->
+                        <div class="mt-4">
+                            <button type="button" class="btn btn-success" id="btn-toggle-add-field-mapping">
+                                <i class="fa fa-plus"/> Add New Field Mapping
+                            </button>
+                        </div>
+
+                        <div id="form-add-field-mapping" class="mt-3 card" style="display:none;">
+                            <div class="card-body">
+                                <h6>New Field Mapping</h6>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Source Field</label>
+                                            <select class="form-control" id="new-source-field">
+                                                <option value="_none">(No Source - Default Only)</option>
+                                                <optgroup label="Basic">
+                                                    <option value="name">Product Name</option>
+                                                    <option value="default_code">Internal Reference</option>
+                                                    <option value="barcode">Barcode</option>
+                                                    <option value="categ_id">Category</option>
+                                                    <option value="detailed_type">Product Type</option>
+                                                </optgroup>
+                                                <optgroup label="Pricing">
+                                                    <option value="list_price">Sales Price</option>
+                                                    <option value="standard_price">Cost Price</option>
+                                                </optgroup>
+                                                <optgroup label="Description">
+                                                    <option value="description_sale">Sales Description</option>
+                                                    <option value="description">Internal Notes</option>
+                                                    <option value="description_purchase">Purchase Description</option>
+                                                </optgroup>
+                                                <optgroup label="Logistics">
+                                                    <option value="weight">Weight</option>
+                                                    <option value="volume">Volume</option>
+                                                    <option value="uom_id">Unit of Measure</option>
+                                                </optgroup>
+                                                <optgroup label="Other">
+                                                    <option value="sale_ok">Can be Sold</option>
+                                                    <option value="purchase_ok">Can be Purchased</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Target Field</label>
+                                            <select class="form-control" id="new-target-field">
+                                                <option value="">-- Select --</option>
+                                                <optgroup label="Basic">
+                                                    <option value="name">Product Name</option>
+                                                    <option value="default_code">Internal Reference</option>
+                                                    <option value="barcode">Barcode</option>
+                                                    <option value="categ_id">Category</option>
+                                                    <option value="detailed_type">Product Type</option>
+                                                    <option value="type">Product Type (legacy)</option>
+                                                </optgroup>
+                                                <optgroup label="Pricing">
+                                                    <option value="list_price">Sales Price</option>
+                                                    <option value="standard_price">Cost Price</option>
+                                                </optgroup>
+                                                <optgroup label="Description">
+                                                    <option value="description_sale">Sales Description</option>
+                                                    <option value="description">Internal Notes</option>
+                                                    <option value="description_purchase">Purchase Description</option>
+                                                </optgroup>
+                                                <optgroup label="Logistics">
+                                                    <option value="weight">Weight</option>
+                                                    <option value="volume">Volume</option>
+                                                    <option value="uom_id">Unit of Measure</option>
+                                                </optgroup>
+                                                <optgroup label="Other">
+                                                    <option value="sale_ok">Can be Sold</option>
+                                                    <option value="purchase_ok">Can be Purchased</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Sync Mode</label>
+                                            <select class="form-control" id="new-sync-mode">
+                                                <option value="always">Always</option>
+                                                <option value="create_only">Create Only</option>
+                                                <option value="if_empty">If Empty</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Default Value</label>
+                                            <input type="text" class="form-control" id="new-default-value"
+                                                   placeholder="e.g., consu, true"/>
+                                            <small class="form-text text-muted">
+                                                Leave empty for no default
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>Default Apply</label>
+                                            <select class="form-control" id="new-default-value-apply">
+                                                <option value="never">Never</option>
+                                                <option value="if_source_empty">If Source Empty</option>
+                                                <option value="always">Always Use Default</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>Coeff.</label>
+                                            <input type="number" class="form-control" id="new-coefficient"
+                                                   value="1.0" step="0.01"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label>&amp;nbsp;</label>
+                                            <button type="button" class="btn btn-primary btn-block" id="btn-save-field-mapping">
+                                                <i class="fa fa-save"/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="alert alert-warning">
+                            <i class="fa fa-exclamation-triangle"/> No field mappings configured.
+                        </div>
+
+                        <form method="post" action="/catalog/portal/sync/mappings/create-default">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fa fa-magic"/> Create Default Field Mappings
+                            </button>
+                            <p class="text-muted small mt-2">
+                                This will create standard mappings for name, price, reference, barcode, weight, and description fields.
+                            </p>
+                        </form>
+                    </t>
+                </div>
+            </div>
+
+            <!-- Image Import Settings -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fa fa-image"/> Image Import Settings
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">
+                        Configure how product images are handled during import.
+                    </p>
+
+                    <div class="custom-control custom-checkbox mb-3">
+                        <input type="checkbox"
+                               class="custom-control-input"
+                               id="opt-include-images"
+                               t-att-checked="'checked' if connection.include_images else None"/>
+                        <label class="custom-control-label" for="opt-include-images">
+                            <strong>Include product images</strong>
+                        </label>
+                        <small class="form-text text-muted ml-4">
+                            Download and import product images from the catalog
+                        </small>
+                    </div>
+
+                    <div class="custom-control custom-checkbox mb-3">
+                        <input type="checkbox"
+                               class="custom-control-input"
+                               id="opt-preserve-client-images"
+                               t-att-checked="'checked' if connection.preserve_client_images else None"/>
+                        <label class="custom-control-label" for="opt-preserve-client-images">
+                            <strong>Preserve images modified in my Odoo</strong>
+                        </label>
+                        <small class="form-text text-muted ml-4">
+                            Don't overwrite product images you've customized
+                        </small>
+                    </div>
+
+                    <button type="button" class="btn btn-primary btn-sm" id="btn-save-image-settings">
+                        <i class="fa fa-save"/> Save Image Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- Category Mappings -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fa fa-folder-open"/> Category Mappings
+                        <small class="text-muted">(<t t-out="len(connection.category_mapping_ids)"/> mappings)</small>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">
+                        Category mappings allow you to map supplier categories to your own category structure.
+                    </p>
+
+                    <div class="custom-control custom-checkbox mb-4">
+                        <input type="checkbox"
+                               class="custom-control-input"
+                               id="opt-auto-create-categories"
+                               t-att-checked="'checked' if connection.auto_create_categories else None"/>
+                        <label class="custom-control-label" for="opt-auto-create-categories">
+                            <strong>Auto-create missing product categories</strong>
+                        </label>
+                        <small class="form-text text-muted ml-4">
+                            Automatically create categories that don't exist in your Odoo
+                        </small>
+                    </div>
+
+                    <!-- Existing category mappings table -->
+                    <t t-if="connection.category_mapping_ids">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Supplier Category</th>
+                                        <th><i class="fa fa-arrow-right"/></th>
+                                        <th>Your Category</th>
+                                        <th class="text-center">Auto-Create</th>
+                                        <th class="text-center" width="100">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="category_mappings" t-as="cat_mapping">
+                                        <tr t-att-data-mapping-id="cat_mapping.id">
+                                            <td>
+                                                <t t-if="cat_mapping.supplier_category_id">
+                                                    <t t-out="cat_mapping.supplier_category_id.complete_name or cat_mapping.supplier_category_id.name"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <code t-out="cat_mapping.supplier_category_name or '-'"/>
+                                                </t>
+                                            </td>
+                                            <td class="text-center text-muted">
+                                                <i class="fa fa-arrow-right"/>
+                                            </td>
+                                            <td>
+                                                <t t-if="cat_mapping.client_category_id">
+                                                    <t t-out="cat_mapping.client_category_name or ''"/>
+                                                    <br/><small class="text-muted">ID: <t t-out="cat_mapping.client_category_id"/></small>
+                                                </t>
+                                                <t t-elif="cat_mapping.client_category_name">
+                                                    <span class="text-muted"><t t-out="cat_mapping.client_category_name"/> (will be created)</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span class="badge bg-warning">Auto-create from supplier name</span>
+                                                </t>
+                                            </td>
+                                            <td class="text-center">
+                                                <i t-if="cat_mapping.auto_create" class="fa fa-check text-success"/>
+                                                <i t-else="" class="fa fa-times text-muted"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-danger btn-delete-category-mapping"
+                                                        t-att-data-mapping-id="cat_mapping.id"
+                                                        title="Delete">
+                                                    <i class="fa fa-trash"/>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="alert alert-info">
+                            <i class="fa fa-info-circle"/> No category mappings configured.
+                            Categories will be created automatically based on supplier category names.
+                        </div>
+                    </t>
+
+                    <!-- Add New Category Mapping Form -->
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-success" id="btn-toggle-add-category-mapping">
+                            <i class="fa fa-plus"/> Add New Category Mapping
+                        </button>
+                        <button type="button" class="btn btn-info ml-2" id="btn-fetch-categories">
+                            <i class="fa fa-download"/> Fetch Categories from My Odoo
+                        </button>
+                    </div>
+
+                    <div id="form-add-category-mapping" class="mt-3 card" style="display:none;">
+                        <div class="card-body">
+                            <h6>New Category Mapping</h6>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Supplier Category</label>
+                                        <select class="form-control" id="new-supplier-category">
+                                            <option value="">-- Select --</option>
+                                            <t t-foreach="supplier_categories" t-as="cat">
+                                                <option t-att-value="cat.id">
+                                                    <t t-out="cat.complete_name or cat.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Your Category</label>
+                                        <select class="form-control" id="new-client-category" style="display:none;">
+                                            <option value="">-- Fetch categories first --</option>
+                                        </select>
+                                        <input type="text" class="form-control" id="new-client-category-name"
+                                               placeholder="Category name (or fetch list)"/>
+                                        <small class="form-text text-muted">
+                                            Type a name, or click "Fetch Categories" above to select from your Odoo
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Auto-Create</label>
+                                        <div class="custom-control custom-checkbox mt-2">
+                                            <input type="checkbox" class="custom-control-input"
+                                                   id="new-cat-auto-create" checked="checked"/>
+                                            <label class="custom-control-label" for="new-cat-auto-create">
+                                                If missing
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>&amp;nbsp;</label>
+                                        <button type="button" class="btn btn-primary btn-block" id="btn-save-category-mapping">
+                                            <i class="fa fa-save"/> Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Categories from client Odoo (loaded via fetch) -->
+                    <div id="client-categories-list" class="mt-4" style="display:none;">
+                        <h6>Categories in Your Odoo:</h6>
+                        <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                            <table class="table table-sm table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Category Name</th>
+                                        <th>ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="categories-tbody">
+                                    <!-- Filled via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="card">
+                <div class="card-body text-center">
+                    <a href="/catalog/portal/sync/setup" class="btn btn-primary btn-lg">
+                        <i class="fa fa-cog"/> Modify Connection Settings
+                    </a>
+                    <a href="/catalog/portal/cart" class="btn btn-secondary btn-lg ml-2">
+                        <i class="fa fa-arrow-left"/> Back to Selection
+                    </a>
+                </div>
+            </div>
+
+        </t>
+    </template>
+
+</odoo>

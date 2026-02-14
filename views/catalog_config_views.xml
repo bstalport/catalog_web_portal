@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Form view for Catalog Configuration -->
+    <record id="view_catalog_config_form" model="ir.ui.view">
+        <field name="name">catalog.config.form</field>
+        <field name="model">catalog.config</field>
+        <field name="arch" type="xml">
+            <form string="Catalog Configuration">
+                <header>
+                    <button name="action_view_clients" type="object" string="View Clients" class="oe_highlight"/>
+                    <button name="action_view_logs" type="object" string="View Logs"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_clients" type="object" class="oe_stat_button" icon="fa-users">
+                            <field name="total_clients" widget="statinfo" string="Total Clients"/>
+                        </button>
+                        <button name="action_view_clients" type="object" class="oe_stat_button" icon="fa-user-check">
+                            <field name="active_clients" widget="statinfo" string="Active Clients"/>
+                        </button>
+                        <button name="action_view_logs" type="object" class="oe_stat_button" icon="fa-download">
+                            <field name="total_exports_today" widget="statinfo" string="Exports Today"/>
+                        </button>
+                        <button name="action_view_logs" type="object" class="oe_stat_button" icon="fa-calendar">
+                            <field name="total_exports_month" widget="statinfo" string="Exports This Month"/>
+                        </button>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Configuration Name"/>
+                        </h1>
+                    </div>
+                    
+                    <notebook>
+                        <page string="Access &amp; Features" name="access">
+                            <group>
+                                <group string="Access Modes">
+                                    <field name="portal_access_enabled"/>
+                                </group>
+                                <group string="Export Features">
+                                    <field name="allow_csv_export"/>
+                                    <field name="allow_excel_export"/>
+                                    <field name="allow_direct_odoo_import"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group string="Limitations">
+                                    <field name="max_products_per_export"/>
+                                    <field name="export_rate_limit"/>
+                                </group>
+                                <group string="Product Visibility">
+                                    <field name="default_product_visibility"/>
+                                </group>
+                            </group>
+
+                            <separator string="Invoice Recognition (Supplier Info)"/>
+                            <group>
+                                <group>
+                                    <field name="include_supplier_info_in_exports"/>
+                                    <field name="supplier_external_id" invisible="not include_supplier_info_in_exports"/>
+                                </group>
+                                <group invisible="not include_supplier_info_in_exports">
+                                    <div class="alert alert-info" role="alert">
+                                        <i class="fa fa-info-circle" title="Info"/>
+                                        When enabled, exported CSV/Excel files include
+                                        <code>seller_ids</code> columns for <code>product.supplierinfo</code>.
+                                        This allows clients to automatically match products when loading your invoices.
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Export Fields" name="export_fields">
+                            <div class="alert alert-info" role="alert">
+                                <strong>Configure Export Fields:</strong> Select which product fields your clients can include when exporting products.
+                                Fields are displayed in the order defined by their sequence.
+                            </div>
+                            <field name="export_field_ids" widget="many2many_checkboxes">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="technical_name"/>
+                                    <field name="field_type"/>
+                                    <field name="description"/>
+                                </list>
+                            </field>
+                        </page>
+                        
+                        <page string="Branding" name="branding">
+                            <group>
+                                <group string="Visual">
+                                    <field name="portal_logo" widget="image" class="oe_avatar"/>
+                                    <field name="portal_primary_color" widget="color"/>
+                                </group>
+                                <group string="Contact Info">
+                                    <field name="support_email" widget="email"/>
+                                    <field name="support_phone" widget="phone"/>
+                                </group>
+                            </group>
+                            <group string="Welcome Message">
+                                <field name="portal_welcome_message" widget="html" nolabel="1"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Help" name="help">
+                            <div class="alert alert-info" role="alert">
+                                <h4>How to Use Catalog Portal</h4>
+                                <ol>
+                                    <li>Create catalog clients in the <b>Clients</b> menu</li>
+                                    <li>Publish products you want to share (set "Published in Catalog" to True)</li>
+                                    <li>Send portal invitations to your clients</li>
+                                    <li>Clients will receive an email with login credentials</li>
+                                    <li>They can browse your catalog at: <code>/catalog/portal</code></li>
+                                    <li>They can select products and export to CSV</li>
+                                    <li>The CSV can be imported directly into their Odoo</li>
+                                </ol>
+
+                                <h4>Key Features</h4>
+                                <ul>
+                                    <li><b>No Client Installation Required:</b> Works with Odoo Online!</li>
+                                    <li><b>Secure Access:</b> Each client has their own portal account</li>
+                                    <li><b>Custom Pricing:</b> Set specific pricelists per client</li>
+                                    <li><b>Access Control:</b> Show different products to different clients</li>
+                                    <li><b>Analytics:</b> Track who views and exports what</li>
+                                </ul>
+
+                                <h4>Invoice Recognition (Supplier Info)</h4>
+                                <p>When "Include Supplier Info in Exports" is enabled:</p>
+                                <ul>
+                                    <li>CSV/Excel exports include <code>seller_ids</code> columns for <code>product.supplierinfo</code></li>
+                                    <li>Your product reference (default_code) is stored as the supplier's product code</li>
+                                    <li>When clients load your supplier invoices, Odoo will automatically match products</li>
+                                </ul>
+                                <p><b>For XML-RPC Sync (Direct Odoo Import):</b></p>
+                                <ul>
+                                    <li>Configure your supplier partner ID in the Client Connection settings</li>
+                                    <li>The sync will automatically create <code>product.supplierinfo</code> records</li>
+                                    <li>No manual setup required on the client side!</li>
+                                </ul>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Action for Configuration -->
+    <record id="action_catalog_config" model="ir.actions.act_window">
+        <field name="name">Catalog Configuration</field>
+        <field name="res_model">catalog.config</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure your catalog portal settings
+            </p>
+            <p>
+                Set up access modes, export options, branding, and limitations for your shared catalog.
+            </p>
+        </field>
+    </record>
+    
+</odoo>
