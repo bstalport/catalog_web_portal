@@ -154,3 +154,100 @@ class TestCatalogConfig(TransactionCase):
         self.assertEqual(action['type'], 'ir.actions.act_window')
         self.assertEqual(action['res_model'], 'catalog.access.log')
         self.assertIn('list', action['view_mode'])
+
+    def test_supplier_info_defaults(self):
+        """Test supplier info fields have correct defaults"""
+        config = self.env['catalog.config'].get_config()
+
+        self.assertTrue(config.include_supplier_info_in_exports)
+        self.assertEqual(config.supplier_external_id, 'catalog_supplier')
+
+    def test_supplier_info_toggle(self):
+        """Test toggling supplier info in exports"""
+        config = self.env['catalog.config'].get_config()
+
+        config.include_supplier_info_in_exports = False
+        self.assertFalse(config.include_supplier_info_in_exports)
+
+        config.include_supplier_info_in_exports = True
+        self.assertTrue(config.include_supplier_info_in_exports)
+
+    def test_supplier_external_id_custom(self):
+        """Test setting a custom supplier external ID"""
+        config = self.env['catalog.config'].get_config()
+
+        config.supplier_external_id = 'my_company_supplier'
+        self.assertEqual(config.supplier_external_id, 'my_company_supplier')
+
+    def test_branding_fields(self):
+        """Test branding fields can be set"""
+        config = self.env['catalog.config'].get_config()
+
+        config.portal_welcome_message = '<p>Welcome!</p>'
+        config.support_email = 'support@test.com'
+        config.support_phone = '+32123456789'
+
+        self.assertEqual(config.support_email, 'support@test.com')
+        self.assertEqual(config.support_phone, '+32123456789')
+
+    def test_statistics_with_data(self):
+        """Test statistics computation with actual data"""
+        config = self.env['catalog.config'].get_config()
+
+        # Create clients
+        partner1 = self.env['res.partner'].create({
+            'name': 'Stats Client 1',
+            'email': 'stats1@example.com',
+        })
+        client1 = self.env['catalog.client'].create({
+            'name': 'Stats Client 1',
+            'partner_id': partner1.id,
+        })
+
+        partner2 = self.env['res.partner'].create({
+            'name': 'Stats Client 2',
+            'email': 'stats2@example.com',
+        })
+        client2 = self.env['catalog.client'].create({
+            'name': 'Stats Client 2',
+            'partner_id': partner2.id,
+        })
+
+        # Create access logs
+        self.env['catalog.access.log'].create({
+            'client_id': client1.id,
+            'action': 'view_catalog',
+        })
+        self.env['catalog.access.log'].create({
+            'client_id': client1.id,
+            'action': 'export_csv',
+            'product_count': 5,
+        })
+
+        config.invalidate_recordset()
+
+        self.assertEqual(config.total_clients, 2)
+        self.assertGreaterEqual(config.active_clients, 1)
+        self.assertGreaterEqual(config.total_exports_today, 1)
+        self.assertGreaterEqual(config.total_exports_month, 1)
+
+    def test_allow_direct_odoo_import_default(self):
+        """Test allow_direct_odoo_import defaults to True"""
+        config = self.env['catalog.config'].get_config()
+        self.assertTrue(config.allow_direct_odoo_import)
+
+    def test_features_can_be_individually_disabled(self):
+        """Test each export feature can be disabled independently"""
+        config = self.env['catalog.config'].get_config()
+
+        # Disable CSV only
+        config.allow_csv_export = False
+        self.assertFalse(config.allow_csv_export)
+        self.assertTrue(config.allow_excel_export)
+        self.assertTrue(config.allow_direct_odoo_import)
+
+        # Disable Direct import only
+        config.allow_csv_export = True
+        config.allow_direct_odoo_import = False
+        self.assertTrue(config.allow_csv_export)
+        self.assertFalse(config.allow_direct_odoo_import)
