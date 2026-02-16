@@ -141,47 +141,65 @@ class CatalogAccessLog(models.Model):
     
     @api.model
     def get_statistics(self, date_from=None, date_to=None, client_id=None):
-        """
-        Récupère des statistiques d'utilisation.
-        
+        """Retrieve usage statistics via SQL aggregation (avoids loading all logs).
+
         Args:
-            date_from: Date de début (optionnel)
-            date_to: Date de fin (optionnel)
-            client_id: Filtrer par client (optionnel)
-        
+            date_from: Start date filter (optional).
+            date_to: End date filter (optional).
+            client_id: Filter by client (optional).
+
         Returns:
-            dict: Statistiques
+            dict with aggregated statistics.
         """
-        domain = []
-        
+        where_clauses = ["1=1"]
+        params = []
+
         if date_from:
-            domain.append(('create_date', '>=', date_from))
+            where_clauses.append("create_date >= %s")
+            params.append(date_from)
         if date_to:
-            domain.append(('create_date', '<=', date_to))
+            where_clauses.append("create_date <= %s")
+            params.append(date_to)
         if client_id:
-            domain.append(('client_id', '=', client_id))
-        
-        logs = self.search(domain)
-        
-        # Compter par type d'action
-        action_counts = {}
-        for action_type in self._fields['action'].selection:
-            action_counts[action_type[0]] = logs.filtered(
-                lambda l: l.action == action_type[0]
-            ).mapped('product_count')
-        
+            where_clauses.append("client_id = %s")
+            params.append(client_id)
+
+        where_sql = " AND ".join(where_clauses)
+
+        self.env.cr.execute(f"""
+            SELECT
+                COUNT(*)                                              AS total_accesses,
+                COUNT(DISTINCT client_id)                             AS unique_clients,
+                COUNT(DISTINCT user_id)                               AS unique_users,
+                COUNT(DISTINCT ip_address)                            AS unique_ips,
+                COUNT(*) FILTER (WHERE action LIKE '%%export%%')      AS total_exports,
+                COALESCE(SUM(product_count), 0)                       AS total_products_exported,
+                CASE WHEN COUNT(*) > 0
+                     THEN ROUND(COUNT(*) FILTER (WHERE success = true) * 100.0 / COUNT(*), 1)
+                     ELSE 0 END                                       AS success_rate
+            FROM catalog_access_log
+            WHERE {where_sql}
+        """, params)
+        row = self.env.cr.dictfetchone()
+
+        # Action breakdown via grouped query
+        self.env.cr.execute(f"""
+            SELECT action, COUNT(*) AS cnt
+            FROM catalog_access_log
+            WHERE {where_sql}
+            GROUP BY action
+        """, params)
+        action_breakdown = {r['action']: r['cnt'] for r in self.env.cr.dictfetchall()}
+
         return {
-            'total_accesses': len(logs),
-            'unique_clients': len(logs.mapped('client_id')),
-            'unique_users': len(logs.mapped('user_id')),
-            'unique_ips': len(logs.mapped('ip_address')),
-            'total_exports': len(logs.filtered(lambda l: 'export' in l.action)),
-            'total_products_exported': sum(logs.mapped('product_count')),
-            'action_breakdown': action_counts,
-            'success_rate': (
-                len(logs.filtered(lambda l: l.success)) / len(logs) * 100
-                if logs else 0
-            ),
+            'total_accesses': row['total_accesses'],
+            'unique_clients': row['unique_clients'],
+            'unique_users': row['unique_users'],
+            'unique_ips': row['unique_ips'],
+            'total_exports': row['total_exports'],
+            'total_products_exported': row['total_products_exported'],
+            'action_breakdown': action_breakdown,
+            'success_rate': float(row['success_rate']),
         }
     
     def action_view_products(self):

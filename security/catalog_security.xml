@@ -78,5 +78,95 @@
             <field name="perm_unlink" eval="False"/>
         </record>
 
+        <!-- Portal Record Rules: restrict portal users to their own data -->
+
+        <record id="catalog_connection_portal_rule" model="ir.rule">
+            <field name="name">Connection: Portal user sees own</field>
+            <field name="model_id" ref="model_catalog_client_connection"/>
+            <field name="domain_force">[('client_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="catalog_field_mapping_portal_rule" model="ir.rule">
+            <field name="name">Field Mapping: Portal user sees own</field>
+            <field name="model_id" ref="model_catalog_field_mapping"/>
+            <field name="domain_force">[('connection_id.client_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="catalog_category_mapping_portal_rule" model="ir.rule">
+            <field name="name">Category Mapping: Portal user sees own</field>
+            <field name="model_id" ref="model_catalog_category_mapping"/>
+            <field name="domain_force">[('connection_id.client_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="catalog_sync_preview_portal_rule" model="ir.rule">
+            <field name="name">Sync Preview: Portal user sees own</field>
+            <field name="model_id" ref="model_catalog_sync_preview"/>
+            <field name="domain_force">[('connection_id.client_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="catalog_sync_change_portal_rule" model="ir.rule">
+            <field name="name">Sync Change: Portal user sees own</field>
+            <field name="model_id" ref="model_catalog_sync_change"/>
+            <field name="domain_force">[('preview_id.connection_id.client_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="catalog_saved_selection_portal_rule" model="ir.rule">
+            <field name="name">Saved Selection: Portal user sees own</field>
+            <field name="model_id" ref="model_catalog_saved_selection"/>
+            <field name="domain_force">[('catalog_client_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="catalog_attribute_mapping_portal_rule" model="ir.rule">
+            <field name="name">Attribute Mapping: Portal user sees own</field>
+            <field name="model_id" ref="model_catalog_attribute_mapping"/>
+            <field name="domain_force">[('connection_id.client_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="catalog_attribute_value_mapping_portal_rule" model="ir.rule">
+            <field name="name">Attribute Value Mapping: Portal user sees own</field>
+            <field name="model_id" ref="model_catalog_attribute_value_mapping"/>
+            <field name="domain_force">[('connection_id.client_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
     </data>
 </odoo>

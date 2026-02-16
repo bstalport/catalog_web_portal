@@ -13,6 +13,15 @@ from odoo.orm.registry import Registry
 _logger = logging.getLogger(__name__)
 
 
+def _prepare_image_for_xmlrpc(image_data):
+    """Ensure image data is a base64 string suitable for XML-RPC transport."""
+    if not image_data:
+        return False
+    if isinstance(image_data, bytes):
+        return image_data.decode('utf-8')
+    return image_data
+
+
 class _TimeoutTransport(xmlrpc.client.Transport):
     """XML-RPC Transport with configurable timeout."""
     def __init__(self, timeout=60, *args, **kwargs):
@@ -220,13 +229,15 @@ class CatalogClientConnection(models.Model):
 
     @api.depends('sync_history_ids')
     def _compute_stats(self):
+        History = self.env['catalog.sync.history']
         for record in self:
-            record.total_syncs = len(record.sync_history_ids)
-            if record.sync_history_ids:
-                last = record.sync_history_ids.sorted('create_date', reverse=True)[0]
-                record.last_sync_status = last.status
-            else:
-                record.last_sync_status = False
+            record.total_syncs = History.search_count([('connection_id', '=', record.id)])
+            last = History.search(
+                [('connection_id', '=', record.id)],
+                order='create_date desc',
+                limit=1,
+            )
+            record.last_sync_status = last.status if last else False
 
     @api.constrains('odoo_url')
     def _check_odoo_url(self):
@@ -451,7 +462,7 @@ class CatalogClientConnection(models.Model):
             return categories
 
         except Exception as e:
-            _logger.error(f"Error fetching client categories: {e}")
+            _logger.error("Error fetching client categories: %s", e)
             raise UserError(_('Failed to fetch categories: %s') % str(e))
 
     def action_search_supplier_partner(self):
@@ -543,7 +554,7 @@ class CatalogClientConnection(models.Model):
         except UserError:
             raise
         except Exception as e:
-            _logger.error(f"Error searching supplier partner: {e}")
+            _logger.error("Error searching supplier partner: %s", e)
             raise UserError(_('Failed to search partner: %s') % str(e))
 
     def action_create_supplier_partner(self):
@@ -612,7 +623,7 @@ class CatalogClientConnection(models.Model):
             }
 
         except Exception as e:
-            _logger.error(f"Error creating supplier partner: {e}")
+            _logger.error("Error creating supplier partner: %s", e)
             raise UserError(_('Failed to create partner: %s') % str(e))
 
     def _get_supplierinfo_price(self, product, pricelist=None):
@@ -1006,14 +1017,13 @@ class CatalogSyncPreview(models.TransientModel):
             connection = self.connection_id
             common = connection._get_xmlrpc_proxy('common')
 
-            # Debug logging
             username = connection.username or 'apiuser'
-            _logger.info(f"Attempting authentication - URL: {connection.odoo_url}, DB: {connection.database}, User: {username}")
+            _logger.info("Attempting authentication to client Odoo (DB: %s)", connection.database)
 
             uid = common.authenticate(connection.database, username, connection.api_key, {})
 
             if not uid:
-                _logger.error(f"Authentication failed - URL: {connection.odoo_url}, DB: {connection.database}, User: {username}")
+                _logger.error("Authentication failed for DB %s", connection.database)
                 raise UserError(_(
                     'Authentication failed - Unable to connect to your Odoo.\n\n'
                     'Possible causes:\n'
@@ -1029,20 +1039,27 @@ class CatalogSyncPreview(models.TransientModel):
 
             models = connection._get_xmlrpc_proxy('object')
 
-            # For each product, check if exists and compute changes
+            # Batch-fetch all existing client products for this supplier (single XML-RPC call)
+            prefix = f'supplier_{connection.client_id.id}_product_'
+            existing_products = models.execute_kw(
+                connection.database, uid, connection.api_key,
+                'product.template', 'search_read',
+                [[('default_code', 'like', prefix)]],
+                {'fields': ['id', 'default_code']}
+            )
+            client_product_map = {
+                p['default_code']: p['id']
+                for p in existing_products
+                if p.get('default_code')
+            }
+
             for product in self.product_ids:
-                external_id = f'supplier_{connection.client_id.id}_product_{product.id}'
+                external_id = f'{prefix}{product.id}'
+                client_product_id = client_product_map.get(external_id)
 
-                # Search by external ID
-                client_product_ids = models.execute_kw(
-                    connection.database, uid, connection.api_key,
-                    'product.template', 'search',
-                    [[('default_code', '=', external_id)]]  # Simplified: use default_code as external ID
-                )
-
-                if client_product_ids:
+                if client_product_id:
                     # Product exists → UPDATE
-                    self._create_update_change(product, client_product_ids[0], models, uid, connection)
+                    self._create_update_change(product, client_product_id, models, uid, connection)
                 else:
                     # Product doesn't exist → CREATE
                     self._create_create_change(product, connection)
@@ -1050,7 +1067,7 @@ class CatalogSyncPreview(models.TransientModel):
             self.state = 'ready'
 
         except Exception as e:
-            _logger.error(f"Preview generation failed: {e}")
+            _logger.error("Preview generation failed: %s", e)
             self.state = 'draft'
             raise UserError(_('Preview generation failed: %s') % str(e))
 
@@ -1088,8 +1105,8 @@ class CatalogSyncPreview(models.TransientModel):
             'preview_id': self.id,
             'product_id': product.id,
             'change_type': 'create',
-            'field_changes': json.dumps(changes),
-            'variant_changes': json.dumps(variant_data) if variant_data else False,
+            'field_changes': json.dumps(changes, ensure_ascii=False),
+            'variant_changes': json.dumps(variant_data, ensure_ascii=False) if variant_data else False,
         })
 
     def _create_update_change(self, product, client_product_id, models_proxy, uid, connection):
@@ -1153,8 +1170,8 @@ class CatalogSyncPreview(models.TransientModel):
                 'product_id': product.id,
                 'change_type': change_type,
                 'client_product_id': client_product_id,
-                'field_changes': json.dumps(changes) if changes else False,
-                'variant_changes': json.dumps(variant_data) if variant_data else False,
+                'field_changes': json.dumps(changes, ensure_ascii=False) if changes else False,
+                'variant_changes': json.dumps(variant_data, ensure_ascii=False) if variant_data else False,
                 'has_warning': bool(warning),
                 'warning_message': warning,
             })
@@ -1228,7 +1245,7 @@ class CatalogSyncPreview(models.TransientModel):
                         stats['skipped'] += 1
 
                 except Exception as e:
-                    _logger.error(f"Error syncing product {change.product_id.id}: {e}")
+                    _logger.error("Error syncing product %s: %s", change.product_id.id, e)
                     errors.append(f"{change.product_name}: {str(e)}")
                     stats['errors'] += 1
 
@@ -1257,7 +1274,7 @@ class CatalogSyncPreview(models.TransientModel):
                 'details': json.dumps({
                     'products': [c.product_id.name for c in self.change_ids],
                     'errors': errors,
-                }),
+                }, ensure_ascii=False),
                 'duration': duration,
             })
 
@@ -1455,7 +1472,7 @@ class CatalogSyncPreview(models.TransientModel):
                         'details': json.dumps({
                             'products': [c.product_id.name for c in preview.change_ids],
                             'errors': errors,
-                        }),
+                        }, ensure_ascii=False),
                         'duration': duration,
                     })
 
@@ -1523,21 +1540,15 @@ class CatalogSyncPreview(models.TransientModel):
             if client_category_id:
                 values['categ_id'] = client_category_id
 
-        # Handle image - ensure it's a proper base64 string
+        # Handle image
         if connection.include_images and product.image_1920:
-            # In Odoo, image_1920 is already base64 encoded
-            # We just need to ensure it's a string for XML-RPC
-            image_data = product.image_1920
-            if isinstance(image_data, bytes):
-                # If it's bytes, decode to string
-                image_data = image_data.decode('utf-8')
-            values['image_1920'] = image_data
+            values['image_1920'] = _prepare_image_for_xmlrpc(product.image_1920)
 
         # Log the values being sent (without image to avoid huge logs)
         log_values = {k: v for k, v in values.items() if k != 'image_1920'}
         if 'image_1920' in values:
             log_values['image_1920'] = f"<base64 image {len(values['image_1920'])} chars>"
-        _logger.info(f"Creating product {product.name} with values: {log_values}")
+        _logger.info("Creating product %s with values: %s", product.name, log_values)
 
         # Create product
         try:
@@ -1546,7 +1557,7 @@ class CatalogSyncPreview(models.TransientModel):
                 'product.template', 'create',
                 [values]
             )
-            _logger.info(f"Successfully created product {product.name} in client Odoo (ID: {client_product_id})")
+            _logger.info("Created product %s in client Odoo (ID: %s)", product.name, client_product_id)
 
             # Create product.supplierinfo for invoice recognition
             if connection.create_supplierinfo and connection.supplier_partner_id:
@@ -1573,7 +1584,7 @@ class CatalogSyncPreview(models.TransientModel):
 
             return client_product_id
         except Exception as e:
-            _logger.error(f"Error creating product {product.name}: {e}", exc_info=True)
+            _logger.error("Error creating product %s: %s", product.name, e, exc_info=True)
             raise
 
     def _execute_update(self, change, models_proxy, uid, connection):
@@ -1606,28 +1617,18 @@ class CatalogSyncPreview(models.TransientModel):
 
         # Handle image carefully
         if connection.include_images and connection.preserve_client_images:
-            # Check if client modified the image
             client_image = models_proxy.execute_kw(
                 connection.database, uid, connection.api_key,
                 'product.template', 'read',
                 [[client_product_id]],
                 {'fields': ['image_1920']}
             )[0].get('image_1920')
-
-            # Only update if image hasn't been modified by client
-            # (This is simplified - ideally compare hashes)
+            # Only update if client has no image yet
             if product.image_1920 and not client_image:
-                image_data = product.image_1920
-                if isinstance(image_data, bytes):
-                    image_data = image_data.decode('utf-8')
-                values['image_1920'] = image_data
+                values['image_1920'] = _prepare_image_for_xmlrpc(product.image_1920)
         elif connection.include_images:
-            # Always update image
             if product.image_1920:
-                image_data = product.image_1920
-                if isinstance(image_data, bytes):
-                    image_data = image_data.decode('utf-8')
-                values['image_1920'] = image_data
+                values['image_1920'] = _prepare_image_for_xmlrpc(product.image_1920)
 
         # Execute update
         if values:
@@ -1637,7 +1638,7 @@ class CatalogSyncPreview(models.TransientModel):
                 [[client_product_id], values]
             )
 
-            _logger.info(f"Updated product {product.name} in client Odoo (ID: {client_product_id})")
+            _logger.info("Updated product %s in client Odoo (ID: %s)", product.name, client_product_id)
 
         # Update product.supplierinfo for invoice recognition
         if connection.create_supplierinfo and connection.supplier_partner_id:
@@ -1994,6 +1995,8 @@ class CatalogSyncPreview(models.TransientModel):
             all_client_ptav_ids.extend(cv.get('product_template_attribute_value_ids', []))
 
         client_ptav_data = {}
+        # Lookup: (client_attr_id, client_val_id) -> ptav_id (for price_extra updates)
+        client_ptav_by_combo = {}
         if all_client_ptav_ids:
             ptav_records = models_proxy.execute_kw(
                 connection.database, uid, connection.api_key,
@@ -2003,6 +2006,13 @@ class CatalogSyncPreview(models.TransientModel):
             )
             for rec in ptav_records:
                 client_ptav_data[rec['id']] = rec
+                a_id = rec['attribute_id']
+                v_id = rec['product_attribute_value_id']
+                if isinstance(a_id, list):
+                    a_id = a_id[0]
+                if isinstance(v_id, list):
+                    v_id = v_id[0]
+                client_ptav_by_combo[(a_id, v_id)] = rec['id']
 
         # Build client variant lookup: frozenset of (client_attr_id, client_val_id) -> variant data
         client_variant_lookup = {}
@@ -2057,10 +2067,7 @@ class CatalogSyncPreview(models.TransientModel):
 
             # Variant image (only if different from template)
             if connection.include_images and variant.image_variant_1920:
-                image_data = variant.image_variant_1920
-                if isinstance(image_data, bytes):
-                    image_data = image_data.decode('utf-8')
-                variant_vals['image_variant_1920'] = image_data
+                variant_vals['image_variant_1920'] = _prepare_image_for_xmlrpc(variant.image_variant_1920)
 
             if variant_vals:
                 models_proxy.execute_kw(
@@ -2069,7 +2076,7 @@ class CatalogSyncPreview(models.TransientModel):
                     [[client_variant_id], variant_vals]
                 )
 
-            # Set price_extra on PTAV (if supplier has price_extra)
+            # Set price_extra on PTAV using pre-fetched lookup (avoids N+1 search)
             for ptav in variant.product_template_attribute_value_ids:
                 if ptav.price_extra:
                     supplier_attr_id = ptav.attribute_id.id
@@ -2077,21 +2084,12 @@ class CatalogSyncPreview(models.TransientModel):
                     client_attr_id = attr_map.get(supplier_attr_id)
                     client_val_id = value_map.get(supplier_attr_id, {}).get(supplier_val_id)
                     if client_attr_id and client_val_id:
-                        # Find client PTAV
-                        client_ptav_ids = models_proxy.execute_kw(
-                            connection.database, uid, connection.api_key,
-                            'product.template.attribute.value', 'search',
-                            [[
-                                ('product_tmpl_id', '=', client_tmpl_id),
-                                ('attribute_id', '=', client_attr_id),
-                                ('product_attribute_value_id', '=', client_val_id),
-                            ]]
-                        )
-                        if client_ptav_ids:
+                        client_ptav_id = client_ptav_by_combo.get((client_attr_id, client_val_id))
+                        if client_ptav_id:
                             models_proxy.execute_kw(
                                 connection.database, uid, connection.api_key,
                                 'product.template.attribute.value', 'write',
-                                [client_ptav_ids[:1], {'price_extra': ptav.price_extra}]
+                                [[client_ptav_id], {'price_extra': ptav.price_extra}]
                             )
 
         _logger.info(
