@@ -1,0 +1,19 @@
+[run]
+source = .
+omit =
+    */tests/*
+    */__pycache__/*
+    */static/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    pass
+show_missing = True
+fail_under = 60
+
+[xml]
+output = coverage.xml

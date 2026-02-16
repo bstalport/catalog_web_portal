@@ -1,0 +1,128 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install linting tools
+        run: pip install flake8 pylint-odoo
+
+      - name: Flake8
+        run: |
+          flake8 . \
+            --count \
+            --max-line-length=120 \
+            --exclude=__pycache__,.git,static \
+            --statistics
+
+  test:
+    name: Test (Odoo ${{ matrix.odoo }})
+    runs-on: ubuntu-latest
+    needs: lint
+
+    strategy:
+      matrix:
+        odoo: ['19.0']
+        python: ['3.10']
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: odoo
+          POSTGRES_PASSWORD: odoo
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.odoo }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.odoo }}-
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libpq-dev libxml2-dev libxslt1-dev libsasl2-dev \
+            libldap2-dev libssl-dev libjpeg-dev zlib1g-dev
+
+      - name: Clone Odoo ${{ matrix.odoo }}
+        run: |
+          git clone --depth=1 --branch=${{ matrix.odoo }} \
+            https://github.com/odoo/odoo.git $HOME/odoo
+
+      - name: Install Odoo requirements
+        run: pip install -r $HOME/odoo/requirements.txt
+
+      - name: Install test dependencies
+        run: pip install coverage openpyxl
+
+      - name: Create test database
+        env:
+          PGHOST: localhost
+          PGUSER: odoo
+          PGPASSWORD: odoo
+        run: createdb catalog_test
+
+      - name: Run tests with coverage
+        env:
+          PGHOST: localhost
+          PGUSER: odoo
+          PGPASSWORD: odoo
+        run: |
+          coverage run --source=. \
+            $HOME/odoo/odoo-bin \
+            --database=catalog_test \
+            --db_host=localhost \
+            --db_port=5432 \
+            --db_user=odoo \
+            --db_password=odoo \
+            --addons-path=$HOME/odoo/addons,$(pwd)/.. \
+            --init=catalog_web_portal \
+            --test-tags=catalog \
+            --stop-after-init \
+            --no-http \
+            --log-level=test
+
+      - name: Generate coverage report
+        run: |
+          coverage report --fail-under=60
+          coverage xml -o coverage.xml
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report-${{ matrix.odoo }}
+          path: coverage.xml

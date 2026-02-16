@@ -18,6 +18,31 @@ class CatalogPortal(CustomerPortal):
     Gère la navigation, recherche, et sélection des produits.
     """
 
+    # ---------- health check ----------
+
+    @http.route(['/catalog/health'], type='http', auth='none', methods=['GET'], csrf=False)
+    def health_check(self, **kwargs):
+        """
+        Health-check endpoint for load balancers and monitoring.
+
+        Returns HTTP 200 with a JSON body when the service is reachable
+        and the database connection is functional.
+        """
+        try:
+            request.env.cr.execute("SELECT 1")
+            status = 'ok'
+            code = 200
+        except Exception:
+            status = 'error'
+            code = 503
+
+        payload = json.dumps({'status': status})
+        return request.make_response(
+            payload,
+            headers=[('Content-Type', 'application/json')],
+            status=code,
+        )
+
     # ---------- helpers ----------
 
     @staticmethod

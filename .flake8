@@ -1,0 +1,17 @@
+[flake8]
+max-line-length = 120
+exclude =
+    __pycache__,
+    .git,
+    static,
+    *.pyc
+ignore =
+    # line too long — handled per-file via noqa where needed
+    E501,
+    # whitespace before ':' — common in Odoo domain lists
+    E203,
+    # line break before binary operator — PEP 8 reversed this
+    W503
+per-file-ignores =
+    __manifest__.py:E501
+    __init__.py:F401
