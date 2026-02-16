@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import json
+import logging
 
 from odoo import http, _
 from odoo.http import request
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager
 from odoo.exceptions import AccessError, UserError
-from odoo.osv import expression
+from odoo.osv import expression  # deprecated in Odoo 19 but still functional
+
+_logger = logging.getLogger(__name__)
 
 
 class CatalogPortal(CustomerPortal):
@@ -14,22 +17,38 @@ class CatalogPortal(CustomerPortal):
     Controller pour le portail catalogue côté client.
     Gère la navigation, recherche, et sélection des produits.
     """
-    
+
+    # ---------- helpers ----------
+
+    @staticmethod
+    def _get_catalog_client():
+        """Return the active catalog.client for the current portal user, or None."""
+        partner = request.env.user.partner_id
+        return request.env['catalog.client'].sudo().search([
+            ('partner_id', '=', partner.id),
+            ('is_active', '=', True),
+        ], limit=1) or None
+
+    @staticmethod
+    def _safe_int(value, default=0):
+        """Safely convert a route/post parameter to int."""
+        try:
+            return int(value)
+        except (ValueError, TypeError):
+            return default
+
+    # ---------- portal home ----------
+
     def _prepare_home_portal_values(self, counters):
         """Ajoute le compteur de produits catalogue au portail"""
         values = super()._prepare_home_portal_values(counters)
-        
+
         if 'catalog_count' in counters:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
-            
+            catalog_client = self._get_catalog_client()
             if catalog_client:
                 products = catalog_client._get_accessible_products()
                 values['catalog_count'] = len(products)
-        
+
         return values
     
     # ============ PORTAL HOME / DASHBOARD ============
@@ -41,11 +60,7 @@ class CatalogPortal(CustomerPortal):
         Dashboard principal du portail - Point d'entrée avec vue d'ensemble.
         """
         # Vérifier que l'utilisateur a accès au catalogue
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
 
         if not catalog_client:
             return request.render('catalog_web_portal.no_access_template')
@@ -86,11 +101,7 @@ class CatalogPortal(CustomerPortal):
         Affiche les produits accessibles avec recherche et filtres.
         """
         # Vérifier que l'utilisateur a accès au catalogue
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
         
         if not catalog_client:
             return request.render('catalog_web_portal.no_access_template')
@@ -123,7 +134,7 @@ class CatalogPortal(CustomerPortal):
         
         # Filtre par catégorie
         if category:
-            category_domain = [('categ_id', 'child_of', int(category))]
+            category_domain = [('categ_id', 'child_of', self._safe_int(category))]
             products_domain = expression.AND([products_domain, category_domain])
         
         # Tri
@@ -173,7 +184,7 @@ class CatalogPortal(CustomerPortal):
             'pager': pager,
             'search': search,
             'sortby': sortby,
-            'category': int(category) if category else None,
+            'category': self._safe_int(category) if category else None,
             'catalog_client': catalog_client,
             'config': config,
             'product_count': product_count,
@@ -191,11 +202,7 @@ class CatalogPortal(CustomerPortal):
         Page de détail d'un produit dans le catalogue.
         """
         # Vérifier accès client
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
         
         if not catalog_client:
             return request.render('catalog_web_portal.no_access_template')
@@ -283,11 +290,7 @@ class CatalogPortal(CustomerPortal):
         Page du "panier" de sélection de produits.
         Affiche les produits sélectionnés et propose l'export.
         """
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
         
         if not catalog_client:
             return request.render('catalog_web_portal.no_access_template')
@@ -332,11 +335,7 @@ class CatalogPortal(CustomerPortal):
         """
         try:
             # Vérifier accès
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
             
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -376,11 +375,7 @@ class CatalogPortal(CustomerPortal):
         """
         try:
             # Récupérer le client
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             selection = list(request.session.get('catalog_selection', []))
             if product_id in selection:
@@ -412,11 +407,7 @@ class CatalogPortal(CustomerPortal):
     def catalog_cart_clear(self, **kwargs):
         """Vide la sélection"""
         # Récupérer le client
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
 
         request.session['catalog_selection'] = []
 
@@ -434,11 +425,7 @@ class CatalogPortal(CustomerPortal):
     def catalog_cart_count(self, **kwargs):
         """Retourne le nombre de produits dans la sélection"""
         # Récupérer depuis la base de données (source de vérité)
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
 
         if catalog_client:
             count = len(catalog_client.selected_product_ids)
@@ -460,11 +447,7 @@ class CatalogPortal(CustomerPortal):
             selected: bool, True = select, False = deselect
         """
         try:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -508,11 +491,7 @@ class CatalogPortal(CustomerPortal):
     def catalog_cart_variant_select_all(self, product_id, **kwargs):
         """Select all variants of a template."""
         try:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -541,11 +520,7 @@ class CatalogPortal(CustomerPortal):
     def catalog_cart_variant_deselect_all(self, product_id, **kwargs):
         """Deselect all variants of a template."""
         try:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -588,11 +563,7 @@ class CatalogPortal(CustomerPortal):
                 return {'success': False, 'message': 'Please provide a name for the selection'}
 
             # Get client
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access found'}
@@ -641,11 +612,7 @@ class CatalogPortal(CustomerPortal):
         """
         try:
             # Get client
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access found'}
@@ -687,17 +654,13 @@ class CatalogPortal(CustomerPortal):
         """
         try:
             # Get client
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access found'}
 
             # Get saved selection
-            saved_selection = request.env['catalog.saved.selection'].sudo().browse(int(selection_id))
+            saved_selection = request.env['catalog.saved.selection'].sudo().browse(self._safe_int(selection_id))
 
             if not saved_selection.exists():
                 return {'success': False, 'message': 'Saved selection not found'}
@@ -737,17 +700,13 @@ class CatalogPortal(CustomerPortal):
         """
         try:
             # Get client
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access found'}
 
             # Get saved selection
-            saved_selection = request.env['catalog.saved.selection'].sudo().browse(int(selection_id))
+            saved_selection = request.env['catalog.saved.selection'].sudo().browse(self._safe_int(selection_id))
 
             if not saved_selection.exists():
                 return {'success': False, 'message': 'Saved selection not found'}
@@ -776,11 +735,7 @@ class CatalogPortal(CustomerPortal):
         """
         Page de configuration de la connexion Odoo pour l'import direct.
         """
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
 
         if not catalog_client:
             return request.render('catalog_web_portal.no_access_template')
@@ -805,11 +760,7 @@ class CatalogPortal(CustomerPortal):
         """
         Sauvegarde ou teste la connexion Odoo.
         """
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
 
         if not catalog_client:
             return request.render('catalog_web_portal.no_access_template')
@@ -868,8 +819,6 @@ class CatalogPortal(CustomerPortal):
                 message_type = 'success'
 
         except Exception as e:
-            import logging
-            _logger = logging.getLogger(__name__)
             _logger.error(f"Error saving connection: {e}", exc_info=True)
             message = f'Error: {str(e)}'
             message_type = 'danger'
@@ -883,11 +832,7 @@ class CatalogPortal(CustomerPortal):
         """
         Affiche un aperçu des changements avant de lancer la synchronisation.
         """
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
 
         if not catalog_client:
             return request.render('catalog_web_portal.no_access_template')
@@ -983,17 +928,13 @@ class CatalogPortal(CustomerPortal):
         """
         Exécute la synchronisation.
         """
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
 
         if not catalog_client:
             return request.render('catalog_web_portal.no_access_template')
 
         # Récupérer le preview
-        preview = request.env['catalog.sync.preview'].sudo().browse(int(preview_id))
+        preview = request.env['catalog.sync.preview'].sudo().browse(self._safe_int(preview_id))
 
         if not preview.exists() or preview.connection_id.client_id != catalog_client:
             return request.redirect('/catalog/portal/cart?message=Invalid preview&message_type=danger')
@@ -1006,8 +947,6 @@ class CatalogPortal(CustomerPortal):
             return request.redirect('/catalog/portal/sync/progress/%s' % preview.id)
 
         except Exception as e:
-            import logging
-            _logger = logging.getLogger(__name__)
             _logger.error(f"Sync execution error: {e}", exc_info=True)
             return request.redirect('/catalog/portal/cart?message=Sync error: %s&message_type=danger' % str(e))
 
@@ -1017,11 +956,7 @@ class CatalogPortal(CustomerPortal):
         """
         Affiche le résultat de la synchronisation.
         """
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
 
         if not catalog_client:
             return request.render('catalog_web_portal.no_access_template')
@@ -1045,11 +980,7 @@ class CatalogPortal(CustomerPortal):
         """
         Affiche la page de progression du sync en arrière-plan.
         """
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
 
         if not catalog_client:
             return request.render('catalog_web_portal.no_access_template')
@@ -1084,16 +1015,12 @@ class CatalogPortal(CustomerPortal):
                 type='jsonrpc', auth='user', website=True)
     def catalog_sync_cancel(self, preview_id, **kwargs):
         """Cancel a running background sync."""
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
 
         if not catalog_client:
             return {'success': False, 'message': 'No access'}
 
-        preview = request.env['catalog.sync.preview'].sudo().browse(int(preview_id))
+        preview = request.env['catalog.sync.preview'].sudo().browse(self._safe_int(preview_id))
 
         if not preview.exists() or preview.connection_id.client_id != catalog_client:
             return {'success': False, 'message': 'Invalid preview'}
@@ -1107,16 +1034,12 @@ class CatalogPortal(CustomerPortal):
         """
         JSON endpoint pour le polling de progression du sync.
         """
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
 
         if not catalog_client:
             return {'error': 'No access'}
 
-        preview = request.env['catalog.sync.preview'].sudo().browse(int(preview_id))
+        preview = request.env['catalog.sync.preview'].sudo().browse(self._safe_int(preview_id))
 
         if not preview.exists() or preview.connection_id.client_id != catalog_client:
             return {'error': 'Invalid preview'}
@@ -1147,11 +1070,7 @@ class CatalogPortal(CustomerPortal):
         """
         Affiche les mappings de champs configurés pour la synchronisation.
         """
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
 
         if not catalog_client:
             return request.render('catalog_web_portal.no_access_template')
@@ -1196,11 +1115,7 @@ class CatalogPortal(CustomerPortal):
         """
         Crée les field mappings par défaut depuis le portail.
         """
-        partner = request.env.user.partner_id
-        catalog_client = request.env['catalog.client'].sudo().search([
-            ('partner_id', '=', partner.id),
-            ('is_active', '=', True)
-        ], limit=1)
+        catalog_client = self._get_catalog_client()
 
         if not catalog_client:
             return request.redirect('/catalog/portal')
@@ -1231,11 +1146,7 @@ class CatalogPortal(CustomerPortal):
         Récupère les catégories depuis l'Odoo du client via XML-RPC.
         """
         try:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -1257,8 +1168,6 @@ class CatalogPortal(CustomerPortal):
             }
 
         except Exception as e:
-            import logging
-            _logger = logging.getLogger(__name__)
             _logger.error(f"Error fetching categories: {e}", exc_info=True)
             return {'success': False, 'message': str(e)}
 
@@ -1269,11 +1178,7 @@ class CatalogPortal(CustomerPortal):
         Supprime un field mapping.
         """
         try:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -1300,11 +1205,7 @@ class CatalogPortal(CustomerPortal):
         Crée ou modifie un field mapping.
         """
         try:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -1346,7 +1247,7 @@ class CatalogPortal(CustomerPortal):
 
             if mapping_id:
                 # Modification
-                mapping = request.env['catalog.field.mapping'].sudo().browse(int(mapping_id))
+                mapping = request.env['catalog.field.mapping'].sudo().browse(self._safe_int(mapping_id))
                 if mapping.connection_id.client_id != catalog_client:
                     return {'success': False, 'message': 'Unauthorized'}
                 mapping.write(values)
@@ -1358,8 +1259,6 @@ class CatalogPortal(CustomerPortal):
             return {'success': True, 'message': 'Mapping saved', 'mapping_id': mapping.id}
 
         except Exception as e:
-            import logging
-            _logger = logging.getLogger(__name__)
             _logger.error(f"Error saving field mapping: {e}", exc_info=True)
             return {'success': False, 'message': str(e)}
 
@@ -1368,11 +1267,7 @@ class CatalogPortal(CustomerPortal):
     def catalog_sync_save_image_settings(self, include_images=False, preserve_client_images=False, auto_create_categories=None, **kwargs):
         """Save image import settings from the mappings page."""
         try:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -1404,11 +1299,7 @@ class CatalogPortal(CustomerPortal):
         Supprime un category mapping.
         """
         try:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -1433,11 +1324,7 @@ class CatalogPortal(CustomerPortal):
         Crée ou modifie un category mapping.
         """
         try:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -1450,15 +1337,15 @@ class CatalogPortal(CustomerPortal):
                 return {'success': False, 'message': 'No connection configured'}
 
             values = {
-                'supplier_category_id': int(supplier_category_id) if supplier_category_id else False,
-                'client_category_id': int(client_category_id) if client_category_id else False,
+                'supplier_category_id': self._safe_int(supplier_category_id) or False,
+                'client_category_id': self._safe_int(client_category_id) or False,
                 'client_category_name': client_category_name or False,
                 'auto_create': bool(auto_create),
             }
 
             if mapping_id:
                 # Modification
-                mapping = request.env['catalog.category.mapping'].sudo().browse(int(mapping_id))
+                mapping = request.env['catalog.category.mapping'].sudo().browse(self._safe_int(mapping_id))
                 if mapping.connection_id.client_id != catalog_client:
                     return {'success': False, 'message': 'Unauthorized'}
                 mapping.write(values)
@@ -1470,8 +1357,6 @@ class CatalogPortal(CustomerPortal):
             return {'success': True, 'message': 'Category mapping saved', 'mapping_id': mapping.id}
 
         except Exception as e:
-            import logging
-            _logger = logging.getLogger(__name__)
             _logger.error(f"Error saving category mapping: {e}", exc_info=True)
             return {'success': False, 'message': str(e)}
 
@@ -1485,11 +1370,7 @@ class CatalogPortal(CustomerPortal):
         Uses the supplier's company name and VAT to search.
         """
         try:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -1518,8 +1399,6 @@ class CatalogPortal(CustomerPortal):
         except UserError as e:
             return {'success': False, 'message': str(e)}
         except Exception as e:
-            import logging
-            _logger = logging.getLogger(__name__)
             _logger.error(f"Error searching supplier: {e}", exc_info=True)
             return {'success': False, 'message': str(e)}
 
@@ -1531,11 +1410,7 @@ class CatalogPortal(CustomerPortal):
         Uses the supplier's company information.
         """
         try:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -1563,8 +1438,6 @@ class CatalogPortal(CustomerPortal):
         except UserError as e:
             return {'success': False, 'message': str(e)}
         except Exception as e:
-            import logging
-            _logger = logging.getLogger(__name__)
             _logger.error(f"Error creating supplier: {e}", exc_info=True)
             return {'success': False, 'message': str(e)}
 
@@ -1577,11 +1450,7 @@ class CatalogPortal(CustomerPortal):
         Supports optional keyword search on partner name.
         """
         try:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -1640,8 +1509,6 @@ class CatalogPortal(CustomerPortal):
         except UserError as e:
             return {'success': False, 'message': str(e)}
         except Exception as e:
-            import logging
-            _logger = logging.getLogger(__name__)
             _logger.error(f"Error listing suppliers: {e}", exc_info=True)
             return {'success': False, 'message': str(e)}
 
@@ -1655,11 +1522,7 @@ class CatalogPortal(CustomerPortal):
         Save supplier info settings for the connection.
         """
         try:
-            partner = request.env.user.partner_id
-            catalog_client = request.env['catalog.client'].sudo().search([
-                ('partner_id', '=', partner.id),
-                ('is_active', '=', True)
-            ], limit=1)
+            catalog_client = self._get_catalog_client()
 
             if not catalog_client:
                 return {'success': False, 'message': 'No catalog access'}
@@ -1673,7 +1536,7 @@ class CatalogPortal(CustomerPortal):
 
             connection.write({
                 'create_supplierinfo': bool(create_supplierinfo),
-                'supplier_partner_id': int(supplier_partner_id) if supplier_partner_id else False,
+                'supplier_partner_id': self._safe_int(supplier_partner_id) or False,
                 'supplierinfo_price_field': supplierinfo_price_field,
                 'supplierinfo_price_coefficient': float(supplierinfo_price_coefficient) if supplierinfo_price_coefficient else 1.0,
             })
@@ -1684,7 +1547,5 @@ class CatalogPortal(CustomerPortal):
             }
 
         except Exception as e:
-            import logging
-            _logger = logging.getLogger(__name__)
             _logger.error(f"Error saving supplier settings: {e}", exc_info=True)
             return {'success': False, 'message': str(e)}

@@ -33,12 +33,18 @@
     }
 
     // ========== Toast Notifications ==========
+    function escapeHtml(str) {
+        if (typeof str !== 'string') return str;
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+    }
+
     function showToast(message, type) {
         type = type || 'info';
-        var toast = $('<div class="catalog-toast ' + type + '">' +
-            '<span class="close-toast">&times;</span>' +
-            '<div>' + message + '</div>' +
-            '</div>');
+        var toast = $('<div>').addClass('catalog-toast').addClass(type);
+        toast.append($('<span>').addClass('close-toast').html('&times;'));
+        toast.append($('<div>').text(message));
 
         $('body').append(toast);
 
@@ -178,25 +184,29 @@
             jsonRpc('/catalog/portal/cart/saved/list', {})
                 .then(function(result) {
                     if (result.success && result.selections && result.selections.length > 0) {
-                        var html = '<div class="list-group">';
+                        var $list = $('<div>').addClass('list-group');
                         result.selections.forEach(function(sel) {
-                            html += '<div class="list-group-item d-flex justify-content-between align-items-center">' +
-                                '<div>' +
-                                '<strong>' + sel.name + '</strong>' +
-                                '<br/><small class="text-muted">' + sel.product_count + ' product(s) - ' + sel.create_date + '</small>' +
-                                '</div>' +
-                                '<div class="btn-group">' +
-                                '<button class="btn btn-sm btn-success btn-load-selection" data-selection-id="' + sel.id + '" data-selection-name="' + sel.name + '">' +
-                                '<i class="fa fa-upload"></i> Load' +
-                                '</button>' +
-                                '<button class="btn btn-sm btn-danger btn-delete-selection" data-selection-id="' + sel.id + '" data-selection-name="' + sel.name + '">' +
-                                '<i class="fa fa-trash"></i>' +
-                                '</button>' +
-                                '</div>' +
-                                '</div>';
+                            var safeName = escapeHtml(sel.name);
+                            var $item = $('<div>').addClass('list-group-item d-flex justify-content-between align-items-center');
+                            var $info = $('<div>');
+                            $info.append($('<strong>').text(sel.name));
+                            $info.append($('<br/>'));
+                            $info.append($('<small>').addClass('text-muted').text(sel.product_count + ' product(s) - ' + sel.create_date));
+                            var $btnGroup = $('<div>').addClass('btn-group');
+                            $btnGroup.append(
+                                $('<button>').addClass('btn btn-sm btn-success btn-load-selection')
+                                    .attr('data-selection-id', sel.id).attr('data-selection-name', sel.name)
+                                    .html('<i class="fa fa-upload"></i> Load')
+                            );
+                            $btnGroup.append(
+                                $('<button>').addClass('btn btn-sm btn-danger btn-delete-selection')
+                                    .attr('data-selection-id', sel.id).attr('data-selection-name', sel.name)
+                                    .html('<i class="fa fa-trash"></i>')
+                            );
+                            $item.append($info).append($btnGroup);
+                            $list.append($item);
                         });
-                        html += '</div>';
-                        $container.html(html);
+                        $container.empty().append($list);
                     } else {
                         $container.html('<p class="text-muted text-center mb-0">No saved selections yet. Click "Save Current Selection" to create one.</p>');
                     }
@@ -861,9 +871,9 @@
 
                 // Update status message
                 if (data.message) {
-                    $('#sync-status-message').html(
-                        '<i class="fa fa-spinner fa-spin"></i> ' + data.message
-                    );
+                    $('#sync-status-message').empty()
+                        .append('<i class="fa fa-spinner fa-spin"></i> ')
+                        .append($('<span>').text(data.message));
                 }
 
                 // Elapsed time

@@ -6,7 +6,50 @@ from odoo.exceptions import UserError
 import csv
 import io
 import base64
+import logging
 from datetime import datetime
+
+_logger = logging.getLogger(__name__)
+
+# Characters that trigger formula interpretation in Excel/LibreOffice
+_CSV_FORMULA_CHARS = ('=', '+', '-', '@', '\t', '\r')
+
+
+def _sanitize_csv_value(value):
+    """Prevent CSV formula injection (CWE-1236).
+
+    If a cell value starts with a formula trigger character, prefix it
+    with a single-quote so spreadsheet applications treat it as text.
+    """
+    if isinstance(value, str) and value and value[0] in _CSV_FORMULA_CHARS:
+        return "'" + value
+    return value
+
+
+# Standard export column headers (Odoo import format)
+EXPORT_HEADERS = [
+    'id',                    # External ID
+    'name',                  # Product Name
+    'default_code',          # Internal Reference
+    'barcode',               # Barcode
+    'list_price',            # Sales Price
+    'standard_price',        # Cost (empty — private)
+    'categ_id/id',           # Category (external ID)
+    'type',                  # Product Type
+    'sale_ok',               # Can be Sold
+    'purchase_ok',           # Can be Purchased
+    'weight',                # Weight
+    'volume',                # Volume
+    'description_sale',      # Description
+]
+
+SUPPLIER_HEADERS = [
+    'seller_ids/partner_id/id',   # Supplier partner external ID
+    'seller_ids/product_code',    # Supplier's product code
+    'seller_ids/product_name',    # Supplier's product name
+    'seller_ids/price',           # Purchase price from supplier
+    'seller_ids/min_qty',         # Minimum quantity
+]
 
 
 class CatalogExport(http.Controller):
@@ -14,7 +57,7 @@ class CatalogExport(http.Controller):
     Controller pour gérer les exports de catalogue.
     Supporte CSV, Excel, et import direct Odoo.
     """
-    
+
     # ============ CSV EXPORT ============
     
     @http.route(['/catalog/export/csv'], 
@@ -90,34 +133,9 @@ class CatalogExport(http.Controller):
             include_supplier_info = config.include_supplier_info_in_exports
             supplier_external_id = config.supplier_external_id or 'catalog_supplier'
 
-            # Headers selon format import Odoo standard
-            headers = [
-                'id',                    # External ID (format Odoo)
-                'name',                  # Nom du produit
-                'default_code',          # Code interne
-                'barcode',               # Code-barres
-                'list_price',            # Prix de vente
-                'standard_price',        # Coût (vide - info privée)
-                'categ_id/id',           # Catégorie (external ID)
-                'type',         # Type (consu/service/product)
-                'sale_ok',               # Vendable
-                'purchase_ok',           # Achetable
-                'weight',                # Poids
-                'volume',                # Volume
-                'description_sale',      # Description
-            ]
-
-            # Add supplier info columns for invoice recognition
+            headers = list(EXPORT_HEADERS)
             if include_supplier_info:
-                headers.extend([
-                    'seller_ids/partner_id/id',   # Supplier partner external ID
-                    'seller_ids/product_code',    # Supplier's product code
-                    'seller_ids/product_name',    # Supplier's product name
-                    'seller_ids/price',           # Purchase price from supplier
-                    'seller_ids/min_qty',         # Minimum quantity
-                ])
-
-            # Add image column last
+                headers.extend(SUPPLIER_HEADERS)
             headers.append('image_1920')
 
             writer.writerow(headers)
@@ -143,9 +161,9 @@ class CatalogExport(http.Controller):
 
                 row = [
                     f'__import__.supplier_{catalog_client.id}_product_{product.id}',  # External ID unique
-                    product.name,
-                    product.default_code or '',
-                    product.barcode or '',
+                    _sanitize_csv_value(product.name),
+                    _sanitize_csv_value(product.default_code or ''),
+                    _sanitize_csv_value(product.barcode or ''),
                     price,
                     '',  # Coût vide (info privée fournisseur)
                     f'__import__.{product.categ_id.name.lower().replace(" ", "_")}' if product.categ_id else '',
@@ -154,15 +172,15 @@ class CatalogExport(http.Controller):
                     'True',  # Achetable (enabled for supplier products)
                     product.weight or 0,
                     product.volume or 0,
-                    product.description_sale or '',
+                    _sanitize_csv_value(product.description_sale or ''),
                 ]
 
                 # Add supplier info for invoice recognition
                 if include_supplier_info:
                     row.extend([
                         f'__import__.{supplier_external_id}',  # Supplier partner external ID
-                        product.default_code or '',            # Supplier's product code (your reference)
-                        product.name,                          # Supplier's product name
+                        _sanitize_csv_value(product.default_code or ''),  # Supplier's product code
+                        _sanitize_csv_value(product.name),                # Supplier's product name
                         price,                                 # Purchase price (same as catalog price)
                         1.0,                                   # Minimum quantity
                     ])
@@ -313,35 +331,11 @@ class CatalogExport(http.Controller):
             data_align = Alignment(vertical='center', wrap_text=True)
             price_format = '#,##0.00'
 
-            # Colonnes (format import Odoo)
-            headers = [
-                'id',
-                'name',
-                'default_code',
-                'barcode',
-                'list_price',
-                'standard_price',
-                'categ_id/id',
-                'type',
-                'sale_ok',
-                'purchase_ok',
-                'weight',
-                'volume',
-                'description_sale',
-            ]
-
-            # Largeurs de colonnes en caractères
+            headers = list(EXPORT_HEADERS)
             col_widths = [32, 30, 18, 16, 14, 14, 26, 14, 12, 14, 10, 10, 36]
 
-            # Add supplier info columns for invoice recognition
             if include_supplier_info:
-                headers.extend([
-                    'seller_ids/partner_id/id',
-                    'seller_ids/product_code',
-                    'seller_ids/product_name',
-                    'seller_ids/price',
-                    'seller_ids/min_qty',
-                ])
+                headers.extend(SUPPLIER_HEADERS)
                 col_widths.extend([28, 18, 28, 14, 12])
 
             if include_images:
@@ -368,9 +362,9 @@ class CatalogExport(http.Controller):
 
                 row_data = [
                     f'__import__.supplier_{catalog_client.id}_product_{product.id}',
-                    product.name,
-                    product.default_code or '',
-                    product.barcode or '',
+                    _sanitize_csv_value(product.name),
+                    _sanitize_csv_value(product.default_code or ''),
+                    _sanitize_csv_value(product.barcode or ''),
                     price,
                     '',  # Coût vide
                     f'__import__.{product.categ_id.name.lower().replace(" ", "_")}' if product.categ_id else '',
@@ -379,15 +373,15 @@ class CatalogExport(http.Controller):
                     True,  # Achetable (enabled for supplier products)
                     product.weight or 0,
                     product.volume or 0,
-                    product.description_sale or '',
+                    _sanitize_csv_value(product.description_sale or ''),
                 ]
 
                 # Add supplier info for invoice recognition
                 if include_supplier_info:
                     row_data.extend([
                         f'__import__.{supplier_external_id}',  # Supplier partner external ID
-                        product.default_code or '',            # Supplier's product code
-                        product.name,                          # Supplier's product name
+                        _sanitize_csv_value(product.default_code or ''),  # Supplier's product code
+                        _sanitize_csv_value(product.name),                # Supplier's product name
                         price,                                 # Purchase price
                         1.0,                                   # Minimum quantity
                     ])
