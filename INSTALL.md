@@ -367,24 +367,6 @@ Vous devriez voir :
 
 ---
 
-## ✅ Checklist de Tests Réussis
-
-- [ ] Module installé sans erreur
-- [ ] Configuration accessible et modifiable
-- [ ] Produits publiables dans le catalogue
-- [ ] Client créé avec succès
-- [ ] Invitation portal envoyée
-- [ ] Connexion client réussie
-- [ ] Navigation catalogue fluide
-- [ ] Recherche et filtres fonctionnels
-- [ ] Ajout à la sélection opérationnel
-- [ ] Export CSV génère un fichier valide
-- [ ] Import CSV dans Odoo réussi
-- [ ] Logs d'accès enregistrés correctement
-- [ ] Statistiques affichées
-
----
-
 ## 🐛 Résolution de Problèmes Courants
 
 ### Erreur : Module not found
@@ -447,16 +429,106 @@ ALTER USER [votre_user] CREATEDB;
 
 ---
 
+### Test 11 : Configurer la Synchronisation Directe (Direct Odoo Sync)
+
+1. Menu : **Catalog Portal → Configuration → Client Connections**
+2. Cliquer **Create**
+3. Remplir :
+   - **Client** : Sélectionner "Test Client ABC"
+   - **Odoo URL** : URL de l'instance Odoo du client (ex: `https://client.odoo.com`)
+   - **Database** : Nom de la base de données du client
+   - **API Key** : Clé API du client (générée dans Settings → API Keys sur l'Odoo du client)
+4. Cliquer **"Test Connection"**
+5. Si OK : Cliquer **"Create Default Mappings"** pour créer les mappings de champs et catégories
+6. Configurer les options :
+   - **Sync Variants** : Oui/Non
+   - **Auto-create Categories** : Oui (recommandé)
+   - **Include Images** : Oui
+   - **Reference Mode** : Choisir le mode de génération des références
+   - **Create Supplier Info** : Oui (pour la reconnaissance sur factures)
+7. Configurer les **Attribute Mappings** si nécessaire
+8. Sauvegarder
+
+### Test 12 : Tester la Synchronisation
+
+1. Depuis la connexion client, cliquer **"Sync Products"**
+2. Vérifier la prévisualisation (dry-run)
+3. Confirmer la synchronisation
+4. Vérifier dans **Sync History** :
+   - Status : Success / Partial / Error
+   - Nombre de produits synchronisés
+   - Messages d'erreur éventuels
+5. Vérifier sur l'Odoo du client que les produits sont créés/mis à jour
+
+### Test 13 : Sélections Sauvegardées
+
+1. Se connecter comme client sur le portail
+2. Sélectionner plusieurs produits
+3. Cliquer **"Save Selection"**
+4. Nommer la sélection (ex: "Ma sélection Février")
+5. Vider la sélection
+6. Aller dans **Dashboard → Saved Selections**
+7. Cliquer **"Load"** sur la sélection sauvegardée
+8. Vérifier que les produits sont rechargés dans le panier
+
+---
+
+## ✅ Checklist de Tests Étendue
+
+### Tests de base
+- [ ] Module installé sans erreur
+- [ ] Configuration accessible et modifiable
+- [ ] Produits publiables dans le catalogue
+- [ ] Client créé avec succès
+- [ ] Invitation portal envoyée
+- [ ] Connexion client réussie
+
+### Tests du portail
+- [ ] Navigation catalogue fluide
+- [ ] Recherche et filtres fonctionnels
+- [ ] Tri par nom, prix, date, référence
+- [ ] Ajout à la sélection opérationnel
+- [ ] Détail produit affiché correctement
+
+### Tests d'export
+- [ ] Export CSV génère un fichier valide
+- [ ] Import CSV dans Odoo réussi
+- [ ] Champs d'export configurables
+- [ ] Rate limiting fonctionne
+
+### Tests de synchronisation directe
+- [ ] Connexion XML-RPC testée avec succès
+- [ ] Mappings de champs créés
+- [ ] Mappings de catégories créés
+- [ ] Mappings d'attributs configurés
+- [ ] Synchronisation produits réussie
+- [ ] Supplier info créé dans l'Odoo client
+- [ ] Historique de sync enregistré
+
+### Tests des sélections
+- [ ] Sauvegarde de sélection fonctionne
+- [ ] Chargement de sélection fonctionne
+- [ ] Suppression de sélection fonctionne
+
+### Tests d'analytics
+- [ ] Logs d'accès enregistrés correctement
+- [ ] Statistiques client affichées
+- [ ] Statistiques globales affichées
+- [ ] Historique de sync visible
+
+---
+
 ## 📝 Prochaines Étapes
 
-Une fois le MVP testé avec succès :
+Une fois le module testé avec succès :
 
-1. **Personnaliser** le branding (logo, couleurs)
+1. **Personnaliser** le branding (logo, couleurs, message de bienvenue)
 2. **Créer** plus de clients avec différents modes d'accès
 3. **Tester** les access modes "Restricted" et "Custom"
-4. **Configurer** des pricelists personnalisées
-5. **Analyser** les logs pour comprendre l'usage
-6. **Préparer** pour production (voir guide de déploiement)
+4. **Configurer** des pricelists personnalisées par client
+5. **Configurer** les connexions directes pour les clients avancés
+6. **Analyser** les logs et l'historique de sync pour comprendre l'usage
+7. **Préparer** pour production (voir guide de déploiement)
 
 ---
 

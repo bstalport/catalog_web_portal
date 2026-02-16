@@ -297,3 +297,114 @@ class TestCatalogClient(TransactionCase):
         })
 
         self.assertEqual(client.pricelist_id, pricelist)
+
+    def test_selected_product_count_computation(self):
+        """Test selected_product_count is computed correctly"""
+        partner = self.env['res.partner'].create({
+            'name': 'Cart Partner',
+            'email': 'cart@example.com',
+        })
+        client = self.env['catalog.client'].create({
+            'name': 'Cart Client',
+            'partner_id': partner.id,
+        })
+
+        # Initially zero
+        self.assertEqual(client.selected_product_count, 0)
+
+        # Add products to cart
+        client.selected_product_ids = [(6, 0, [self.product1.id, self.product2.id])]
+        self.assertEqual(client.selected_product_count, 2)
+
+        # Remove one
+        client.selected_product_ids = [(3, self.product1.id)]
+        self.assertEqual(client.selected_product_count, 1)
+
+    def test_selected_variant_ids(self):
+        """Test variant selection field works"""
+        partner = self.env['res.partner'].create({
+            'name': 'Variant Partner',
+            'email': 'variant@example.com',
+        })
+        client = self.env['catalog.client'].create({
+            'name': 'Variant Client',
+            'partner_id': partner.id,
+        })
+
+        # Get product variants
+        variant = self.product1.product_variant_ids[0]
+
+        client.selected_variant_ids = [(6, 0, [variant.id])]
+        self.assertEqual(len(client.selected_variant_ids), 1)
+        self.assertEqual(client.selected_variant_ids[0], variant)
+
+    def test_get_accessible_domain_full(self):
+        """Test _get_accessible_domain for full access mode"""
+        partner = self.env['res.partner'].create({
+            'name': 'Domain Full Partner',
+            'email': 'domain_full@example.com',
+        })
+        client = self.env['catalog.client'].create({
+            'name': 'Domain Full Client',
+            'partner_id': partner.id,
+            'access_mode': 'full',
+        })
+
+        domain = client._get_accessible_domain()
+
+        self.assertEqual(domain, [('is_published', '=', True)])
+
+    def test_get_accessible_domain_restricted(self):
+        """Test _get_accessible_domain for restricted mode"""
+        partner = self.env['res.partner'].create({
+            'name': 'Domain Restricted Partner',
+            'email': 'domain_restricted@example.com',
+        })
+        client = self.env['catalog.client'].create({
+            'name': 'Domain Restricted Client',
+            'partner_id': partner.id,
+            'access_mode': 'restricted',
+            'allowed_category_ids': [(6, 0, [self.category.id])],
+        })
+
+        domain = client._get_accessible_domain()
+
+        self.assertIn(('is_published', '=', True), domain)
+        self.assertIn(('categ_id', 'child_of', [self.category.id]), domain)
+
+    def test_get_accessible_domain_custom(self):
+        """Test _get_accessible_domain for custom mode"""
+        partner = self.env['res.partner'].create({
+            'name': 'Domain Custom Partner',
+            'email': 'domain_custom@example.com',
+        })
+        client = self.env['catalog.client'].create({
+            'name': 'Domain Custom Client',
+            'partner_id': partner.id,
+            'access_mode': 'custom',
+            'allowed_product_ids': [(6, 0, [self.product1.id])],
+        })
+
+        domain = client._get_accessible_domain()
+
+        self.assertIn(('is_published', '=', True), domain)
+        self.assertIn(('id', 'in', [self.product1.id]), domain)
+
+    def test_accessible_domain_matches_products(self):
+        """Test that _get_accessible_domain and _get_accessible_products give consistent results"""
+        partner = self.env['res.partner'].create({
+            'name': 'Consistency Partner',
+            'email': 'consistency@example.com',
+        })
+        client = self.env['catalog.client'].create({
+            'name': 'Consistency Client',
+            'partner_id': partner.id,
+            'access_mode': 'restricted',
+            'allowed_category_ids': [(6, 0, [self.category.id])],
+        })
+
+        domain = client._get_accessible_domain()
+        products_from_domain = self.env['product.template'].search(domain)
+        products_from_method = client._get_accessible_products()
+
+        self.assertEqual(set(products_from_domain.ids), set(products_from_method.ids))

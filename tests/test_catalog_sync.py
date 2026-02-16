@@ -523,3 +523,358 @@ class TestCatalogSync(TransactionCase):
 
         self.assertEqual(mapping.coefficient, 1.25)
         self.assertEqual(original_price * mapping.coefficient, expected_price)
+
+    # ===== REFERENCE GENERATION TESTS =====
+
+    def test_21_reference_keep_original(self):
+        """Test reference generation: keep original mode"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+            'reference_mode': 'keep_original',
+        })
+
+        ref = connection.generate_product_reference(self.product1)
+
+        self.assertEqual(ref, 'TEST001')
+
+    def test_22_reference_product_id(self):
+        """Test reference generation: product ID mode"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+            'reference_mode': 'product_id',
+        })
+
+        ref = connection.generate_product_reference(self.product1)
+
+        self.assertEqual(ref, str(self.product1.id))
+
+    def test_23_reference_none(self):
+        """Test reference generation: no reference mode"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+            'reference_mode': 'none',
+        })
+
+        ref = connection.generate_product_reference(self.product1)
+
+        self.assertFalse(ref)
+
+    def test_24_reference_with_prefix(self):
+        """Test reference generation with prefix"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+            'reference_mode': 'keep_original',
+            'reference_prefix': 'SUP',
+            'reference_separator': '-',
+        })
+
+        ref = connection.generate_product_reference(self.product1)
+
+        self.assertEqual(ref, 'SUP-TEST001')
+
+    def test_25_reference_with_suffix(self):
+        """Test reference generation with suffix"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+            'reference_mode': 'keep_original',
+            'reference_suffix': 'IMP',
+            'reference_separator': '-',
+        })
+
+        ref = connection.generate_product_reference(self.product1)
+
+        self.assertEqual(ref, 'TEST001-IMP')
+
+    def test_26_reference_with_prefix_and_suffix(self):
+        """Test reference generation with both prefix and suffix"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+            'reference_mode': 'keep_original',
+            'reference_prefix': 'SUP',
+            'reference_suffix': 'IMP',
+            'reference_separator': '_',
+        })
+
+        ref = connection.generate_product_reference(self.product1)
+
+        self.assertEqual(ref, 'SUP_TEST001_IMP')
+
+    def test_27_reference_custom_format(self):
+        """Test reference generation with custom format"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+            'reference_mode': 'custom_format',
+            'reference_custom_format': '{prefix}{ref}-{id}',
+            'reference_prefix': 'CAT',
+        })
+
+        ref = connection.generate_product_reference(self.product1)
+
+        self.assertEqual(ref, f'CATTEST001-{self.product1.id}')
+
+    def test_28_reference_product_without_code(self):
+        """Test reference generation for product without default_code"""
+        product_no_code = self.env['product.template'].create({
+            'name': 'No Code Product',
+            'type': 'consu',
+        })
+
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+            'reference_mode': 'product_id',
+        })
+
+        ref = connection.generate_product_reference(product_no_code)
+
+        self.assertEqual(ref, str(product_no_code.id))
+
+    # ===== SUPPLIER INFO CONFIGURATION TESTS =====
+
+    def test_29_supplier_info_defaults(self):
+        """Test supplier info default values"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        self.assertTrue(connection.create_supplierinfo)
+        self.assertEqual(connection.supplierinfo_price_field, 'list_price')
+        self.assertEqual(connection.supplierinfo_price_coefficient, 1.0)
+
+    def test_30_supplier_info_price_fields(self):
+        """Test all supplier info price field options"""
+        for price_field in ['list_price', 'standard_price', 'pricelist']:
+            connection = self.env['catalog.client.connection'].create({
+                'client_id': self.catalog_client.id,
+                'odoo_url': f'https://test{price_field}.odoo.com',
+                'database': 'test_db',
+                'api_key': 'test_key',
+                'supplierinfo_price_field': price_field,
+            })
+            self.assertEqual(connection.supplierinfo_price_field, price_field)
+
+    def test_31_supplier_info_coefficient(self):
+        """Test supplier info price coefficient"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://coeff.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+            'supplierinfo_price_coefficient': 0.8,
+        })
+
+        self.assertEqual(connection.supplierinfo_price_coefficient, 0.8)
+
+        original_price = 100.0
+        self.assertEqual(original_price * connection.supplierinfo_price_coefficient, 80.0)
+
+    def test_32_supplier_partner_fields(self):
+        """Test supplier partner ID and name fields"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://supplier.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+            'supplier_partner_id': 42,
+            'supplier_partner_name': 'My Supplier Company',
+        })
+
+        self.assertEqual(connection.supplier_partner_id, 42)
+        self.assertEqual(connection.supplier_partner_name, 'My Supplier Company')
+
+    # ===== SYNC OPTIONS TESTS =====
+
+    def test_33_sync_variants_option(self):
+        """Test sync_variants option defaults to False"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://variants.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        self.assertFalse(connection.sync_variants)
+
+        connection.sync_variants = True
+        self.assertTrue(connection.sync_variants)
+
+    def test_34_verify_ssl_option(self):
+        """Test verify_ssl option defaults to True"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://ssl.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        self.assertTrue(connection.verify_ssl)
+
+        connection.verify_ssl = False
+        self.assertFalse(connection.verify_ssl)
+
+    def test_35_all_reference_modes(self):
+        """Test all reference mode selection values"""
+        modes = ['keep_original', 'supplier_ref', 'product_id', 'custom_format', 'none']
+        for mode in modes:
+            connection = self.env['catalog.client.connection'].create({
+                'client_id': self.catalog_client.id,
+                'odoo_url': f'https://mode-{mode}.odoo.com',
+                'database': 'test_db',
+                'api_key': 'test_key',
+                'reference_mode': mode,
+            })
+            self.assertEqual(connection.reference_mode, mode)
+
+    # ===== ATTRIBUTE MAPPING INTEGRATION TESTS =====
+
+    def test_36_attribute_mapping_on_connection(self):
+        """Test attribute mappings accessible via connection"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://attr.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        attribute = self.env['product.attribute'].create({'name': 'Color'})
+
+        self.env['catalog.attribute.mapping'].create({
+            'connection_id': connection.id,
+            'supplier_attribute_id': attribute.id,
+            'client_attribute_id': 10,
+            'client_attribute_name': 'Colour',
+        })
+
+        self.assertEqual(len(connection.attribute_mapping_ids), 1)
+        self.assertEqual(connection.attribute_mapping_ids[0].client_attribute_name, 'Colour')
+
+    def test_37_attribute_value_mapping_on_connection(self):
+        """Test attribute value mappings accessible via connection"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://attrval.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        attribute = self.env['product.attribute'].create({'name': 'Size'})
+        value = self.env['product.attribute.value'].create({
+            'name': 'Large',
+            'attribute_id': attribute.id,
+        })
+
+        self.env['catalog.attribute.value.mapping'].create({
+            'connection_id': connection.id,
+            'supplier_value_id': value.id,
+            'client_value_id': 50,
+            'client_value_name': 'L',
+        })
+
+        self.assertEqual(len(connection.attribute_value_mapping_ids), 1)
+        self.assertEqual(connection.attribute_value_mapping_ids[0].client_value_name, 'L')
+
+    def test_38_sync_history_error_status(self):
+        """Test sync history with error status and error message"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://error.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        history = self.env['catalog.sync.history'].create({
+            'connection_id': connection.id,
+            'user_id': self.env.user.id,
+            'products_created': 0,
+            'products_error': 5,
+            'status': 'error',
+            'error_message': 'Connection timeout',
+        })
+
+        self.assertEqual(history.status, 'error')
+        self.assertEqual(history.products_error, 5)
+        self.assertEqual(history.error_message, 'Connection timeout')
+
+        # Connection should reflect error status
+        connection.invalidate_recordset()
+        self.assertEqual(connection.last_sync_status, 'error')
+
+    def test_39_preserve_client_images_option(self):
+        """Test preserve_client_images option"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://images.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        self.assertTrue(connection.preserve_client_images)
+
+        connection.preserve_client_images = False
+        self.assertFalse(connection.preserve_client_images)
+
+    def test_40_connection_cascade_deletes_mappings(self):
+        """Test that deleting a connection cascades to all related mappings"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://cascade.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+        })
+
+        # Create field mapping
+        fm = self.env['catalog.field.mapping'].create({
+            'connection_id': connection.id,
+            'source_field': 'name',
+            'target_field': 'name',
+            'sync_mode': 'always',
+        })
+
+        # Create category mapping
+        cat = self.env['product.category'].create({'name': 'Cascade Cat'})
+        cm = self.env['catalog.category.mapping'].create({
+            'connection_id': connection.id,
+            'supplier_category_id': cat.id,
+            'client_category_id': 1,
+        })
+
+        # Create attribute mapping
+        attr = self.env['product.attribute'].create({'name': 'Cascade Attr'})
+        am = self.env['catalog.attribute.mapping'].create({
+            'connection_id': connection.id,
+            'supplier_attribute_id': attr.id,
+        })
+
+        fm_id, cm_id, am_id = fm.id, cm.id, am.id
+
+        connection.unlink()
+
+        self.assertFalse(self.env['catalog.field.mapping'].browse(fm_id).exists())
+        self.assertFalse(self.env['catalog.category.mapping'].browse(cm_id).exists())
+        self.assertFalse(self.env['catalog.attribute.mapping'].browse(am_id).exists())

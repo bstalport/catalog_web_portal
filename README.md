@@ -95,7 +95,26 @@ Or use bulk action:
    - Login credentials
    - Instructions
 
-Done! 🎉 Your customer can now access the catalog.
+Done! Your customer can now access the catalog.
+
+#### Step 5 (Optional): Set Up Direct Odoo Sync
+
+1. Go to **Catalog Portal → Configuration → Client Connections**
+2. Click **Create**
+3. Fill in:
+   - **Client**: Select the catalog client
+   - **Odoo URL**: Client's Odoo instance URL
+   - **Database**: Client's Odoo database name
+   - **API Key**: Client's Odoo API key
+4. Click **"Test Connection"** to verify
+5. Click **"Create Default Mappings"** for field/category mappings
+6. Configure sync options:
+   - Sync variants (yes/no)
+   - Auto-create categories
+   - Include images
+   - Reference generation mode
+   - Supplier info creation
+7. Use **attribute mappings** to match product attributes between instances
 
 ---
 
@@ -131,12 +150,23 @@ Done! 🎉 Your customer can now access the catalog.
 
 #### Step 5: Import into Your Odoo
 
+**Option A: Manual CSV Import**
+
 1. In **your** Odoo: Go to **Purchase → Products**
 2. Click **Favorites → Import records**
 3. Upload the CSV file you just downloaded
 4. Verify column mappings (auto-detected)
 5. Click **Import**
-6. Done! Products are now in your Odoo 🎉
+6. Products are now in your Odoo
+
+**Option B: Direct Odoo Sync (if configured by supplier)**
+
+1. From the portal dashboard, go to **Direct Import**
+2. Enter your Odoo connection details (URL, database, API key)
+3. Test the connection
+4. Configure field and category mappings
+5. Preview the sync and confirm
+6. Products are imported directly into your Odoo with supplier info
 
 ---
 
@@ -164,15 +194,54 @@ Done! 🎉 Your customer can now access the catalog.
 - Prices in exported CSV reflect client's pricelist
 - Supports multi-currency if configured
 
+### CSV Export
+
+- Odoo-compatible CSV format for direct import
+- Configurable export fields (name, reference, barcode, price, UoM, category, etc.)
+- Optional image inclusion
+- Supplier info export (`product.supplierinfo`) for invoice matching
+- Automatic filename generation with client name and date
+
+### Direct Odoo Sync (XML-RPC)
+
+Connect your catalog directly to your customer's Odoo instance for automatic product import:
+
+- **Remote Connection**: XML-RPC connection to client's Odoo (URL, database, API key)
+- **Field Mapping**: Map supplier fields to client Odoo fields with custom transformations
+- **Category Mapping**: Map supplier categories to client categories, with auto-creation option
+- **Attribute Mapping**: Map product attributes and values between instances
+- **Product Variants**: Full variant sync with attribute/value matching
+- **Supplier Info Creation**: Automatically create `product.supplierinfo` records for invoice recognition
+- **Reference Generation**: Multiple modes (keep original, supplier reference, product ID, custom format)
+- **Image Sync**: Include product images with option to preserve client-side images
+- **Sync Preview**: Dry-run preview before committing changes
+- **Sync History**: Track all sync operations with success/error status
+- **SSL Support**: Configurable SSL verification
+
+Setup: **Catalog Portal → Configuration → Client Connections**
+
+### Saved Selections
+
+Customers can save their product selections for later use:
+
+- Save current selection with a custom name
+- Load previously saved selections
+- Delete outdated selections
+- Product count tracked per selection
+
 ### Analytics
 
 Track everything:
 - Who accessed the catalog (date, time, IP)
 - What products were viewed
 - What products were exported
-- Export frequency
+- Export frequency and format
+- Direct sync operations
+- User agent and HTTP referer tracking
+- Success/error tracking with error messages
 
 Access logs: **Catalog Portal → Analytics → Access Logs**
+Sync history: **Catalog Portal → Analytics → Sync History**
 
 ### Rate Limiting
 
@@ -283,22 +352,19 @@ Extend product information for catalog:
 ### Coming Soon
 
 - [ ] **Excel Export**: Native .xlsx export
-- [ ] **Direct Odoo Import**: Automatic XML-RPC import
 - [ ] **Public Catalog Mode**: Browse without authentication
-- [ ] **Multi-language Support**: Translate catalog
-- [ ] **Product Variants**: Full variant support in export
+- [ ] **Multi-language Support**: Translate product descriptions
 - [ ] **Stock Levels**: Show available quantities (optional)
-- [ ] **Product Comparison**: Compare multiple products
-- [ ] **Favorites**: Save favorite products
+- [ ] **Product Comparison**: Compare multiple products side by side
 - [ ] **Mobile App**: Native iOS/Android apps
 
 ### Planned Enhancements
 
-- Webhooks for real-time sync
-- Advanced analytics dashboard
+- Webhooks for real-time sync notifications
+- Advanced analytics dashboard with charts
 - Email notifications on catalog updates
 - PDF catalog generation
-- Scheduled automatic exports
+- Scheduled automatic exports/sync
 
 ---
 
@@ -359,16 +425,30 @@ Please follow Odoo coding guidelines.
 
 ## 📈 Version History
 
-### v1.0.0 (2024-01-XX) - Initial Release
+### v1.1.0 - Feature Complete Release
+
+**New Features**:
+- Direct Odoo Sync via XML-RPC with field, category, and attribute mapping
+- Product variant support with attribute/value mapping
+- Saved selections (save, load, delete)
+- Supplier info export (`product.supplierinfo`) for invoice matching
+- Sync preview and dry-run before import
+- Sync history with status tracking
+- Reference generation modes (keep original, supplier ref, product ID, custom format)
+- Attribute and attribute value mapping between Odoo instances
+
+### v1.0.0 - Initial Release
 
 **Features**:
-- Secure portal access
-- Product browsing with search and filters
-- CSV export
+- Secure portal access with API key generation
+- Product browsing with search, filters, and sorting
+- CSV export with configurable fields
 - Custom pricelists per client
-- Access control (3 modes)
-- Analytics and logging
-- Responsive design
+- Access control (Full, Restricted, Custom)
+- Analytics and logging (views, exports, IP tracking)
+- Responsive design with mobile support
+- Branding customization (logo, colors, welcome message)
+- Rate limiting and export quotas
 
 ---
 

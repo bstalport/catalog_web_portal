@@ -6,3 +6,5 @@ from . import test_product_template
 from . import test_catalog_access_log
 from . import test_export
 from . import test_catalog_sync
+from . import test_saved_selection
+from . import test_attribute_mapping

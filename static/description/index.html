@@ -20,53 +20,65 @@ As a **supplier**, **manufacturer**, or **distributor**, you want to share your 
 
 ✅ **Publish Your Catalog in Minutes**
 - Select products to share
-- One-click publishing
-- Automatic updates
+- One-click publishing and bulk actions
+- Featured products highlighting
 
 ✅ **Secure Customer Access**
-- Portal authentication
-- Custom access rights per customer
-- API keys for advanced integrations
+- Portal authentication with auto-created portal users
+- Three access modes: Full, Restricted by category, Custom product list
+- API key and secret generation per client
 
 ✅ **Flexible Pricing**
 - Set custom pricelists per customer
 - Negotiated prices automatically applied
 - Multi-currency support
+- Price coefficient for supplier info
+
+✅ **Direct Odoo Sync (XML-RPC)**
+- Connect directly to customer's Odoo instance
+- Automatic product synchronization with field mapping
+- Category and attribute mapping between instances
+- Supplier info creation for invoice recognition
+- Sync preview and dry-run before import
+- Reference generation modes (keep original, supplier ref, custom format)
 
 ✅ **Complete Analytics**
-- Track catalog views
-- Monitor exports
-- Understand customer interests
-- Generate reports
+- Track catalog views, product views, and exports
+- Monitor sync operations and history
+- IP address and user agent tracking
+- Client-specific and global statistics dashboard
 
 ✅ **Easy Management**
 - Intuitive backend interface
-- Bulk actions
-- Featured products
-- Category-based access
+- Bulk publish/unpublish actions
+- Configurable export fields (13 pre-configured)
+- Branding customization (logo, colors, welcome message)
+- Rate limiting and export quotas
 
 ### For Customers
 
 ✅ **Zero Installation Required**
-- Works with **Odoo Online** ✨
+- Works with **Odoo Online**
 - No module to install
 - Just login and browse
 
 ✅ **Easy Product Discovery**
 - Search by name, reference, barcode
 - Filter by category
-- Sort by price, name, date
-- Detailed product pages
+- Sort by price, name, date, reference
+- Detailed product pages with full specifications
 
 ✅ **Simple Selection**
 - Add products to selection with one click
-- Visual cart
+- Save and reload selections for later use
+- Visual cart with product count badge
 - Review before export
 
-✅ **One-Click Import**
+✅ **Multiple Import Options**
 - Export to CSV (Odoo-compatible format)
-- Import directly into your Odoo
-- Products ready to use immediately
+- Direct Odoo import via XML-RPC (automatic sync)
+- Supplier info included for invoice matching
+- Product variants and attributes supported
 
 ## 💡 Use Cases
 
@@ -85,52 +97,66 @@ Share different product ranges with different customer segments using access con
 ## 🎨 Screenshots
 
 [Screenshot 1: Backend Configuration]
-Configure your catalog settings, branding, and limitations.
+Configure your catalog settings, branding, export fields, and limitations.
 
 [Screenshot 2: Client Management]
-Manage customer access, pricelists, and permissions.
+Manage customer access modes, pricelists, and API credentials.
 
 [Screenshot 3: Product Publishing]
-Publish products with one click, mark featured items.
+Publish products with one click, mark featured items, add catalog descriptions.
 
 [Screenshot 4: Customer Portal - Catalog Browser]
-Beautiful, responsive catalog interface for customers.
+Beautiful, responsive catalog interface with search, filters, and sorting.
 
 [Screenshot 5: Customer Portal - Product Detail]
-Detailed product pages with all information.
+Detailed product pages with specifications, images, and pricing.
 
 [Screenshot 6: Customer Portal - Selection Cart]
-Review selected products before export.
+Review selected products, save selections, and export.
 
 [Screenshot 7: CSV Export]
-Generate Odoo-compatible CSV files.
+Generate Odoo-compatible CSV files with configurable fields.
 
-[Screenshot 8: Analytics Dashboard]
-Track access, exports, and customer engagement.
+[Screenshot 8: Direct Odoo Sync Setup]
+Configure XML-RPC connection, field mappings, and sync options.
+
+[Screenshot 9: Sync Preview]
+Preview products before syncing with dry-run option.
+
+[Screenshot 10: Analytics Dashboard]
+Track access, exports, sync operations, and customer engagement.
 
 ## 📦 What's Included
 
 ### Backend (Supplier Side)
-- Configuration module
-- Client management
-- Product publishing controls
+- Global configuration module (access, export, branding, limits)
+- Client management with three access modes
+- Product publishing controls (publish, feature, catalog description)
+- Export field configuration (13 pre-configured fields)
+- Client connection management (XML-RPC sync setup)
+- Field, category, and attribute mapping
+- Sync history and status tracking
 - Access logs and analytics
-- Security groups
+- Security groups (Manager, User, Portal)
 
 ### Frontend (Customer Portal)
-- Modern, responsive design
-- Product browser with search & filters
-- Product detail pages
-- Selection cart
-- CSV export wizard
-- Help documentation
+- Portal dashboard with statistics and quick actions
+- Modern, responsive catalog browser
+- Product detail pages with full specifications
+- Saved selections management
+- CSV export wizard with configurable options
+- Direct Odoo sync setup wizard
+- Sync preview with dry-run option
+- Access denied page
 
 ### Technical
-- Secure authentication
-- Rate limiting
-- API keys (for future extensions)
+- Secure portal authentication
+- API key and secret per client
+- Rate limiting (configurable per hour and per export)
+- XML-RPC integration for direct sync
 - Multi-company ready
-- Translatable (i18n ready)
+- Translatable (English, French)
+- 6 test modules with comprehensive coverage
 
 ## 🔒 Security & Privacy
 
@@ -237,11 +263,10 @@ Full installation guide included in documentation.
 **For Customers:**
 1. Receive invitation email
 2. Login to supplier's portal
-3. Browse catalog
-4. Select products
-5. Export CSV
-6. Import into your Odoo
-7. Done! Products are in your system.
+3. Browse catalog and select products
+4. Save selection or export to CSV
+5. Import CSV into your Odoo, or use Direct Sync for automatic import
+6. Products are in your system with supplier info for invoicing.
 
 ## 🌍 Localization
 
@@ -255,18 +280,16 @@ More languages coming soon. Translation contributions welcome!
 
 ### Coming Soon
 - Excel (.xlsx) export
-- Direct Odoo import (XML-RPC)
-- Product variants support
-- Stock levels (optional)
-- Public catalog mode
-- Mobile app
+- Stock levels display (optional)
+- Public catalog mode (no authentication)
 
 ### Planned
-- Webhooks for real-time sync
-- Advanced analytics
+- Webhooks for real-time sync notifications
+- Advanced analytics dashboard with charts
 - PDF catalog generation
-- Email notifications
-- Multi-language products
+- Email notifications on catalog updates
+- Multi-language product descriptions
+- Mobile native apps
 
 ## 💬 Testimonials
 

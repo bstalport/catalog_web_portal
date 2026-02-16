@@ -16,18 +16,33 @@ Key Features
 ------------
 * **Secure Portal Access**: Create customer accounts with controlled access
 * **Beautiful Web Interface**: Modern, responsive catalog browser
-* **Easy Product Selection**: Multi-select, search, filters
+* **Easy Product Selection**: Multi-select, search, filters, saved selections
 * **CSV Export**: Generate Odoo-compatible import files
-* **Direct Odoo Import**: Optional XML-RPC integration for automatic import
-* **Access Control**: Manage what products each customer can see
-* **Custom Pricing**: Set specific prices per customer
-* **Analytics**: Track catalog views and exports
+* **Direct Odoo Sync (XML-RPC)**: Automatic product import into client's Odoo
+* **Product Variants**: Full variant support with attribute/value mapping
+* **Field & Category Mapping**: Map supplier fields to client Odoo fields
+* **Supplier Info Export**: Create product.supplierinfo for invoice matching
+* **Access Control**: Three modes (Full, Restricted, Custom) per customer
+* **Custom Pricing**: Pricelists per customer with multi-currency support
+* **Analytics & Logging**: Track catalog views, exports, and sync operations
+* **Saved Selections**: Customers can save and reload product selections
+* **Branding**: Custom logo, colors, and welcome message
+* **Rate Limiting**: Configurable export limits per hour and per export
 * **No Client Installation**: Works with Odoo Online!
+
+Direct Odoo Sync
+----------------
+* Connect to customer's Odoo instance via XML-RPC
+* Automatic product synchronization with field mapping
+* Category and attribute mapping between instances
+* Supplier info creation for invoice recognition
+* Sync preview and dry-run before import
+* Sync history with status tracking
 
 Perfect For
 -----------
 * Suppliers/Manufacturers sharing catalogs with distributors
-* Wholesalers sharing with retailers  
+* Wholesalers sharing with retailers
 * B2B companies with multiple clients
 
 Business Model
@@ -64,13 +79,16 @@ Business Model
         'views/menu_views.xml',
 
         # Views - Portal/Website
+        'views/templates/assets.xml',
         'views/templates/portal_layout.xml',
         'views/templates/portal_dashboard.xml',
+        'views/templates/catalog_home.xml',
         'views/templates/catalog_browser.xml',
         'views/templates/product_detail.xml',
         'views/templates/export_wizard.xml',
         'views/templates/sync_setup.xml',
         'views/templates/sync_preview.xml',
+        'views/templates/access_denied.xml',
     ],
     'assets': {
         'web.assets_frontend': [
