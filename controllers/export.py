@@ -133,10 +133,13 @@ class CatalogExport(http.Controller):
             include_supplier_info = config.include_supplier_info_in_exports
             supplier_external_id = config.supplier_external_id or 'catalog_supplier'
 
+            include_images = kwargs.get('include_images', '0') in ('1', 'true', 'True', True)
+
             headers = list(EXPORT_HEADERS)
             if include_supplier_info:
                 headers.extend(SUPPLIER_HEADERS)
-            headers.append('image_1920')
+            if include_images:
+                headers.append('image_1920 (base64)')
 
             writer.writerow(headers)
 
@@ -152,7 +155,6 @@ class CatalogExport(http.Controller):
                     price = product.list_price
 
                 # Image (optionnel - peut être lourd)
-                include_images = kwargs.get('include_images', False)
                 if include_images and product.image_1920:
                     # Convertir en base64
                     image_b64 = base64.b64encode(product.image_1920).decode('utf-8')
@@ -186,7 +188,8 @@ class CatalogExport(http.Controller):
                     ])
 
                 # Add image
-                row.append(image_b64)
+                if include_images:
+                    row.append(image_b64)
 
                 writer.writerow(row)
             
@@ -304,7 +307,7 @@ class CatalogExport(http.Controller):
 
             # Prix selon pricelist du client
             pricelist = catalog_client.pricelist_id
-            include_images = kwargs.get('include_images', False)
+            include_images = kwargs.get('include_images', '0') in ('1', 'true', 'True', True)
 
             # Check if supplier info should be included
             include_supplier_info = config.include_supplier_info_in_exports
@@ -339,7 +342,7 @@ class CatalogExport(http.Controller):
                 col_widths.extend([28, 18, 28, 14, 12])
 
             if include_images:
-                headers.append('image_1920')
+                headers.append('image_1920 (base64)')
                 col_widths.append(16)
 
             # ---- En-tête ----
@@ -440,6 +443,23 @@ class CatalogExport(http.Controller):
                 ['Products exported', len(products)],
                 ['Pricelist', pricelist.name if pricelist else 'Default'],
             ]
+
+            # Add image info if included
+            if include_images:
+                info_data.extend([
+                    ['', ''],
+                    ['IMAGES', ''],
+                    ['', ''],
+                    ['Images are included as base64-encoded strings', ''],
+                    ['in the "image_1920 (base64)" column.', ''],
+                    ['', ''],
+                    ['To use in Odoo import:', ''],
+                    ['- Map the column to the "Image" field', ''],
+                    ['- Odoo will decode the base64 data automatically', ''],
+                ])
+                info_data.append(['Images included', 'Yes'])
+            else:
+                info_data.append(['Images included', 'No'])
 
             # Add supplier info section if enabled
             if include_supplier_info:

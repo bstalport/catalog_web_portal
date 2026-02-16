@@ -15,17 +15,9 @@
                                 <a href="/catalog/portal" t-attf-class="btn btn-sm {{ 'btn-primary' if page_type == 'dashboard' else 'btn-outline-primary' }}">
                                     <i class="fa fa-dashboard"/> Dashboard
                                 </a>
-                                <a href="/catalog/portal/browse" t-attf-class="btn btn-sm ml-2 {{ 'btn-primary' if page_type == 'browse' else 'btn-outline-primary' }}">
-                                    <i class="fa fa-th"/> Browse Catalog
-                                </a>
                                 <a href="/catalog/portal/cart" t-attf-class="btn btn-sm ml-2 {{ 'btn-primary' if page_type == 'cart' else 'btn-outline-primary' }}">
                                     <i class="fa fa-shopping-cart"/> My Selection
-                                    <span class="badge bg-warning text-dark ml-1" id="nav-cart-count">0</span>
-                                </a>
-                            </div>
-                            <div>
-                                <a href="/my" class="btn btn-sm btn-outline-secondary">
-                                    <i class="fa fa-arrow-left"/> My Account
+                                    <span class="badge bg-warning text-dark ml-1" id="nav-cart-count"><t t-out="len(catalog_client.selected_product_ids) if catalog_client else 0"/></span>
                                 </a>
                             </div>
                         </div>

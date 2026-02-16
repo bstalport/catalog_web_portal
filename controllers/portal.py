@@ -189,6 +189,7 @@ class CatalogPortal(CustomerPortal):
             'config': config,
             'product_count': product_count,
             'selected_product_ids': selected_ids,
+            'selection_count': len(catalog_client.selected_product_ids),
         }
 
         return request.render('catalog_web_portal.portal_catalog_browser', values)
@@ -277,6 +278,7 @@ class CatalogPortal(CustomerPortal):
             'variants': variants,
             'has_variants': has_variants,
             'sync_variants': sync_variants,
+            'selection_count': len(catalog_client.selected_product_ids),
         }
 
         return request.render('catalog_web_portal.portal_product_detail', values)
@@ -320,6 +322,7 @@ class CatalogPortal(CustomerPortal):
             'catalog_client': catalog_client,
             'config': config,
             'product_count': len(selected_products),
+            'selection_count': len(selected_products),
         }
         
         return request.render('catalog_web_portal.portal_catalog_cart', values)
@@ -420,6 +423,62 @@ class CatalogPortal(CustomerPortal):
 
         return {'success': True, 'message': 'Selection cleared', 'count': 0}
     
+    @http.route(['/catalog/portal/cart/add-all'],
+                type='json', auth='user')
+    def catalog_cart_add_all(self, search='', category=None, **kwargs):
+        """
+        Ajoute tous les produits correspondant aux filtres actuels à la sélection.
+
+        Returns:
+            dict: {success: bool, added_count: int, count: int}
+        """
+        try:
+            catalog_client = self._get_catalog_client()
+
+            if not catalog_client:
+                return {'success': False, 'message': 'No catalog access'}
+
+            # Construire le domaine identique à catalog_portal_browse
+            products_domain = [('id', 'in', catalog_client._get_accessible_products().ids)]
+
+            if search:
+                search_domain = [
+                    '|', '|',
+                    ('name', 'ilike', search),
+                    ('default_code', 'ilike', search),
+                    ('description_sale', 'ilike', search)
+                ]
+                products_domain = expression.AND([products_domain, search_domain])
+
+            if category:
+                category_domain = [('categ_id', 'child_of', self._safe_int(category))]
+                products_domain = expression.AND([products_domain, category_domain])
+
+            # Récupérer tous les IDs correspondants (sans pagination)
+            Product = request.env['product.template'].sudo()
+            matching_ids = Product.search(products_domain).ids
+
+            # Ajouter à la session (copie nécessaire pour is_dirty)
+            selection = list(request.session.get('catalog_selection', []))
+            new_ids = [pid for pid in matching_ids if pid not in selection]
+            selection.extend(new_ids)
+            request.session['catalog_selection'] = selection
+
+            # Sauvegarder en DB
+            if new_ids:
+                catalog_client.sudo().write({
+                    'selected_product_ids': [(4, pid) for pid in new_ids]
+                })
+
+            return {
+                'success': True,
+                'added_count': len(new_ids),
+                'count': len(selection),
+            }
+
+        except Exception as e:
+            return {'success': False, 'message': str(e)}
+
     @http.route(['/catalog/portal/cart/count'],
                 type='json', auth='user')
     def catalog_cart_count(self, **kwargs):
@@ -967,9 +1026,19 @@ class CatalogPortal(CustomerPortal):
         if not history.exists() or history.connection_id.client_id != catalog_client:
             return request.redirect('/catalog/portal/cart?message=Invalid sync history&message_type=danger')
 
+        # Parse product results from history details
+        product_results = []
+        if history.details:
+            try:
+                details = json.loads(history.details)
+                product_results = details.get('products', [])
+            except (json.JSONDecodeError, TypeError):
+                pass
+
         values = {
             'catalog_client': catalog_client,
             'history': history,
+            'product_results': product_results,
         }
 
         return request.render('catalog_web_portal.portal_sync_result', values)
@@ -1219,10 +1288,12 @@ class CatalogPortal(CustomerPortal):
 
             # Validate selection fields (security: portal users should not inject arbitrary values)
             valid_source = ['_none', 'name', 'default_code', 'list_price', 'barcode',
-                            'weight', 'volume', 'description_sale', 'categ_id']
+                            'weight', 'volume', 'description_sale', 'categ_id',
+                            'is_published', 'available_in_pos', 'is_storable']
             valid_target = ['name', 'default_code', 'list_price', 'standard_price',
                             'barcode', 'weight', 'volume', 'description_sale',
-                            'description_purchase', 'categ_id', 'type', 'sale_ok', 'purchase_ok']
+                            'description_purchase', 'categ_id', 'type', 'sale_ok', 'purchase_ok',
+                            'is_published', 'available_in_pos', 'is_storable']
             valid_sync_modes = ['create_only', 'always', 'if_empty', 'manual']
             valid_default_apply = ['never', 'if_source_empty', 'always']
 

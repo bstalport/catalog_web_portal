@@ -345,7 +345,9 @@ class CatalogClientConnection(models.Model):
             ('_none', 'type', 'create_only', 'consu', 'always'),
             ('_none', 'sale_ok', 'create_only', 'true', 'always'),
             ('_none', 'purchase_ok', 'create_only', 'true', 'always'),
-            ('is_published', 'is_published', 'always', False, 'never'),
+            ('_none', 'is_published', 'create_only', 'false', 'always'),
+            ('_none', 'available_in_pos', 'create_only', 'true', 'always'),
+            ('_none', 'is_storable', 'create_only', 'true', 'always'),
         ]
 
         sequence = 10
@@ -689,6 +691,8 @@ class CatalogFieldMapping(models.Model):
         ('sale_ok', 'Can be Sold'),
         ('purchase_ok', 'Can be Purchased'),
         ('is_published', 'Published (Website)'),
+        ('available_in_pos', 'Available in POS'),
+        ('is_storable', 'Track Inventory'),
     ], string='Supplier Field', required=True, default='_none')
 
     # Target (client)
@@ -710,6 +714,8 @@ class CatalogFieldMapping(models.Model):
         ('sale_ok', 'Can be Sold'),
         ('purchase_ok', 'Can be Purchased'),
         ('is_published', 'Published (Website)'),
+        ('available_in_pos', 'Available in POS'),
+        ('is_storable', 'Track Inventory'),
     ], string='Client Field', required=True)
 
     # Sync behavior
@@ -775,6 +781,8 @@ class CatalogFieldMapping(models.Model):
         'sale_ok': 'boolean',
         'purchase_ok': 'boolean',
         'is_published': 'boolean',
+        'available_in_pos': 'boolean',
+        'is_storable': 'boolean',
     }
 
     def _convert_default_value(self):
@@ -1039,23 +1047,53 @@ class CatalogSyncPreview(models.TransientModel):
 
             models = connection._get_xmlrpc_proxy('object')
 
-            # Batch-fetch all existing client products for this supplier (single XML-RPC call)
+            # Compute expected references for each product
             prefix = f'supplier_{connection.client_id.id}_product_'
-            existing_products = models.execute_kw(
+            expected_refs = {}
+            for product in self.product_ids:
+                generated_ref = connection.generate_product_reference(product)
+                external_id = f'{prefix}{product.id}'
+                expected_refs[product.id] = {
+                    'generated_ref': generated_ref,  # From reference_mode (may be False)
+                    'external_id': external_id,      # Always available as fallback
+                }
+
+            # Batch-fetch client products by external_id pattern (backward compat)
+            existing_by_extid = models.execute_kw(
                 connection.database, uid, connection.api_key,
                 'product.template', 'search_read',
                 [[('default_code', 'like', prefix)]],
                 {'fields': ['id', 'default_code']}
             )
-            client_product_map = {
-                p['default_code']: p['id']
-                for p in existing_products
-                if p.get('default_code')
-            }
+
+            # Batch-fetch client products by generated references
+            generated_refs = list(set(
+                r['generated_ref'] for r in expected_refs.values()
+                if r['generated_ref']
+            ))
+            existing_by_ref = []
+            if generated_refs:
+                existing_by_ref = models.execute_kw(
+                    connection.database, uid, connection.api_key,
+                    'product.template', 'search_read',
+                    [[('default_code', 'in', generated_refs)]],
+                    {'fields': ['id', 'default_code']}
+                )
+
+            # Build combined lookup map (default_code → client_product_id)
+            client_product_map = {}
+            for p in existing_by_extid + existing_by_ref:
+                if p.get('default_code'):
+                    client_product_map[p['default_code']] = p['id']
 
             for product in self.product_ids:
-                external_id = f'{prefix}{product.id}'
-                client_product_id = client_product_map.get(external_id)
+                refs = expected_refs[product.id]
+                # Try generated reference first, then external_id fallback
+                client_product_id = None
+                if refs['generated_ref']:
+                    client_product_id = client_product_map.get(refs['generated_ref'])
+                if not client_product_id:
+                    client_product_id = client_product_map.get(refs['external_id'])
 
                 if client_product_id:
                     # Product exists → UPDATE
@@ -1219,6 +1257,7 @@ class CatalogSyncPreview(models.TransientModel):
             'errors': 0,
         }
         errors = []
+        product_results = []
 
         try:
             # Connect to client Odoo
@@ -1232,14 +1271,27 @@ class CatalogSyncPreview(models.TransientModel):
 
             # Process each change (excluding those marked as excluded)
             for change in self.change_ids.filtered(lambda c: not c.is_excluded):
+                product_name = change.product_id.name or 'Unknown'
                 try:
                     if change.change_type == 'create':
-                        self._execute_create(change, models, uid, connection)
+                        client_id = self._execute_create(change, models, uid, connection)
                         stats['created'] += 1
+                        product_results.append({
+                            'name': product_name,
+                            'ref': change.product_ref or '',
+                            'type': 'create',
+                            'client_id': client_id,
+                        })
 
                     elif change.change_type == 'update':
                         self._execute_update(change, models, uid, connection)
                         stats['updated'] += 1
+                        product_results.append({
+                            'name': product_name,
+                            'ref': change.product_ref or '',
+                            'type': 'update',
+                            'client_id': change.client_product_id,
+                        })
 
                     elif change.change_type == 'skip':
                         stats['skipped'] += 1
@@ -1248,6 +1300,12 @@ class CatalogSyncPreview(models.TransientModel):
                     _logger.error("Error syncing product %s: %s", change.product_id.id, e)
                     errors.append(f"{change.product_name}: {str(e)}")
                     stats['errors'] += 1
+                    product_results.append({
+                        'name': product_name,
+                        'ref': change.product_ref or '',
+                        'type': 'error',
+                        'error': str(e),
+                    })
 
             # Calculate duration
             end_time = fields.Datetime.now()
@@ -1272,7 +1330,7 @@ class CatalogSyncPreview(models.TransientModel):
                 'status': status,
                 'error_message': '\n'.join(errors) if errors else False,
                 'details': json.dumps({
-                    'products': [c.product_id.name for c in self.change_ids],
+                    'products': product_results,
                     'errors': errors,
                 }, ensure_ascii=False),
                 'duration': duration,
@@ -1371,6 +1429,7 @@ class CatalogSyncPreview(models.TransientModel):
                     'errors': 0,
                 }
                 errors = []
+                product_results = []
 
                 try:
                     # Connect to client Odoo
@@ -1419,11 +1478,23 @@ class CatalogSyncPreview(models.TransientModel):
                             cr.commit()
 
                             if change.change_type == 'create':
-                                preview._execute_create(change, models_proxy, client_uid, connection)
+                                client_id = preview._execute_create(change, models_proxy, client_uid, connection)
                                 stats['created'] += 1
+                                product_results.append({
+                                    'name': product_name,
+                                    'ref': change.product_ref or '',
+                                    'type': 'create',
+                                    'client_id': client_id,
+                                })
                             elif change.change_type == 'update':
                                 preview._execute_update(change, models_proxy, client_uid, connection)
                                 stats['updated'] += 1
+                                product_results.append({
+                                    'name': product_name,
+                                    'ref': change.product_ref or '',
+                                    'type': 'update',
+                                    'client_id': change.client_product_id,
+                                })
                             elif change.change_type == 'skip':
                                 stats['skipped'] += 1
 
@@ -1431,6 +1502,12 @@ class CatalogSyncPreview(models.TransientModel):
                             _logger.error("Error syncing product %s: %s", change.product_id.id, e)
                             errors.append(f"{change.product_name}: {str(e)}")
                             stats['errors'] += 1
+                            product_results.append({
+                                'name': product_name,
+                                'ref': change.product_ref or '',
+                                'type': 'error',
+                                'error': str(e),
+                            })
 
                     # Check if cancelled
                     cr.execute(
@@ -1470,7 +1547,7 @@ class CatalogSyncPreview(models.TransientModel):
                             'Import cancelled by user' if was_cancelled else False
                         ),
                         'details': json.dumps({
-                            'products': [c.product_id.name for c in preview.change_ids],
+                            'products': product_results,
                             'errors': errors,
                         }, ensure_ascii=False),
                         'duration': duration,
@@ -1592,7 +1669,7 @@ class CatalogSyncPreview(models.TransientModel):
         product = change.product_id
         client_product_id = change.client_product_id
 
-        # PROTECTION: Only update if product has our external ID
+        # PROTECTION: Only update if product has our reference (external_id or generated ref)
         # This ensures we NEVER touch client's own products
         client_data = models_proxy.execute_kw(
             connection.database, uid, connection.api_key,
@@ -1602,9 +1679,12 @@ class CatalogSyncPreview(models.TransientModel):
         )[0]
 
         expected_external_id = f'supplier_{connection.client_id.id}_product_{product.id}'
-        if client_data.get('default_code') != expected_external_id:
+        expected_generated_ref = connection.generate_product_reference(product)
+        actual_code = client_data.get('default_code', '')
+        valid_codes = [c for c in [expected_external_id, expected_generated_ref] if c]
+        if actual_code not in valid_codes:
             raise UserError(_(
-                'Safety check failed: Product %s does not have our external ID. '
+                'Safety check failed: Product %s does not have our reference. '
                 'Refusing to update to prevent modifying client\'s own products.'
             ) % product.name)
 

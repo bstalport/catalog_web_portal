@@ -22,7 +22,9 @@
                     </a>
                     <a href="/catalog/portal/cart" class="btn btn-primary">
                         Selection
-                        <span class="badge badge-light ml-2" id="cart-count">0</span>
+                        <span t-attf-class="badge ml-2 {{ 'bg-warning' if selected_product_ids else 'bg-light' }}" id="cart-count">
+                            <t t-out="len(selected_product_ids)"/>
+                        </span>
                     </a>
                 </div>
             </div>
@@ -96,10 +98,18 @@
             
             <!-- Results count + View toggle -->
             <div class="row mb-3">
-                <div class="col-md-8">
-                    <p class="text-muted mb-0">
+                <div class="col-md-8 d-flex align-items-center">
+                    <p class="text-muted mb-0 me-3">
                         <strong><t t-out="product_count"/></strong> product(s) found
                     </p>
+                    <button t-if="product_count" type="button"
+                            class="btn btn-sm btn-outline-primary"
+                            id="btn-add-all"
+                            t-att-data-search="search or ''"
+                            t-att-data-category="category or ''"
+                            title="Add all products matching current filters to selection">
+                        <i class="fa fa-plus-square"/> Add All (<t t-out="product_count"/>)
+                    </button>
                 </div>
                 <div class="col-md-4 text-right">
                     <div class="btn-group view-toggle" role="group">

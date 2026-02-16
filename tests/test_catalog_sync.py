@@ -2,6 +2,7 @@
 
 from odoo.tests import TransactionCase, tagged
 from odoo.exceptions import UserError, ValidationError
+from unittest.mock import patch, MagicMock
 import json
 
 
@@ -886,3 +887,283 @@ class TestCatalogSync(TransactionCase):
         self.assertFalse(self.env['catalog.field.mapping'].browse(fm_id).exists())
         self.assertFalse(self.env['catalog.category.mapping'].browse(cm_id).exists())
         self.assertFalse(self.env['catalog.attribute.mapping'].browse(am_id).exists())
+
+    # ===== DUPLICATE PREVENTION & CLIENT PRODUCT PROTECTION TESTS =====
+
+    def _make_connection_with_mappings(self):
+        """Helper: create a connection with default field mappings"""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+            'reference_mode': 'keep_original',
+        })
+        connection.action_create_default_mappings()
+        return connection
+
+    @patch('odoo.addons.catalog_web_portal.models.catalog_sync.CatalogClientConnection._get_xmlrpc_proxy')
+    def test_41_preview_detects_existing_product_by_reference(self, mock_proxy):
+        """Test that preview marks existing client products as 'update' (not 'create'),
+        preventing duplicates when a product with the same reference already exists."""
+        connection = self._make_connection_with_mappings()
+
+        preview = self.env['catalog.sync.preview'].create({
+            'connection_id': connection.id,
+            'product_ids': [(6, 0, [self.product1.id])],
+        })
+
+        # Mock XML-RPC: authentication succeeds
+        mock_common = MagicMock()
+        mock_common.authenticate.return_value = 1  # uid = 1
+        mock_models = MagicMock()
+
+        def proxy_router(endpoint, **kwargs):
+            if endpoint == 'common':
+                return mock_common
+            return mock_models
+
+        mock_proxy.side_effect = proxy_router
+
+        # Client already has this product (matched by generated reference = default_code)
+        generated_ref = connection.generate_product_reference(self.product1)
+        mock_models.execute_kw.side_effect = [
+            # 1st call: search by external_id pattern — no match
+            [],
+            # 2nd call: search by generated references — product found!
+            [{'id': 999, 'default_code': generated_ref}],
+            # 3rd call: read client product fields for diff
+            [{'id': 999, 'name': 'Test Product 1', 'standard_price': 100.0}],
+        ]
+
+        preview.action_generate_preview()
+
+        # Should be an UPDATE, not a CREATE (no duplicate)
+        self.assertEqual(len(preview.change_ids), 1)
+        change = preview.change_ids[0]
+        self.assertIn(change.change_type, ('update', 'skip'))
+        self.assertEqual(change.client_product_id, 999)
+
+    @patch('odoo.addons.catalog_web_portal.models.catalog_sync.CatalogClientConnection._get_xmlrpc_proxy')
+    def test_42_preview_detects_existing_product_by_external_id(self, mock_proxy):
+        """Test that preview detects products by external_id fallback pattern,
+        preventing duplicates even when reference_mode is 'none'."""
+        connection = self.env['catalog.client.connection'].create({
+            'client_id': self.catalog_client.id,
+            'odoo_url': 'https://test.odoo.com',
+            'database': 'test_db',
+            'api_key': 'test_key',
+            'reference_mode': 'none',
+        })
+        connection.action_create_default_mappings()
+
+        preview = self.env['catalog.sync.preview'].create({
+            'connection_id': connection.id,
+            'product_ids': [(6, 0, [self.product1.id])],
+        })
+
+        mock_common = MagicMock()
+        mock_common.authenticate.return_value = 1
+        mock_models = MagicMock()
+
+        def proxy_router(endpoint, **kwargs):
+            return mock_common if endpoint == 'common' else mock_models
+
+        mock_proxy.side_effect = proxy_router
+
+        external_id = f'supplier_{self.catalog_client.id}_product_{self.product1.id}'
+        mock_models.execute_kw.side_effect = [
+            # 1st call: search by external_id pattern — found
+            [{'id': 500, 'default_code': external_id}],
+            # 2nd call: search by generated references (none in 'none' mode) — skipped
+            # but the code still does the call with an empty list, returning []
+            [],
+            # 3rd call: read client product fields for diff
+            [{'id': 500, 'name': 'Test Product 1', 'standard_price': 100.0}],
+        ]
+
+        preview.action_generate_preview()
+
+        self.assertEqual(len(preview.change_ids), 1)
+        change = preview.change_ids[0]
+        self.assertIn(change.change_type, ('update', 'skip'))
+        self.assertEqual(change.client_product_id, 500)
+
+    @patch('odoo.addons.catalog_web_portal.models.catalog_sync.CatalogClientConnection._get_xmlrpc_proxy')
+    def test_43_preview_creates_new_when_not_existing(self, mock_proxy):
+        """Test that preview correctly generates a 'create' change
+        when the product does not exist on the client side."""
+        connection = self._make_connection_with_mappings()
+
+        preview = self.env['catalog.sync.preview'].create({
+            'connection_id': connection.id,
+            'product_ids': [(6, 0, [self.product1.id])],
+        })
+
+        mock_common = MagicMock()
+        mock_common.authenticate.return_value = 1
+        mock_models = MagicMock()
+
+        def proxy_router(endpoint, **kwargs):
+            return mock_common if endpoint == 'common' else mock_models
+
+        mock_proxy.side_effect = proxy_router
+
+        # No existing products on client side
+        mock_models.execute_kw.side_effect = [
+            [],  # search by external_id pattern — empty
+            [],  # search by generated references — empty
+        ]
+
+        preview.action_generate_preview()
+
+        self.assertEqual(len(preview.change_ids), 1)
+        self.assertEqual(preview.change_ids[0].change_type, 'create')
+
+    def test_44_execute_update_refuses_foreign_product(self):
+        """Test that _execute_update raises an error when the client product
+        does not have our reference, protecting client's own products."""
+        connection = self._make_connection_with_mappings()
+
+        preview = self.env['catalog.sync.preview'].create({
+            'connection_id': connection.id,
+            'product_ids': [(6, 0, [self.product1.id])],
+        })
+
+        # Create an update change pointing to a client product
+        change = self.env['catalog.sync.change'].create({
+            'preview_id': preview.id,
+            'product_id': self.product1.id,
+            'change_type': 'update',
+            'client_product_id': 777,
+            'field_changes': json.dumps({
+                'name': {'old': 'Old Name', 'new': 'New Name'},
+            }),
+        })
+
+        # Mock XML-RPC: client product has a different default_code (not ours)
+        mock_models = MagicMock()
+        mock_models.execute_kw.return_value = [
+            {'id': 777, 'default_code': 'CLIENT-OWN-REF-123'}
+        ]
+
+        with self.assertRaises(UserError) as ctx:
+            preview._execute_update(change, mock_models, 1, connection)
+
+        self.assertIn('Safety check failed', str(ctx.exception))
+
+    def test_45_execute_update_allows_our_reference(self):
+        """Test that _execute_update proceeds when the product has our reference."""
+        connection = self._make_connection_with_mappings()
+
+        preview = self.env['catalog.sync.preview'].create({
+            'connection_id': connection.id,
+            'product_ids': [(6, 0, [self.product1.id])],
+        })
+
+        change = self.env['catalog.sync.change'].create({
+            'preview_id': preview.id,
+            'product_id': self.product1.id,
+            'change_type': 'update',
+            'client_product_id': 888,
+            'field_changes': json.dumps({
+                'name': {'old': 'Old Name', 'new': 'Test Product 1'},
+            }),
+        })
+
+        generated_ref = connection.generate_product_reference(self.product1)
+
+        mock_models = MagicMock()
+        # First call: safety check read → returns our reference
+        # Second call: write → succeeds
+        mock_models.execute_kw.side_effect = [
+            [{'id': 888, 'default_code': generated_ref}],  # safety check
+            True,  # write
+        ]
+
+        # Should not raise
+        preview._execute_update(change, mock_models, 1, connection)
+
+        # Verify write was called
+        write_calls = [
+            c for c in mock_models.execute_kw.call_args_list
+            if len(c[0]) >= 4 and c[0][3] == 'write'
+        ]
+        self.assertEqual(len(write_calls), 1)
+
+    def test_46_execute_update_allows_external_id_reference(self):
+        """Test that _execute_update also accepts the external_id format."""
+        connection = self._make_connection_with_mappings()
+
+        preview = self.env['catalog.sync.preview'].create({
+            'connection_id': connection.id,
+            'product_ids': [(6, 0, [self.product1.id])],
+        })
+
+        change = self.env['catalog.sync.change'].create({
+            'preview_id': preview.id,
+            'product_id': self.product1.id,
+            'change_type': 'update',
+            'client_product_id': 888,
+            'field_changes': json.dumps({
+                'name': {'old': 'Old', 'new': 'New'},
+            }),
+        })
+
+        external_id = f'supplier_{self.catalog_client.id}_product_{self.product1.id}'
+
+        mock_models = MagicMock()
+        mock_models.execute_kw.side_effect = [
+            [{'id': 888, 'default_code': external_id}],  # safety check
+            True,  # write
+        ]
+
+        # Should not raise
+        preview._execute_update(change, mock_models, 1, connection)
+
+    @patch('odoo.addons.catalog_web_portal.models.catalog_sync.CatalogClientConnection._get_xmlrpc_proxy')
+    def test_47_sync_multiple_products_mixed_create_update(self, mock_proxy):
+        """Test that preview correctly handles a mix: one product existing
+        on client (update) and one new product (create), without duplicates."""
+        connection = self._make_connection_with_mappings()
+
+        preview = self.env['catalog.sync.preview'].create({
+            'connection_id': connection.id,
+            'product_ids': [(6, 0, [self.product1.id, self.product2.id])],
+        })
+
+        mock_common = MagicMock()
+        mock_common.authenticate.return_value = 1
+        mock_models = MagicMock()
+
+        def proxy_router(endpoint, **kwargs):
+            return mock_common if endpoint == 'common' else mock_models
+
+        mock_proxy.side_effect = proxy_router
+
+        ref1 = connection.generate_product_reference(self.product1)
+        # product1 exists on client, product2 does not
+        mock_models.execute_kw.side_effect = [
+            # search by external_id pattern
+            [],
+            # search by generated references — only product1 found
+            [{'id': 100, 'default_code': ref1}],
+            # read client product1 fields for diff
+            [{'id': 100, 'name': 'Test Product 1', 'standard_price': 100.0}],
+        ]
+
+        preview.action_generate_preview()
+
+        changes_by_type = {}
+        for c in preview.change_ids:
+            changes_by_type.setdefault(c.change_type, []).append(c)
+
+        # product2 should be created
+        self.assertEqual(len(changes_by_type.get('create', [])), 1)
+        create_change = changes_by_type['create'][0]
+        self.assertEqual(create_change.product_id, self.product2)
+
+        # product1 should be update or skip (already exists)
+        update_or_skip = changes_by_type.get('update', []) + changes_by_type.get('skip', [])
+        self.assertEqual(len(update_or_skip), 1)
+        self.assertEqual(update_or_skip[0].product_id, self.product1)

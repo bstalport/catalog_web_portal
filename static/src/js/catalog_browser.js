@@ -67,12 +67,22 @@
     function updateCartCount() {
         jsonRpc('/catalog/portal/cart/count', {})
             .then(function(result) {
-                $('#cart-count').text(result.count);
+                var count = result.count || 0;
 
-                if (result.count > 0) {
-                    $('#cart-count').removeClass('bg-light').addClass('bg-warning');
+                // Update browse page badge
+                $('#cart-count').text(count);
+                if (count > 0) {
+                    $('#cart-count').removeClass('bg-light badge-light').addClass('bg-warning');
                 } else {
                     $('#cart-count').removeClass('bg-warning').addClass('bg-light');
+                }
+
+                // Update navigation bar badge
+                $('#nav-cart-count').text(count);
+                if (count > 0) {
+                    $('#nav-cart-count').removeClass('bg-light').addClass('bg-warning');
+                } else {
+                    $('#nav-cart-count').removeClass('bg-warning').addClass('bg-light');
                 }
             });
     }
@@ -122,6 +132,44 @@
             }).catch(function(error) {
                 showToast('Error adding product', 'error');
                 $btn.prop('disabled', false);
+            });
+        });
+
+        // ========== Add All to Cart ==========
+        $(document).on('click', '#btn-add-all', function(e) {
+            e.preventDefault();
+            var $btn = $(this);
+            var search = $btn.data('search') || '';
+            var category = $btn.data('category') || '';
+
+            $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Adding...');
+
+            jsonRpc('/catalog/portal/cart/add-all', {
+                search: search,
+                category: category
+            }).then(function(result) {
+                if (result.success) {
+                    // Update all Add buttons on the page to Selected state
+                    $('.btn-add-to-cart').each(function() {
+                        var $b = $(this);
+                        if (!$b.hasClass('btn-success')) {
+                            var isListView = $b.closest('#products-list').length > 0;
+                            var btnText = isListView ?
+                                '<i class="fa fa-check"></i> Selected' :
+                                '<i class="fa fa-check"></i> Already in Selection';
+                            $b.removeClass('btn-primary').addClass('btn-success').html(btnText);
+                        }
+                    });
+                    updateCartCount();
+                    $btn.html('<i class="fa fa-check"></i> All Added').addClass('btn-success').removeClass('btn-outline-primary');
+                    showToast(result.added_count + ' product(s) added to selection', 'success');
+                } else {
+                    showToast('Error: ' + result.message, 'error');
+                    $btn.prop('disabled', false).html('<i class="fa fa-plus-square"></i> Add All');
+                }
+            }).catch(function(error) {
+                showToast('Error adding products', 'error');
+                $btn.prop('disabled', false).html('<i class="fa fa-plus-square"></i> Add All');
             });
         });
 
@@ -751,6 +799,12 @@
                     showToast('Error clearing selection', 'error');
                     $btn.prop('disabled', false).html('<i class="fa fa-trash"></i> Clear Selection');
                 });
+        });
+
+        // ========== Export Include Images Checkbox Sync (Dashboard) ==========
+        $('#export_include_images').on('change', function() {
+            var val = $(this).is(':checked') ? '1' : '0';
+            $('.export-images-hidden').val(val);
         });
 
         // ========== Variant Selection (Product Detail Page) ==========

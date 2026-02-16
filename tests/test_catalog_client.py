@@ -54,34 +54,6 @@ class TestCatalogClient(TransactionCase):
         self.assertTrue(client.is_active)
         self.assertEqual(client.access_mode, 'full')
 
-    def test_api_credentials_generated_on_create(self):
-        """Test that API credentials are generated on creation"""
-        client = self.env['catalog.client'].create({
-            'name': 'Test Client',
-            'partner_id': self.partner.id,
-        })
-
-        self.assertTrue(client.api_key)
-        self.assertTrue(client.api_secret)
-        self.assertTrue(client.api_key.startswith('cat_'))
-        self.assertEqual(len(client.api_key), 36)  # 'cat_' + 32 chars
-        self.assertEqual(len(client.api_secret), 48)
-
-    def test_api_credentials_regeneration(self):
-        """Test API credentials can be regenerated"""
-        client = self.env['catalog.client'].create({
-            'name': 'Test Client',
-            'partner_id': self.partner.id,
-        })
-
-        old_key = client.api_key
-        old_secret = client.api_secret
-
-        client.action_regenerate_api_credentials()
-
-        self.assertNotEqual(client.api_key, old_key)
-        self.assertNotEqual(client.api_secret, old_secret)
-
     def test_unique_partner_constraint(self):
         """Test that one partner can only have one client"""
         self.env['catalog.client'].create({

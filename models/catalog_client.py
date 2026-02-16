@@ -2,8 +2,6 @@
 
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError, UserError
-import secrets
-import string
 
 
 class CatalogClient(models.Model):
@@ -110,23 +108,6 @@ class CatalogClient(models.Model):
         store=False
     )
 
-    # === API CREDENTIALS ===
-    api_key = fields.Char(
-        string='API Key',
-        readonly=True,
-        copy=False,
-        groups='base.group_system',
-        help='API key for direct Odoo import via XML-RPC'
-    )
-    
-    api_secret = fields.Char(
-        string='API Secret',
-        readonly=True,
-        copy=False,
-        groups='base.group_system',
-        help='API secret for authentication'
-    )
-    
     # === CUSTOM PRICING ===
     pricelist_id = fields.Many2one(
         'product.pricelist',
@@ -231,38 +212,14 @@ class CatalogClient(models.Model):
 
     @api.model
     def create(self, vals):
-        """Génère automatiquement les clés API à la création"""
+        """Crée le client et un utilisateur portal si nécessaire"""
         client = super().create(vals)
-        client._generate_api_credentials()
-        
+
         # Créer un utilisateur portal si le partner n'en a pas
         if not client.partner_id.user_ids:
             client._create_portal_user()
-        
+
         return client
-    
-    def _generate_api_credentials(self):
-        """Génère des clés API uniques pour ce client"""
-        for client in self:
-            # Génère une clé API unique
-            alphabet = string.ascii_letters + string.digits
-            client.api_key = 'cat_' + ''.join(secrets.choice(alphabet) for _ in range(32))
-            client.api_secret = ''.join(secrets.choice(alphabet) for _ in range(48))
-    
-    def action_regenerate_api_credentials(self):
-        """Action pour régénérer les clés API"""
-        self.ensure_one()
-        self._generate_api_credentials()
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': 'API Credentials Regenerated',
-                'message': 'New API credentials have been generated for this client.',
-                'type': 'success',
-                'sticky': False,
-            }
-        }
     
     def _create_portal_user(self):
         """Crée un utilisateur portal pour ce client"""

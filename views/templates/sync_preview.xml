@@ -383,6 +383,44 @@
                 </div>
             </div>
 
+            <!-- Imported Products List -->
+            <div class="card mb-4" t-if="product_results">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fa fa-list"/> Imported Products</h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-sm table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Reference</th>
+                                <th>Action</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="product_results" t-as="prod">
+                                <tr>
+                                    <td><t t-out="prod.get('name', '')"/></td>
+                                    <td class="text-muted"><t t-out="prod.get('ref', '') or '-'"/></td>
+                                    <td>
+                                        <span t-if="prod.get('type') == 'create'" class="badge bg-success">Created</span>
+                                        <span t-elif="prod.get('type') == 'update'" class="badge bg-warning text-dark">Updated</span>
+                                        <span t-elif="prod.get('type') == 'error'" class="badge bg-danger">Error</span>
+                                    </td>
+                                    <td>
+                                        <span t-if="prod.get('error')" class="text-danger small">
+                                            <t t-out="prod.get('error')"/>
+                                        </span>
+                                        <span t-else="" class="text-success"><i class="fa fa-check"/></span>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <!-- Actions -->
             <div class="card">
                 <div class="card-body text-center">
@@ -565,6 +603,9 @@
                                                 <optgroup label="Other">
                                                     <option value="sale_ok">Can be Sold</option>
                                                     <option value="purchase_ok">Can be Purchased</option>
+                                                    <option value="is_published">Published (Website)</option>
+                                                    <option value="available_in_pos">Available in POS</option>
+                                                    <option value="is_storable">Track Inventory</option>
                                                 </optgroup>
                                             </select>
                                         </div>
@@ -599,6 +640,9 @@
                                                 <optgroup label="Other">
                                                     <option value="sale_ok">Can be Sold</option>
                                                     <option value="purchase_ok">Can be Purchased</option>
+                                                    <option value="is_published">Published (Website)</option>
+                                                    <option value="available_in_pos">Available in POS</option>
+                                                    <option value="is_storable">Track Inventory</option>
                                                 </optgroup>
                                             </select>
                                         </div>
