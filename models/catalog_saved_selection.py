@@ -7,7 +7,7 @@ from odoo.exceptions import UserError
 class CatalogSavedSelection(models.Model):
     _name = 'catalog.saved.selection'
     _description = 'Saved Product Selection'
-    _order = 'create_date desc'
+    _order = 'create_date desc, id desc'
 
     name = fields.Char(
         string='Selection Name',

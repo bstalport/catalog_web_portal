@@ -79,7 +79,6 @@ Business Model
         'views/menu_views.xml',
 
         # Views - Portal/Website
-        'views/templates/assets.xml',
         'views/templates/portal_layout.xml',
         'views/templates/portal_dashboard.xml',
         'views/templates/catalog_home.xml',

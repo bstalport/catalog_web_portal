@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    
-    <!-- Assets Bundle for Frontend -->
-    <template id="assets_frontend" inherit_id="web.assets_frontend" name="Catalog Portal Assets">
-        <xpath expr="." position="inside">
-            <link rel="stylesheet" type="text/css" href="/catalog_web_portal/static/src/css/catalog_portal.css"/>
-            <script type="text/javascript" src="/catalog_web_portal/static/src/js/catalog_browser.js"/>
-        </xpath>
-    </template>
-    
+    <!-- Assets are declared in __manifest__.py via 'assets' key -->
 </odoo>

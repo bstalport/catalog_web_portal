@@ -10,7 +10,7 @@ class CatalogAccessLog(models.Model):
     """
     _name = 'catalog.access.log'
     _description = 'Catalog Access Log'
-    _order = 'create_date desc'
+    _order = 'create_date desc, id desc'
     _rec_name = 'action'
     
     # === BASIC INFO ===

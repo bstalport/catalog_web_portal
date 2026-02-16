@@ -58,10 +58,10 @@ class CatalogExportField(models.Model):
         help='Column header in exported CSV (defaults to Field Label if empty)'
     )
 
-    _sql_constraints = [
-        ('technical_name_unique', 'UNIQUE(technical_name)',
-         'Technical name must be unique!')
-    ]
+    _technical_name_unique = models.Constraint(
+        'UNIQUE(technical_name)',
+        'Technical name must be unique!',
+    )
 
     def get_export_header(self):
         """Returns the header to use in export files"""

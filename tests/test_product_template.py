@@ -39,11 +39,11 @@ class TestProductTemplate(TransactionCase):
         self.assertTrue(hasattr(self.product, 'catalog_public'))
 
     def test_default_is_published(self):
-        """Test that is_published defaults to True"""
+        """Test that is_published defaults to False (website module default)"""
         product = self.env['product.template'].create({
             'name': 'New Product',
         })
-        self.assertTrue(product.is_published)
+        self.assertFalse(product.is_published)
 
     def test_action_publish_catalog(self):
         """Test action_publish_catalog publishes products"""

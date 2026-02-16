@@ -49,10 +49,10 @@ class CatalogAttributeMapping(models.Model):
         help='Create attribute in client Odoo if it does not exist'
     )
 
-    _sql_constraints = [
-        ('unique_supplier_attribute', 'unique(connection_id, supplier_attribute_id)',
-         'Each supplier attribute can only be mapped once per connection!')
-    ]
+    _unique_supplier_attribute = models.Constraint(
+        'unique(connection_id, supplier_attribute_id)',
+        'Each supplier attribute can only be mapped once per connection!',
+    )
 
 
 class CatalogAttributeValueMapping(models.Model):
@@ -99,7 +99,7 @@ class CatalogAttributeValueMapping(models.Model):
         readonly=True
     )
 
-    _sql_constraints = [
-        ('unique_supplier_value', 'unique(connection_id, supplier_value_id)',
-         'Each supplier value can only be mapped once per connection!')
-    ]
+    _unique_supplier_value = models.Constraint(
+        'unique(connection_id, supplier_value_id)',
+        'Each supplier value can only be mapped once per connection!',
+    )

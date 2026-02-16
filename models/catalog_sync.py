@@ -234,7 +234,7 @@ class CatalogClientConnection(models.Model):
             record.total_syncs = History.search_count([('connection_id', '=', record.id)])
             last = History.search(
                 [('connection_id', '=', record.id)],
-                order='create_date desc',
+                order='create_date desc, id desc',
                 limit=1,
             )
             record.last_sync_status = last.status if last else False
@@ -754,10 +754,10 @@ class CatalogFieldMapping(models.Model):
 
     is_active = fields.Boolean('Active', default=True)
 
-    _sql_constraints = [
-        ('unique_mapping', 'unique(connection_id, target_field)',
-         'Each target field can only be mapped once per connection!')
-    ]
+    _unique_mapping = models.Constraint(
+        'unique(connection_id, target_field)',
+        'Each target field can only be mapped once per connection!',
+    )
 
     # Target field type mapping for default value conversion
     TARGET_FIELD_TYPES = {
@@ -883,10 +883,10 @@ class CatalogCategoryMapping(models.Model):
         help='Create category in client Odoo if it does not exist'
     )
 
-    _sql_constraints = [
-        ('unique_supplier_category', 'unique(connection_id, supplier_category_id)',
-         'Each supplier category can only be mapped once per connection!')
-    ]
+    _unique_supplier_category = models.Constraint(
+        'unique(connection_id, supplier_category_id)',
+        'Each supplier category can only be mapped once per connection!',
+    )
 
 
 class CatalogSyncHistory(models.Model):

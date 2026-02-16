@@ -225,17 +225,15 @@ class TestCatalogClient(TransactionCase):
         partner_no_email = self.env['res.partner'].create({
             'name': 'No Email Partner',
         })
-        client = self.env['catalog.client'].with_context(
-            no_reset_password=True
-        ).create({
-            'name': 'No Email Client',
-            'partner_id': partner_no_email.id,
-        })
-
-        # Manually try to create portal user (bypassing auto-creation)
-        partner_no_email.user_ids.unlink()
+        # _create_portal_user() is called automatically during create(),
+        # so creating a client for a partner without email raises UserError
         with self.assertRaises(UserError):
-            client._create_portal_user()
+            self.env['catalog.client'].with_context(
+                no_reset_password=True
+            ).create({
+                'name': 'No Email Client',
+                'partner_id': partner_no_email.id,
+            })
 
     def test_export_statistics(self):
         """Test export statistics computation"""

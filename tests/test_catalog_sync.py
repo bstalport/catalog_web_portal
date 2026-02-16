@@ -20,6 +20,7 @@ class TestCatalogSync(TransactionCase):
 
         # Create a test catalog client
         self.catalog_client = self.env['catalog.client'].create({
+            'name': 'Test Client',
             'partner_id': self.partner.id,
             'is_active': True,
         })
@@ -102,8 +103,9 @@ class TestCatalogSync(TransactionCase):
         self.assertTrue(mapping2.apply_coefficient)
         self.assertEqual(mapping2.coefficient, 1.2)
 
-    def test_04_field_mapping_unique_source(self):
-        """Test that each source field can only be mapped once"""
+    def test_04_field_mapping_unique_target(self):
+        """Test that each target field can only be mapped once per connection"""
+        from psycopg2 import IntegrityError
         connection = self.env['catalog.client.connection'].create({
             'client_id': self.catalog_client.id,
             'odoo_url': 'https://test.odoo.com',
@@ -119,14 +121,15 @@ class TestCatalogSync(TransactionCase):
             'sync_mode': 'always',
         })
 
-        # Try to create duplicate mapping - should fail
-        with self.assertRaises(Exception):  # SQL constraint violation
-            self.env['catalog.field.mapping'].create({
-                'connection_id': connection.id,
-                'source_field': 'name',  # Duplicate
-                'target_field': 'description_sale',
-                'sync_mode': 'always',
-            })
+        # Try to create duplicate target_field mapping - should fail
+        with self.assertRaises(IntegrityError):
+            with self.env.cr.savepoint():
+                self.env['catalog.field.mapping'].create({
+                    'connection_id': connection.id,
+                    'source_field': 'default_code',
+                    'target_field': 'name',  # Duplicate target_field
+                    'sync_mode': 'always',
+                })
 
     def test_05_category_mapping_creation(self):
         """Test creating category mappings"""
@@ -416,14 +419,19 @@ class TestCatalogSync(TransactionCase):
             'api_key': 'test_key',
         })
 
-        # Test all sync modes
-        modes = ['create_only', 'always', 'if_empty', 'manual']
+        # Test all sync modes using valid source/target field pairs
+        mode_fields = [
+            ('create_only', 'name', 'name'),
+            ('always', 'default_code', 'default_code'),
+            ('if_empty', 'barcode', 'barcode'),
+            ('manual', 'weight', 'weight'),
+        ]
 
-        for mode in modes:
+        for mode, source, target in mode_fields:
             mapping = self.env['catalog.field.mapping'].create({
                 'connection_id': connection.id,
-                'source_field': f'field_{mode}',
-                'target_field': f'field_{mode}',
+                'source_field': source,
+                'target_field': target,
                 'sync_mode': mode,
             })
             self.assertEqual(mapping.sync_mode, mode)
